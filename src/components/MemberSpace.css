@@ -1,0 +1,175 @@
+.member-space-wrapper {
+  padding: 80px 0;
+  background-color: #ffffff; /* 이전 교육섹션(회색)과 구분되는 흰색 배경 */
+  width: 100%;
+}
+
+.member-grid-full {
+  width: 100%;
+  padding: 0 40px; /* 전체 와이드 레이아웃 통일 (양옆 여백) */
+  box-sizing: border-box;
+}
+
+/* 상단 타이틀 */
+.member-header {
+  margin-bottom: 30px;
+}
+
+.member-header h2 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #222;
+  margin-bottom: 10px;
+}
+
+.member-header p {
+  font-size: 16px;
+  color: #666;
+}
+
+/* --- 좌/우 분할 레이아웃 --- */
+.member-content-layout {
+  display: grid;
+  grid-template-columns: 1.2fr 2fr; /* 좌측 뉴스레터 1.2 : 우측 카드 2 비율 */
+  gap: 30px;
+}
+
+/* --- 좌측: 뉴스레터 --- */
+.newsletter-area {
+  height: 100%;
+}
+
+.newsletter-box {
+  background: linear-gradient(135deg, #f0f4f8 0%, #e2e8f0 100%);
+  border-radius: 16px;
+  padding: 40px 30px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.newsletter-box h3 {
+  font-size: 24px;
+  font-weight: 800;
+  color: #003a8c; /* CCCR 브랜드 컬러 매칭 */
+  margin-bottom: 15px;
+}
+
+.newsletter-box p {
+  font-size: 15px;
+  color: #4a5568;
+  margin-bottom: 30px;
+  line-height: 1.6;
+}
+
+.newsletter-form {
+  display: flex;
+  gap: 10px;
+}
+
+.newsletter-form input {
+  flex: 1;
+  padding: 14px 15px;
+  border: 1px solid #cbd5e0;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.newsletter-form input:focus {
+  border-color: #0056b3;
+}
+
+.newsletter-form button {
+  padding: 14px 24px;
+  background-color: #0056b3;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  white-space: nowrap;
+}
+
+.newsletter-form button:hover {
+  background-color: #003a8c;
+}
+
+/* --- 우측: 회원 서비스 카드 --- */
+.member-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2열(바둑판) 배치 */
+  gap: 20px;
+  height: 100%;
+}
+
+.member-card {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 30px 25px;
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.member-card:hover {
+  border-color: #0056b3;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+  transform: translateY(-5px);
+}
+
+.member-card-icon {
+  font-size: 32px;
+  color: #0056b3;
+  background-color: #f0f7ff;
+  padding: 16px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0; /* 텍스트가 길어져도 아이콘 크기 유지 */
+}
+
+.member-card-text h4 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #2d3748;
+  margin-bottom: 8px;
+  margin-top: 4px;
+}
+
+.member-card-text p {
+  font-size: 14px;
+  color: #718096;
+  line-height: 1.5;
+  word-break: keep-all; /* 한글 단어 단위로 줄바꿈 */
+}
+
+/* --- 모바일 반응형 처리 --- */
+@media (max-width: 992px) {
+  .member-content-layout {
+    grid-template-columns: 1fr; /* 태블릿/모바일에서는 위아래로 분리 */
+  }
+  .member-grid-full {
+    padding: 0 20px;
+  }
+}
+
+@media (max-width: 576px) {
+  .member-cards-grid {
+    grid-template-columns: 1fr; /* 스마트폰에서는 카드도 1열로 세로 배치 */
+  }
+  .newsletter-form {
+    flex-direction: column; /* 스마트폰에서는 인풋창과 버튼을 위아래로 */
+  }
+  .newsletter-form button {
+    width: 100%;
+  }
+}

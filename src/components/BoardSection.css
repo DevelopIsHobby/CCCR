@@ -1,0 +1,155 @@
+.board-section-wrapper {
+  padding: 60px 0;
+  background-color: #ffffff;
+  width: 100%; /* 전체 배경 100% */
+}
+
+/* 🚨 와이드형 그리드 설정 */
+.board-grid-full {
+  display: grid;
+  grid-template-columns: 2.5fr 1fr;
+  gap: 40px;
+  /* 정렬 코드 통일 */
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 40px;
+  box-sizing: border-box;
+}
+
+/* --- 탭 버튼 스타일 --- */
+.tab-buttons {
+  display: flex;
+  border-bottom: 2px solid #222;
+  margin-bottom: 20px;
+}
+
+.tab-btn {
+  padding: 15px 30px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  font-weight: 600;
+  color: #999;
+  cursor: pointer;
+  position: relative;
+}
+
+/* 활성화된 탭 스타일 */
+.tab-btn.active {
+  color: #222;
+}
+
+/* 활성화된 탭 아래에 파란색 포인트 줄 추가 */
+.tab-btn.active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background-color: #0056b3;
+}
+
+/* --- 탭 내용(게시물 리스트) 스타일 --- */
+.tab-content {
+  position: relative;
+}
+
+.board-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.board-item {
+  border-bottom: 1px solid #eee;
+}
+
+.board-item a {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 10px;
+  text-decoration: none;
+  color: #333;
+}
+
+.board-item a:hover .board-title {
+  text-decoration: underline;
+  color: #0056b3;
+}
+
+.board-title {
+  font-size: 16px;
+  /* 텍스트가 너무 길면 말줄임표(...) 처리 */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 80%; 
+}
+
+.board-date {
+  font-size: 14px;
+  color: #888;
+}
+
+.more-btn {
+  position: absolute;
+  top: -55px; /* 탭 버튼들이 있는 라인 우측 끝으로 이동 */
+  right: 0;
+  text-decoration: none;
+  color: #666;
+  font-size: 14px;
+}
+
+.more-btn:hover {
+  color: #000;
+}
+
+/* --- 우측 프로모션 배너 스타일 --- */
+.promo-banner {
+  background: linear-gradient(135deg, #0056b3 0%, #003a8c 100%);
+  border-radius: 12px;
+  padding: 40px 30px;
+  color: white;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.promo-banner h3 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.promo-banner p {
+  font-size: 16px;
+  opacity: 0.9;
+  margin-bottom: 20px;
+}
+
+.promo-btn {
+  background: white;
+  color: #0056b3;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.promo-btn:hover {
+  background: #f0f0f0;
+}
+
+/* BoardSection.css 맨 아래 모바일 반응형 처리 */
+@media (max-width: 992px) {
+  .board-grid-full {
+    grid-template-columns: 1fr; /* 모바일/태블릿에서는 위아래 1줄로 배치 */
+    padding: 0 20px; /* 모바일에서는 여백을 약간 줄임 */
+  }
+}

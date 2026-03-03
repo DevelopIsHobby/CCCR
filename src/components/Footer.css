@@ -1,0 +1,107 @@
+.kosa-footer {
+  width: 100%;
+  border-top: 1px solid #ddd;
+  background-color: #343a40; /* 차분한 다크 그레이 */
+  color: #adb5bd;
+}
+
+.footer-top {
+  border-bottom: 1px solid #495057;
+  padding: 15px 0;
+}
+
+.footer-policy {
+  list-style: none;
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap; /* 모바일에서 줄바꿈 되도록 설정 */
+}
+
+.footer-policy a {
+  text-decoration: none;
+  color: #ced4da;
+  font-size: 14px;
+}
+
+.footer-policy a.privacy-bold {
+  color: #fff;
+  font-weight: bold;
+}
+
+.footer-bottom {
+  padding: 30px 0;
+}
+
+.footer-bottom-layout {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap; /* 모바일에서 아래로 떨어지도록 설정 */
+}
+
+.footer-logo .logo-text {
+  font-size: 32px;
+  font-weight: 800;
+  color: #6c757d;
+}
+
+.footer-info address {
+  font-style: normal;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.footer-info .divider {
+  margin: 0 10px;
+  color: #6c757d;
+}
+
+.copyright {
+  margin-top: 10px;
+  font-size: 13px;
+  color: #868e96;
+}
+
+.family-site {
+  display: flex;
+  gap: 5px;
+}
+
+.family-site select {
+  padding: 8px 10px;
+  background-color: #495057;
+  color: #fff;
+  border: 1px solid #6c757d;
+  outline: none;
+}
+
+.family-site .family-btn {
+  padding: 8px 15px;
+  background-color: #6c757d;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+/* --- Footer 모바일 반응형 --- */
+@media (max-width: 768px) {
+  .footer-bottom-layout {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .footer-info .divider {
+    display: none; /* 모바일에서는 가로줄 숨기고 줄바꿈 */
+  }
+  .footer-info p {
+    display: flex;
+    flex-direction: column;
+  }
+  .family-site {
+    margin-top: 20px;
+    width: 100%;
+  }
+  .family-site select {
+    flex-grow: 1; /* 셀렉트박스가 모바일 화면 꽉 차게 */
+  }
+}

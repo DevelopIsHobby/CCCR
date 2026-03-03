@@ -1,0 +1,113 @@
+.main-carousel-wrapper {
+  position: relative;
+  width: 100%;
+  height: 450px; /* 메인 배너 높이 */
+}
+
+.kosa-swiper {
+  width: 100%;
+  height: 100%;
+}
+
+.slide-content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+}
+
+.slide-inner {
+  max-width: 1200px;
+  width: 100%;
+  padding: 0 40px; /* 네비게이션 화살표와 겹치지 않게 여백 추가 */
+  text-align: left;
+}
+
+.slide-title {
+  font-size: 42px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.2);
+}
+
+.slide-desc {
+  font-size: 18px;
+  margin-bottom: 30px;
+  opacity: 0.9;
+}
+
+.slide-btn {
+  padding: 12px 24px;
+  background-color: transparent;
+  color: white;
+  border: 2px solid white;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.slide-btn:hover {
+  background-color: white;
+  color: #333;
+}
+
+/* Swiper 기본 스타일 커스텀 (공공기관 느낌으로 단정하게) */
+.swiper-button-next,
+.swiper-button-prev {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.swiper-pagination-bullet {
+  background: white !important;
+  opacity: 0.5 !important;
+}
+
+.swiper-pagination-bullet-active {
+  opacity: 1 !important;
+  width: 24px !important; /* 활성화된 불릿을 길게 표시 */
+  border-radius: 10px !important;
+  transition: width 0.3s;
+}
+
+/* 커스텀 재생/일시정지 버튼 위치 잡기 */
+.swiper-custom-controls {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  /* 페이지네이션 옆에 위치하도록 조정 */
+  margin-left: 60px; 
+}
+
+.play-pause-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+.play-pause-btn:hover {
+  opacity: 1;
+}
+
+@media (max-width: 768px) {
+  .slide-title {
+    font-size: 24px;
+  }
+  .slide-desc {
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+  .swiper-custom-controls {
+    margin-left: 0;
+    left: 20px;
+    transform: none;
+  }
+}

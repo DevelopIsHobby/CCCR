@@ -1,42 +1,52 @@
-#root {
-  max-width: 1280px;
+/* 두 컴포넌트를 감싸는 최상위 배경 섹션 */
+.hero-and-quick-section {
+  width: 100%;
+  /* KOSA 스타일의 은은한 배경색 (원하시는 색으로 변경 가능) */
+  background-color: #eef2f6; 
+  /* 위아래 여백을 주어 배경이 컴포넌트를 품고 있는 느낌을 줍니다 */
+  padding: 40px 0; 
+}
+
+/* --- 와이드형: 메인 배너 & 퀵메뉴 통합 레이아웃 --- */
+.hero-layout-full {
+  display: flex;
+  gap: 20px;
+  height: 500px;
+  /* 정렬 코드 통일 */
+  width: 100%;
+  max-width: 1600px; 
   margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  padding: 0 40px;
+  box-sizing: border-box;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.hero-left {
+  flex: 7;
+  min-width: 0;
+  border-radius: 12px;
+  overflow: hidden; /* 슬라이드 모서리 둥글게 */
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08); /* 배경 위에서 살짝 뜨게 그림자 추가 */
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+.hero-right {
+  flex: 3;         /* 30% 영역 차지 */
+  display: flex;
+  flex-direction: column;
+}
+
+/* 퀵메뉴 위젯이 100% 너비에 맞게 늘어날 때 모서리를 각지게(선택사항) */
+.hero-right .quick-menu-widget {
+  border-radius: 0; /* 좌측 배너와 딱 붙게 하려면 0으로 설정 */
+  border-left: none; 
+}
+
+/* 모바일 화면 반응형 */
+@media (max-width: 992px) {
+  .hero-layout-full {
+    flex-direction: column;
+    height: auto;
   }
-  to {
-    transform: rotate(360deg);
+  .hero-left {
+    height: 400px;
   }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
 }

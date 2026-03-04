@@ -1,98 +1,169 @@
 import React, { useRef, useState } from 'react';
-// Swiper React 컴포넌트 임포트
 import { Swiper, SwiperSlide } from 'swiper/react';
-// Swiper 스타일 임포트
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-// 사용할 Swiper 모듈 임포트
 import { Navigation, Pagination, Autoplay, A11y } from 'swiper/modules';
+
+import tabaImg from '../assets/TABA_7기.jpg';
+import sassaakImg from '../assets/새싹_3기.png';
+import recruitImg from '../assets/채용_4기.jpg';
 
 import './MainCarousel.css';
 
 const MainCarousel = () => {
   const [isPlaying, setIsPlaying] = useState(true);
+  const [activeIndex, setActiveIndex] = useState(0); 
   const swiperRef = useRef(null);
 
-  // 재생/일시정지 토글 함수
+  // 재생/일시정지 토글 함수 (안전장치 추가)
   const togglePlay = () => {
-    if (isPlaying) {
-      swiperRef.current.swiper.autoplay.stop();
-    } else {
-      swiperRef.current.swiper.autoplay.start();
+    if (swiperRef.current && swiperRef.current.swiper) {
+      if (isPlaying) {
+        swiperRef.current.swiper.autoplay.stop();
+      } else {
+        swiperRef.current.swiper.autoplay.start();
+      }
+      setIsPlaying(!isPlaying);
     }
-    setIsPlaying(!isPlaying);
   };
 
-  // 임시 배너 데이터 (나중에 실제 이미지 경로로 변경)
+  // 👇 새롭게 추가하는 이전 배너 넘기기 함수
+  const handlePrev = () => {
+    if (swiperRef.current && swiperRef.current.swiper) {
+      swiperRef.current.swiper.slidePrev();
+    }
+  };
+
+  // 👇 새롭게 추가하는 다음 배너 넘기기 함수
+  const handleNext = () => {
+    if (swiperRef.current && swiperRef.current.swiper) {
+      swiperRef.current.swiper.slideNext();
+    }
+  };
+
   const slides = [
-    {
+{
       id: 1,
-      title: "대한민국 소프트웨어의 미래를 엽니다",
-      desc: "소프트웨어 산업 발전을 위한 KOSA의 다양한 지원 사업을 만나보세요.",
-      bgColor: "#0056b3"
+      title: "TABA 7기 교육생 모집",
+      desc: "클라우드 전문가로 거듭나는 지름길, TABA 7기 교육이 시작됩니다.",
+      img: tabaImg
     },
     {
       id: 2,
-      title: "2026년 SW기업 경쟁력 강화사업 공고",
-      desc: "우수 SW기업의 혁신 성장을 지원합니다. (신청기간: ~3.31)",
-      bgColor: "#007bff"
+      title: "새싹(SeSAC) 3기 과정 안내",
+      desc: "실무 중심의 SW 인재 양성 프로젝트, 새싹 3기에 도전하세요.",
+      img: sassaakImg
     },
     {
       id: 3,
-      title: "SW 인재 양성 프로그램 참여자 모집",
-      desc: "디지털 대전환 시대를 이끌어갈 핵심 인재를 양성합니다.",
-      bgColor: "#17a2b8"
+      title: "2026 하반기 신입/경력 채용",
+      desc: "CCCR과 함께 클라우드 미래를 선도할 역량 있는 인재를 찾습니다.",
+      img: recruitImg
     }
   ];
 
   return (
     <div className="main-carousel-wrapper">
+      
+      {/* 1. 상단 배너 이미지 영역 */}
       <Swiper
         ref={swiperRef}
         modules={[Navigation, Pagination, Autoplay, A11y]}
         spaceBetween={0}
         slidesPerView={1}
-        navigation
-        pagination={{ clickable: true }}
+        navigation={{
+          prevEl: '.custom-prev',
+          nextEl: '.custom-next',
+        }}
         autoplay={{
           delay: 4000,
-          disableOnInteraction: false, // 사용자 컨트롤 후에도 자동재생 유지
+          disableOnInteraction: false,
         }}
         loop={true}
-        a11y={{
-          prevSlideMessage: '이전 슬라이드',
-          nextSlideMessage: '다음 슬라이드',
-        }}
+        onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
         className="kosa-swiper"
       >
         {slides.map((slide) => (
           <SwiperSlide key={slide.id}>
-            {/* 실제 구현 시에는 img 태그나 background-image를 사용합니다 */}
             <div 
               className="slide-content" 
-              style={{ backgroundColor: slide.bgColor }}
+              style={{ backgroundImage: `url(${slide.img})` }} // 이미지 경로만 전달
             >
-              <div className="slide-inner">
-                <h2 className="slide-title">{slide.title}</h2>
-                <p className="slide-desc">{slide.desc}</p>
-                <button className="slide-btn">자세히 보기</button>
+              <div className="slide-text-overlay">
+                
+                <div className="text-content-wrapper">
+                  
+                  {/* 첫 번째 줄 (흰색 계열) */}
+                  <div className="text-line-1">
+                    {slide.title}
+                  </div>
+                  
+                  {/* 두 번째 줄 (투명한 회색 계열) */}
+                  <div className="text-line-2">
+                    {slide.desc}
+                  </div>
+
+                </div>
               </div>
             </div>
           </SwiperSlide>
         ))}
       </Swiper>
 
-      {/* 접근성을 위한 커스텀 컨트롤러 (재생/일시정지) */}
-      <div className="swiper-custom-controls">
-        <button 
-          className="play-pause-btn" 
-          onClick={togglePlay}
-          aria-label={isPlaying ? "슬라이드 일시정지" : "슬라이드 재생"}
-        >
-          {isPlaying ? "⏸" : "▶️"}
-        </button>
+      {/* 2. 새롭게 추가된 배너 하단 정보 & 컨트롤 바 */}
+      <div className="carousel-info-bar">
+        <div className="inner-container">
+          
+          {/* 왼쪽: 소제목 */}
+          <div className="info-desc">
+            {slides[activeIndex].desc}
+          </div>
+
+          {/* 오른쪽: [현재번호-전체번호] + [ < || ▶ > ] */}
+          <div className="info-controls">
+            
+            {/* 3-5 형태의 페이지 번호 */}
+            <div className="pagination-fraction">
+              <span className="current">{activeIndex + 1}</span>
+              <span className="dash">-</span>
+              <span className="total">{slides.length}</span>
+            </div>
+            
+            {/* 컨트롤 버튼들 */}
+            <div className="control-btns">
+              {/* 👇 onClick={handlePrev} 추가 */}
+              <button 
+                className="custom-prev" 
+                aria-label="이전 슬라이드" 
+                onClick={handlePrev}
+              >
+                &lt;
+              </button>
+              
+              <button 
+                className="play-pause-btn" 
+                onClick={togglePlay}
+                aria-label={isPlaying ? "슬라이드 일시정지" : "슬라이드 재생"}
+              >
+                {isPlaying ? "||" : "▶"}
+              </button>
+              
+              {/* 👇 onClick={handleNext} 추가 */}
+              <button 
+                className="custom-next" 
+                aria-label="다음 슬라이드" 
+                onClick={handleNext}
+              >
+                &gt;
+              </button>
+            </div>
+
+          </div>
+          
+        </div>
       </div>
+      
     </div>
   );
 };

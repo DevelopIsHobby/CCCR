@@ -1,15 +1,14 @@
 .board-section-wrapper {
   padding: 60px 0;
   background-color: #ffffff;
-  width: 100%; /* 전체 배경 100% */
+  width: 100%; 
 }
 
-/* 🚨 와이드형 그리드 설정 */
+/* 와이드형 그리드 설정 */
 .board-grid-full {
   display: grid;
   grid-template-columns: 2.5fr 1fr;
   gap: 40px;
-  /* 정렬 코드 통일 */
   width: 100%;
   max-width: 1600px;
   margin: 0 auto;
@@ -17,45 +16,90 @@
   box-sizing: border-box;
 }
 
-/* --- 탭 버튼 스타일 --- */
+/* ========================================= */
+/* 1. KOSA 스타일 게시판 헤더 (타이틀 + 탭버튼 + 더보기) */
+/* ========================================= */
+.board-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #222;
+  padding-bottom: 15px;
+  margin-bottom: 10px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.board-main-title {
+  font-size: 30px; 
+  font-weight: 700;
+  color: #222;
+  margin: 0;
+}
+
+.highlight-blue {
+  color: #0084ff; /* 청량하고 맑은 스카이블루 */
+}
+
+.board-controls {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* --- 둥근 알약 모양의 탭 버튼 --- */
 .tab-buttons {
   display: flex;
-  border-bottom: 2px solid #222;
-  margin-bottom: 20px;
+  gap: 10px;
 }
 
 .tab-btn {
-  padding: 15px 30px;
-  background: none;
-  border: none;
-  font-size: 20px;
+  padding: 8px 20px;
+  background-color: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 18px; /* 둥근 모양 */
+  font-size: 16px;
   font-weight: 600;
-  color: #999;
+  color: #666;
   cursor: pointer;
-  position: relative;
+  transition: all 0.2s;
 }
 
-/* 활성화된 탭 스타일 */
+/* 활성화된 탭 스타일 (파란색으로 강조) */
 .tab-btn.active {
-  color: #222;
+  background-color: #003a8c;
+  border-color: #003a8c;
+  color: #ffffff;
 }
 
-/* 활성화된 탭 아래에 파란색 포인트 줄 추가 */
-.tab-btn.active::after {
-  content: '';
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  width: 100%;
-  height: 4px;
-  background-color: #0056b3;
+.tab-btn:hover:not(.active) {
+  background-color: #eef4fc;
+  border-color: #cce0f5;
+  color: #003a8c;
 }
 
-/* --- 탭 내용(게시물 리스트) 스타일 --- */
-.tab-content {
-  position: relative;
+/* --- 더보기(+) 버튼 --- */
+.more-btn {
+  text-decoration: none;
+  color: #0084ff; /* 👈 타이틀의 '새소식'과 완벽하게 똑같은 하늘빛 파란색으로 통일 */
+  font-size: 40px; 
+  font-weight: 400;
+  line-height: 1;
+  margin-top: -8px; 
+  transition: all 0.2s;
+  padding: 0 5px; 
 }
 
+.more-btn:hover {
+  color: #0066cc; /* 너무 까맣게 변하지 않고, 예쁜 바다색으로 진해짐 */
+  transform: scale(1.5); 
+}
+
+
+/* ========================================= */
+/* 2. 게시물 리스트 영역                       */
+/* ========================================= */
 .board-list {
   list-style: none;
   padding: 0;
@@ -70,44 +114,75 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 10px;
+  padding: 16px 5px;
   text-decoration: none;
   color: #333;
 }
 
 .board-item a:hover .board-title {
   text-decoration: underline;
-  color: #0056b3;
+}
+
+/* 타이틀과 [카테고리]를 묶는 영역 */
+.board-title-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 0; /* 말줄임표 작동을 위한 필수 속성 */
+  margin-right: 20px;
+}
+
+.category-tag {
+  font-size: 13px; /* 배지 형태일 때는 글씨를 살짝 줄이는 게 더 세련되어 보입니다 */
+  font-weight: 700;
+  padding: 4px 8px; /* 위아래, 좌우 여백 */
+  border-radius: 4px; /* 살짝 둥근 사각형 (완전 둥글게 원하시면 20px로 변경) */
+  white-space: nowrap;
+  display: inline-block;
+  text-align: center;
+  min-width: 70px; /* 배지들의 가로 길이를 어느 정도 통일 */
+}
+
+/* 공지사항 */
+.category-tag.notice {
+  background-color: #eef4fc;
+  color: #003a8c;
+}
+
+.board-item a:hover .category-tag.notice {
+  background-color: #dceaf9;
+}
+
+.board-item a:hover .category-tag.event {
+  background-color: #ffe8d7;
+}
+
+/* 행사소식 */
+.category-tag.event {
+  background-color: #fff4ec;
+  color: #ff6b00;
 }
 
 .board-title {
   font-size: 16px;
-  /* 텍스트가 너무 길면 말줄임표(...) 처리 */
+  font-weight: 500;
+  color: #333;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 80%; 
 }
 
 .board-date {
-  font-size: 14px;
+  font-size: 15px;
   color: #888;
+  white-space: nowrap;
 }
 
-.more-btn {
-  position: absolute;
-  top: -55px; /* 탭 버튼들이 있는 라인 우측 끝으로 이동 */
-  right: 0;
-  text-decoration: none;
-  color: #666;
-  font-size: 14px;
-}
 
-.more-btn:hover {
-  color: #000;
-}
-
-/* --- 우측 프로모션 배너 스타일 --- */
+/* ========================================= */
+/* 3. 우측 프로모션 배너 스타일                */
+/* ========================================= */
 .promo-banner {
   background: linear-gradient(135deg, #0056b3 0%, #003a8c 100%);
   border-radius: 12px;
@@ -118,38 +193,121 @@
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
+  box-sizing: border-box;
 }
 
-.promo-banner h3 {
-  font-size: 24px;
-  margin-bottom: 10px;
-}
-
-.promo-banner p {
-  font-size: 16px;
-  opacity: 0.9;
-  margin-bottom: 20px;
-}
-
+.promo-banner h3 { font-size: 24px; margin-bottom: 10px; margin-top: 0; }
+.promo-banner p { font-size: 16px; opacity: 0.9; margin-bottom: 20px; }
 .promo-btn {
-  background: white;
-  color: #0056b3;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 20px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background 0.2s;
+  background: white; color: #0056b3; border: none; padding: 10px 20px;
+  border-radius: 20px; font-weight: bold; cursor: pointer; transition: background 0.2s;
 }
+.promo-btn:hover { background: #f0f0f0; }
 
-.promo-btn:hover {
-  background: #f0f0f0;
-}
 
-/* BoardSection.css 맨 아래 모바일 반응형 처리 */
-@media (max-width: 992px) {
+/* ========================================= */
+/* 4. 모바일/태블릿 반응형 처리               */
+/* ========================================= */
+@media (max-width: 1024px) {
   .board-grid-full {
-    grid-template-columns: 1fr; /* 모바일/태블릿에서는 위아래 1줄로 배치 */
-    padding: 0 20px; /* 모바일에서는 여백을 약간 줄임 */
+    grid-template-columns: 1fr; 
+    gap: 30px;
+  }
+}
+
+@media (max-width: 812px) {
+  .board-section-wrapper { padding: 40px 0; }
+  .board-grid-full { padding: 0 15px; }
+  
+  /* 1. 헤더: 타이틀과 컨트롤(탭+더보기)을 다시 한 줄로 배치 */
+  .board-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* 세로 중앙 정렬 */
+    gap: 10px;
+    border-bottom: 2px solid #222;
+    padding-bottom: 12px;
+    position: relative;
+  }
+  
+  .board-main-title { 
+    font-size: 24px; /* 타이틀 크기를 살짝 줄여 공간 확보 */
+    white-space: nowrap; /* 타이틀 줄바꿈 방지 */
+    margin: 0;
+  }
+
+  /* 2. 컨트롤 영역: 탭과 더보기를 묶음 */
+  .board-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1; /* 남은 공간을 차지함 */
+    min-width: 0; /* 내부 스크롤 작동을 위한 설정 */
+    justify-content: flex-end; /* 오른쪽으로 밀착 */
+  }
+
+  /* 3. 탭 버튼 영역: 핵심! 가로 스크롤 적용 */
+  .tab-buttons {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto; /* 👈 공간이 부족하면 가로로 스크롤 */
+    white-space: nowrap; /* 👈 버튼들이 아래로 안 떨어지게 한 줄로 고정 */
+    padding: 5px 0;
+    /* 스크롤바 숨기기 (선택 사항) */
+    -ms-overflow-style: none; /* IE, Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+  
+  .tab-buttons::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
+
+  .tab-btn { 
+    padding: 5px 12px; 
+    font-size: 16px; 
+    border-radius: 15px;
+    flex-shrink: 0; /* 👈 버튼이 찌그러지지 않게 보호 */
+  }
+
+  /* 4. 더보기(+) 버튼: 탭 버튼 오른쪽 옆에 고정 */
+  .more-btn {
+    font-size: 40px;
+    margin-top: -4px;
+    flex-shrink: 0; /* 더보기 버튼도 고정 */
+    position: static; /* 절대 위치 해제 */
+    color: #0084ff;
+  }
+
+  /* 5. 리스트 항목 (400px 이하 대응 포함) */
+  .board-item a {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    padding: 12px 5px;
+  }
+  
+  .board-title-group { margin-right: 0; }
+  .board-date { align-self: flex-end; font-size: 12px; }
+}
+
+/* 400px 이하 초소형 기기 대응 */
+@media (max-width: 400px) {
+  .board-main-title { font-size: 20px; }
+  
+  .more-btn {
+    font-size: 32px;
+    top: -2px;
+  }
+  
+  .tab-btn {
+    padding: 5px 12px;
+    font-size: 12px;
+    border-radius: 15px;
+  }
+
+  .category-tag {
+    min-width: 60px;
+    font-size: 12px;
+    padding: 3px 6px;
   }
 }

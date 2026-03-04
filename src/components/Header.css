@@ -1,12 +1,11 @@
-/* 공통 이너 컨테이너 (콘텐츠 중앙 정렬 및 최대 너비 설정) */
+/* 공통 이너 컨테이너 */
 .inner-container {
   display: flex;
   align-items: center;
-  /* 아래가 추가/변경되는 정렬 코드입니다 */
   width: 100%;
-  max-width: 1600px; /* 너무 퍼지지 않게 방어 */
-  margin: 0 auto;    /* 중앙 정렬 */
-  padding: 0 40px;   /* 양옆 여백 통일 */
+  max-width: 1600px; 
+  margin: 0 auto;    
+  padding: 0 40px;   
   box-sizing: border-box;
 }
 
@@ -15,7 +14,11 @@
   width: 100%;
   border-bottom: 1px solid #e0e0e0;
   background-color: #ffffff;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
+
 
 /* 상단 유틸리티 메뉴 */
 .header-utility {
@@ -25,27 +28,89 @@
 }
 
 .header-utility .inner-container {
-  justify-content: flex-end; /* 우측 정렬 */
+  justify-content: space-between; 
   height: 100%;
 }
 
 .utility-links {
   list-style: none;
   display: flex;
-  gap: 15px;
+  align-items: center;
+  gap: 1px;
   margin: 0;
   padding: 0;
 }
 
+.utility-links li {
+  display: flex;
+  align-items: center;
+}
+
 .utility-links li a {
   text-decoration: none;
-  color: #666;
+  color: #555;
   font-size: 13px;
 }
 
 .utility-links li a:hover {
   color: #000;
   text-decoration: underline;
+}
+
+/* 마지막 항목을 제외한 li 뒤에 | 구분선 추가 */
+.utility-links li:not(:last-child)::after {
+  content: "|";
+  color: #cccccc; /* 연한 회색 */
+  margin: 0 12px; /* 구분선 양옆 간격 */
+  font-size: 11px;
+}
+
+/* 왼쪽 유틸리티 리스트 구조 */
+.utility-left {
+  list-style: none;
+  display: flex;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+}
+
+/* 둥근 테두리 버튼 공통 스타일 */
+.highlight-btn {
+  text-decoration: none;
+  color: #333;
+  font-size: 12px; 
+  font-weight: 600; 
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 14px; /* 테두리 안쪽 여백 */
+  border: 1px solid #dcdcdc; /* 둥근 테두리 생성 */
+  border-radius: 20px; /* 양끝을 완전 둥글게 */
+  background-color: #ffffff;
+  transition: all 0.2s ease;
+}
+
+.highlight-btn.kakao-btn:hover {
+  background-color: #FEE500; /* 카카오 공식 노란색 */
+  border-color: #FEE500;
+  color: #3C1E1E; /* 카카오 공식 갈색 */
+}
+
+/* 카카오톡 실제 이미지 사용 시 크기 */
+.kakao-icon-img {
+  width: 14px;
+  height: 14px;
+  object-fit: contain;
+}
+
+.highlight-btn .icon {
+  font-size: 12px; 
+}
+
+.highlight-btn.news-btn:hover {
+  background-color: #f0f4f8; /* 아주 연한 파란색 배경 */
+  border-color: #003a8c; /* 테두리만 진한 파란색으로 포인트 */
+  color: #003a8c; /* 글씨도 파란색 */
 }
 
 /* 메인 네비게이션 영역 */
@@ -65,36 +130,33 @@
   flex-direction: column;
 }
 
-.logo-text {
-  font-size: 24px;
-  font-weight: 800;
-  color: #003a8c; /* KOSA 스타일의 블루 계열 */
-}
-
-.logo-sub {
-  font-size: 12px;
-  color: #333;
+.logo-img {
+  height: 60px; /* PC 메인 헤더(80px)에 맞춘 높이. 로고 모양에 따라 30px~50px 사이로 조절하세요 */
+  width: auto;  /* 가로 비율은 원본에 맞게 자동 조절 */
+  object-fit: contain; /* 이미지가 찌그러지지 않도록 보호 */
 }
 
 /* 메인 GNB */
 .gnb ul {
   list-style: none;
   display: flex;
-  gap: 40px;
+  gap: 60px; /* 메인메뉴 폰트 사이 공간 */
   margin: 0;
   padding: 0;
 }
 
+
 .gnb li a {
   text-decoration: none;
   color: #333;
-  font-size: 18px;
+  font-size: 20px; /* 메인메뉴 폰트 사이즈 */
   font-weight: 600;
+  white-space: nowrap; /* 두 줄 꺾임 방지 유지 */
   transition: color 0.2s;
 }
 
 .gnb li a:hover {
-  color: #0056b3; /* 호버 시 파란색 */
+  color: #0056b3; 
 }
 
 /* 우측 아이콘 */
@@ -111,14 +173,339 @@
   color: #333;
 }
 
-@media (max-width: 992px) {
+
+/* ========================================= */
+/* 전체 화면 공통: 오버레이 & 우측 사이드바 설정 */
+/* ========================================= */
+
+/* 1. 딤(Dim) 배경 오버레이 */
+.menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.menu-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* 2. 우측 사이드바 패널 */
+.sidebar {
+  position: fixed;
+  top: 0;
+  right: -100%; /* 평소에는 오른쪽 밖으로 숨김 */
+  width: 320px;
+  height: 100vh;
+  background-color: #ffffff;
+  box-shadow: -5px 0 15px rgba(0, 0, 0, 0.15);
+  transition: right 0.3s ease-in-out;
+  z-index: 1001; /* 오버레이보다 위로 */
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar.active {
+  right: 0; /* 열리면 화면 안으로 들어옴 */
+}
+
+/* 사이드바 상단 헤더 영역 */
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  padding: 15px 20px;
+  background-color: #f4f6f8;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.sidebar-close-btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #333;
+  cursor: pointer;
+  padding: 0;
+  margin-right: 15px;
+}
+
+.sidebar-util {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.sidebar-cccr {
+  font-weight: 700;
+  color: #003a8c;
+  font-size: 15px;
+}
+
+.sidebar-auth {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+}
+
+.sidebar-auth a {
+  color: #555;
+  text-decoration: none;
+}
+
+/* 사이드바 내부 메뉴 리스트 */
+.sidebar-menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.sidebar-menu li a {
+  display: block;
+  padding: 15px 20px;
+  border-bottom: 1px solid #eeeeee;
+  font-size: 16px;
+  color: #333;
+  text-decoration: none;
+}
+
+.sidebar-menu li a:hover {
+  background-color: #f8f9fa;
+  color: #003a8c;
+}
+
+/* ========================================= */
+/* PC 메인 GNB 드롭다운 스타일   */
+/* ========================================= */
+.gnb-item {
+  position: relative; /* 하위 메뉴의 기준점 */
+  padding: 30px 0;    /* 호버 영역을 넓게 잡기 위해 패딩 추가 */
+}
+
+/* PC 2뎁스 하위 메뉴 (기본 상태는 숨김) */
+.gnb-item .submenu {
+  position: absolute;
+  top: 70px; /* 메인 메뉴 아래로 위치 */
+  left: 50%;
+  transform: translateX(-50%);
+  width: max-content;
+  min-width: 140px;
+  background-color: #ffffff;
+  border: 1px solid #eeeeee;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  padding: 10px 0;
+  border-radius: 4px;
+  
+  /* 부드러운 호버 효과 */
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  z-index: 1000;
+}
+
+/* 메인 메뉴에 마우스를 올리면 하위 메뉴 등장 */
+.gnb-item:hover .submenu {
+  opacity: 1;
+  visibility: visible;
+  top: 80px; /* 살짝 위에서 아래로 내려오는 느낌 */
+}
+
+/* PC 하위 메뉴 아이템 디자인 */
+.submenu li a {
+  font-size: 14px;
+  font-weight: 400;
+  padding: 8px 20px;
+  display: block;
+  color: #555;
+  text-align: center;
+}
+
+.submenu li a:hover {
+  background-color: #f8f9fa;
+  color: #003a8c;
+}
+
+/* ========================================= */
+/* 사이드바 아코디언 메뉴 스타일 */
+/* ========================================= */
+.sidebar-item {
+  border-bottom: 1px solid #eeeeee;
+}
+
+.sidebar-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.sidebar-title:hover {
+  background-color: #f8f9fa;
+}
+
+.sidebar-title .arrow {
+  font-size: 12px;
+  color: #888;
+}
+
+/* 열린 상태일 때 타이틀 색상 변경 */
+.sidebar-item.open .sidebar-title {
+  color: #003a8c;
+}
+
+/* 사이드바 하위 메뉴 (기본 숨김) */
+.sidebar-submenu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background-color: #f8f9fa;
+  max-height: 0; /* 아코디언 애니메이션을 위한 트릭 */
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out;
+}
+
+/* 열린 상태일 때 하위 메뉴 보이기 */
+.sidebar-item.open .sidebar-submenu {
+  max-height: 400px; /* 내부 항목이 충분히 보일 만큼의 높이 */
+}
+
+/* 사이드바 하위 메뉴 텍스트 디자인 */
+.sidebar-submenu li a {
+  display: block;
+  padding: 12px 20px 12px 30px; /* 왼쪽 여백을 더 주어 들여쓰기 효과 */
+  font-size: 14px;
+  color: #555;
+  text-decoration: none;
+}
+
+.sidebar-submenu li a:hover {
+  color: #003a8c;
+  font-weight: 600;
+}
+
+/* ========================================= */
+/* 공통 확장형 검색창    */
+/* ========================================= */
+
+.desktop-search-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  /* position: relative; 삭제 (자연스럽게 영역을 차지하도록 변경) */
+}
+
+/* 기본 상태: 너비 0, 투명하게 숨김 */
+.desktop-search-input {
+  width: 0;
+  opacity: 0;
+  visibility: hidden;
+  padding: 0;
+  border: none;
+  border-bottom: 2px solid #003a8c;
+  background-color: transparent; /* 하얀 배경색 삭제, 투명하게 복구 */
+  font-size: 15px;
+  outline: none;
+  transition: all 0.3s ease;
+  /* position: absolute와 관련된 코드 모두 삭제하여 둥둥 떠다니지 않게 함 */
+}
+
+/* 활성화 상태: 돋보기 누르면 가로로 길어짐 */
+.desktop-search-wrap.active .desktop-search-input {
+  width: 60%; /* PC/모바일 적절한 너비 */
+  opacity: 1;
+  visibility: visible;
+  padding: 5px 10px;
+  margin-right: 8px; /* 돋보기 아이콘과의 간격 */
+}
+
+
+/* 아이콘 토글 로직 (돋보기 <-> X) */
+.icon-close { display: none; }
+.desktop-search-wrap.active .icon-search { display: none; }
+.desktop-search-wrap.active .icon-close { display: inline; font-size: 20px; }
+
+/* ========================================= */
+/* 모바일 반응형 설정   */
+/* ========================================= */
+@media (max-width: 1200px) {
+  .gnb li a {
+    font-size: 18px; /* 화면이 좁아지면 글씨를 살짝 줄임 */
+  }
+  .gnb ul {
+    gap: 40px; /* 화면이 1200px 이하로 좁아지면 간격을 줄임 */
+  }
+}
+
+@media (max-width: 1024px) {
+  .logo-img {
+    height: 50px; 
+  }
+  .gnb ul {
+    gap: 20px; /* 화면이 1200px 이하로 좁아지면 간격을 줄임 */
+  }
+  .gnb li a {
+    font-size: 18px; /* 화면이 좁아지면 글씨를 살짝 줄임 */
+  }
+    /* 👇 추가된 부분: 모바일 환경에서의 검색창 스타일 제어 */
+  .desktop-search-wrap.active .desktop-search-input {
+    width: 120px; /* 모바일에서 원하는 검색창 길이 */
+  }
+
+  /* 모바일 placeholder 크기와 색상 (진하게) */
+  .desktop-search-input::placeholder {
+    font-size: 14px; /* 크기 축소 */
+    text-align: center;
+    color: #555;     /* #aaa보다 훨씬 진한 회색 */
+  }
+}
+
+@media (max-width: 812px) {
   .header-utility {
-    display: none; /* 모바일에서는 유틸리티 메뉴 숨김 */
+    display: none; 
   }
-  .gnb {
-    display: none; /* 모바일에서는 메인 메뉴를 숨기고 햄버거 메뉴로 대체 */
-  }
+  
   .header-main {
-    height: 60px; /* 모바일 헤더 높이 축소 */
+    height: 60px; 
+  }
+
+  /* 모바일에서는 PC용 가로 메뉴를 숨깁니다 */
+  .gnb {
+    display: none;
+  }
+  
+  /* 모바일에서는 헤더가 좁아지므로 로고 크기를 줄여줍니다 */
+  .logo-img {
+    height: 40px; 
+  }
+
+  /* 👇 추가된 부분: 모바일 환경에서의 검색창 스타일 제어 */
+  .desktop-search-wrap.active .desktop-search-input {
+    width: 60%; /* 모바일에서 원하는 검색창 길이 */
+  }
+
+  /* 모바일 placeholder 크기와 색상 (진하게) */
+  .desktop-search-input::placeholder {
+    font-size: 12px; /* 크기 축소 */
+    text-align: center;
+    color: #555;     /* #aaa보다 훨씬 진한 회색 */
   }
 }

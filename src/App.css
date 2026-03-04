@@ -1,8 +1,8 @@
 /* 두 컴포넌트를 감싸는 최상위 배경 섹션 */
 .hero-and-quick-section {
   width: 100%;
-  /* KOSA 스타일의 은은한 배경색 (원하시는 색으로 변경 가능) */
-  background-color: #eef2f6; 
+  /* CCCR 스타일의 배경색 (원하시는 색으로 변경 가능) */
+  background-color: #001f4d;
   /* 위아래 여백을 주어 배경이 컴포넌트를 품고 있는 느낌을 줍니다 */
   padding: 40px 0; 
 }
@@ -11,7 +11,7 @@
 .hero-layout-full {
   display: flex;
   gap: 20px;
-  height: 500px;
+  height: 400px;
   /* 정렬 코드 통일 */
   width: 100%;
   max-width: 1600px; 
@@ -32,21 +32,42 @@
   flex: 3;         /* 30% 영역 차지 */
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
-/* 퀵메뉴 위젯이 100% 너비에 맞게 늘어날 때 모서리를 각지게(선택사항) */
-.hero-right .quick-menu-widget {
-  border-radius: 0; /* 좌측 배너와 딱 붙게 하려면 0으로 설정 */
-  border-left: none; 
-}
 
 /* 모바일 화면 반응형 */
-@media (max-width: 992px) {
+@media (max-width: 812px) {
+  .hero-and-quick-section {
+    padding: 0; 
+  }
+
   .hero-layout-full {
     flex-direction: column;
     height: auto;
+    padding: 0; 
+    gap : 0;
   }
+  
   .hero-left {
-    height: 400px;
+    /* 👇 1. 너비를 무조건 100%로 꽉 채우고, PC에서 쓰던 비율(flex: 7)을 해제합니다. */
+    width: 100%;
+    flex: none; 
+    
+    aspect-ratio: 4 / 3;
+    display: flex;
+    flex-direction: column;
+    border-radius: 0; 
+    box-shadow: none; 
+  }
+
+  /* 👇 2. 퀵 메뉴 영역(.hero-right)도 추가해서 너비 100% 설정 및 비율 해제! */
+  .hero-right {
+    width: 100%;
+    flex: none;
+  }
+
+  .board-section {
+    width: 100%;
   }
 }

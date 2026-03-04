@@ -3,11 +3,17 @@
   background-color: #ffffff;
   width: 100%; 
 }
-
+.board-tabs-area {
+  /* 👇 CSS Grid에서 영역이 내용물보다 작게 줄어들 수 있도록 허락하는 마법의 키워드입니다! */
+  min-width: 0; 
+}
 /* 와이드형 그리드 설정 */
 .board-grid-full {
   display: grid;
-  grid-template-columns: 2.5fr 1fr;
+  
+  /* 👇 기존 2.5fr 1fr (약 7:3)에서 KOSA 스타일 비율인 1.5fr 1fr (약 6:4)로 변경합니다! */
+  grid-template-columns: 1fr 500px;
+  
   gap: 40px;
   width: 100%;
   max-width: 1600px;
@@ -32,7 +38,7 @@
 }
 
 .board-main-title {
-  font-size: 30px; 
+  font-size: 40px; 
   font-weight: 700;
   color: #222;
   margin: 0;
@@ -59,7 +65,7 @@
   background-color: white;
   border: 1px solid #e0e0e0;
   border-radius: 18px; /* 둥근 모양 */
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 600;
   color: #666;
   cursor: pointer;
@@ -83,7 +89,7 @@
 .more-btn {
   text-decoration: none;
   color: #0084ff; /* 👈 타이틀의 '새소식'과 완벽하게 똑같은 하늘빛 파란색으로 통일 */
-  font-size: 40px; 
+  font-size: 70px; 
   font-weight: 400;
   line-height: 1;
   margin-top: -8px; 
@@ -114,7 +120,10 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px 5px;
+  
+  /* 👇 24px이었던 위아래 여백을 12px로 대폭 줄여 콤팩트하게 만듭니다 */
+  padding: 24px 5px; 
+  
   text-decoration: none;
   color: #333;
 }
@@ -134,7 +143,7 @@
 }
 
 .category-tag {
-  font-size: 13px; /* 배지 형태일 때는 글씨를 살짝 줄이는 게 더 세련되어 보입니다 */
+  font-size: 18px; /* 배지 형태일 때는 글씨를 살짝 줄이는 게 더 세련되어 보입니다 */
   font-weight: 700;
   padding: 4px 8px; /* 위아래, 좌우 여백 */
   border-radius: 4px; /* 살짝 둥근 사각형 (완전 둥글게 원하시면 20px로 변경) */
@@ -165,149 +174,307 @@
 }
 
 .board-title {
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 500;
   color: #333;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  
+  /* 👇 플렉스의 고집을 꺾고 게시판이 맘껏 줄어들 수 있게 허락하는 마법의 코드! */
+  display: block;
+  min-width: 0;
+  flex: 1; /* 남은 공간을 다 차지하되, 좁아지면 얄짤없이 줄어듦 */
 }
 
 .board-date {
-  font-size: 15px;
+  font-size: 16px;
   color: #888;
   white-space: nowrap;
 }
 
-
 /* ========================================= */
-/* 3. 우측 프로모션 배너 스타일                */
+/* 3. 우측 알림판(슬라이드 배너) 스타일        */
 /* ========================================= */
-.promo-banner {
-  background: linear-gradient(135deg, #0056b3 0%, #003a8c 100%);
-  border-radius: 12px;
-  padding: 40px 30px;
-  color: white;
-  height: 100%;
+.board-banner-area {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  box-sizing: border-box;
+  height: 100%;
 }
 
-.promo-banner h3 { font-size: 24px; margin-bottom: 10px; margin-top: 0; }
-.promo-banner p { font-size: 16px; opacity: 0.9; margin-bottom: 20px; }
-.promo-btn {
-  background: white; color: #0056b3; border: none; padding: 10px 20px;
-  border-radius: 20px; font-weight: bold; cursor: pointer; transition: background 0.2s;
+/* 알림판 타이틀 (좌측 게시판 헤더와 라인 맞춤) */
+.promo-header {
+  padding-bottom: 15px;
+  margin-bottom: 10px;
 }
-.promo-btn:hover { background: #f0f0f0; }
+
+.promo-title {
+  font-size: 30px;
+  font-weight: 700;
+  color: #222;
+  margin: 0;
+}
+
+/* 슬라이드 영역 래퍼 */
+.promo-carousel-container {
+  position: relative;
+  width: 100%;
+  flex: 1; 
+  border-radius: 12px;
+  overflow: hidden;
+  
+  /* 👇 380px이었던 최소 높이를 260px 수준으로 줄여 KOSA 비율에 맞춥니다 */
+  min-height: 260px; 
+  height: 100%; /* 부모 높이에 자연스럽게 맞춤 */
+  
+  /* 👇 너무 강하지 않고 은은하고 고급스러운 3D 그림자 */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* 👇 마우스를 올리면 배너가 둥실 위로 떠오르며 그림자가 깊어지는 진짜 3D 효과! */
+.promo-carousel-container:hover {
+  /* 👇 살짝만 떠오르게 조절 */
+  transform: translateY(-4px);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* Swiper가 부모 공간을 100% 꽉 채우게 강제합니다 */
+.promo-swiper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Swiper 안의 슬라이드 한 칸도 높이를 100%로 보장 */
+.promo-swiper .swiper-slide {
+  height: 100%; 
+}
+
+/* 슬라이드 이미지 */
+.promo-slide-bg {
+  width: 100%;
+  height: 100%;
+  
+  background-size: contain; 
+  background-position: center; 
+  background-size: 100% 100%;
+}
+
+/* 우측 하단 컨트롤러 박스 */
+.promo-controls-wrapper {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  
+  /* 👇 2. 배경색을 투명한 검정색(rgba)으로 변경합니다. */
+  background-color: rgba(0, 0, 0, 0.6); /* 👈 검정색 60% 투명도 */
+  
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-top-left-radius: 12px; 
+  z-index: 10;
+  backdrop-filter: blur(4px); /* (선택사항) 뒤 배경을 살짝 흐리게 해서 고급스럽게 */
+}
+
+.promo-pagination {
+  font-size: 14px;
+  letter-spacing: 1px;
+  margin-right: 8px;
+}
+
+.promo-pagination .current {
+  font-weight: 700;
+  color: #88c2ff; /* 현재 페이지만 밝은 하늘색으로 포인트 */
+}
+
+.promo-pagination .dash {
+  margin: 0 4px;
+  color: #ccc;
+}
+
+.promo-ctrl-btn {
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 0 4px;
+  transition: color 0.2s;
+}
+
+.promo-ctrl-btn:hover {
+  color: #88c2ff;
+}
+
+.promo-ctrl-btn.play-pause {
+  font-size: 12px; /* 재생/일시정지 기호 미세 조정 */
+}
 
 
 /* ========================================= */
 /* 4. 모바일/태블릿 반응형 처리               */
 /* ========================================= */
+@media (max-width: 1280px) {
+  /* 👇 핵심: 탭이 밑으로 내려가 좌측 여유가 생겼으므로, 
+     기존 1.7fr 1fr 에서 1.3fr 1fr 로 변경하여 우측 알림판을 확 넓혀줍니다! */
+  .board-grid-full {
+    grid-template-columns: 1fr 480px;
+    gap: 30px; /* 요소가 커지므로 가운데 간격을 살짝 줄여줌 */
+  }
+
+  /* 헤더 레이아웃 분리 (타이틀 1줄, 탭 2줄) */
+  .board-header {
+    flex-wrap: wrap; 
+    border-bottom: none; 
+    padding-bottom: 0;
+    position: relative; 
+  }
+  
+  .board-main-title {
+    width: 100%; 
+    font-size: 36px;
+    border-bottom: 2px solid #222; 
+    padding-bottom: 15px; 
+  }
+  .more-btn {
+    font-size: 60px; 
+  }
+
+  .board-controls {
+    width: 100%;
+    margin-top: 15px; 
+    justify-content: flex-start; 
+  }
+  
+  .more-btn {
+    position: absolute;
+    top: 0; 
+    right: 0;
+    margin-top: -15px; 
+  }
+}
+
 @media (max-width: 1024px) {
   .board-grid-full {
-    grid-template-columns: 1fr; 
+    grid-template-columns: 1fr 370px;
     gap: 30px;
+  }
+  .board-main-title { font-size: 32px; }
+
+  
+  /* 👈 1단으로 떨어질 때 알림판이 시원하게 보이도록 높이 대폭 증가 */
+  .promo-carousel-container {
+    min-height: 400px; 
   }
 }
 
 @media (max-width: 812px) {
   .board-section-wrapper { padding: 40px 0; }
-  .board-grid-full { padding: 0 15px; }
-  
-  /* 1. 헤더: 타이틀과 컨트롤(탭+더보기)을 다시 한 줄로 배치 */
+  .board-grid-full { 
+    /* 1단(1 column)으로 변경하여 알림판이 게시판 아래로 내려가며 넓어지게 합니다 */
+    grid-template-columns: 1fr; 
+    padding: 0 15px; 
+  }
   .board-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center; /* 세로 중앙 정렬 */
-    gap: 10px;
-    border-bottom: 2px solid #222;
+    flex-wrap: nowrap; /* 1280px에서 두 줄로 만든 것을 해제, 한 줄로 묶기 */
+    border-bottom: 2px solid #222; /* 헤더 전체 밑줄 복구 */
     padding-bottom: 12px;
-    position: relative;
-  }
-  
-  .board-main-title { 
-    font-size: 24px; /* 타이틀 크기를 살짝 줄여 공간 확보 */
-    white-space: nowrap; /* 타이틀 줄바꿈 방지 */
-    margin: 0;
-  }
-
-  /* 2. 컨트롤 영역: 탭과 더보기를 묶음 */
-  .board-controls {
-    display: flex;
     align-items: center;
-    gap: 10px;
-    flex: 1; /* 남은 공간을 차지함 */
-    min-width: 0; /* 내부 스크롤 작동을 위한 설정 */
-    justify-content: flex-end; /* 오른쪽으로 밀착 */
   }
-
-  /* 3. 탭 버튼 영역: 핵심! 가로 스크롤 적용 */
-  .tab-buttons {
-    display: flex;
-    gap: 6px;
-    overflow-x: auto; /* 👈 공간이 부족하면 가로로 스크롤 */
-    white-space: nowrap; /* 👈 버튼들이 아래로 안 떨어지게 한 줄로 고정 */
-    padding: 5px 0;
-    /* 스크롤바 숨기기 (선택 사항) */
-    -ms-overflow-style: none; /* IE, Edge */
-    scrollbar-width: none; /* Firefox */
+  .board-main-title { 
+    font-size: 26px; 
+    width: auto; /* 100% 해제 */
+    border-bottom: none; /* 개별 타이틀 밑줄 해제 */
+    padding-bottom: 0;
+    margin-right: 15px;
+    flex-shrink: 0; /* 타이틀 글씨 찌그러짐 방지 */
   }
   
-  .tab-buttons::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Opera */
+  .board-controls {
+    width: auto; /* 100% 해제 */
+    margin-top: 0; /* 줄바꿈 여백 해제 */
+    flex: 1; /* 남은 공간을 다 차지하게 해서 탭 스크롤이 작동하도록 함 */
+    min-width: 0;
+    justify-content: flex-end; 
   }
+  
+  .more-btn {
+    position: static; /* 1280px의 강제 고정(absolute) 해제 */
+    font-size: 45px;
+    margin-top: -6px; 
+    margin-left: 5px; /* 탭 버튼과 더보기 버튼 사이 간격 */
+    flex-shrink: 0; /* + 버튼 찌그러짐 방지 */
+  }
+
+  /* 알림판이 한 줄을 다 차지하므로 높이를 시원하게 키워줍니다 */
+  .promo-carousel-container {
+    min-height: 400px; 
+  }
+  .board-main-title { font-size: 26px; }
+  .more-btn {
+    font-size: 50px; 
+  }
+  
+  
+  /* 탭 버튼 가로 스크롤 적용 (공간 부족 시 스와이프 가능) */
+  .tab-buttons {
+    gap: 6px;
+    overflow-x: auto; 
+    white-space: nowrap; 
+    padding: 5px 0;
+    -ms-overflow-style: none; 
+    scrollbar-width: none; 
+  }
+  .tab-buttons::-webkit-scrollbar { display: none; }
 
   .tab-btn { 
-    padding: 5px 12px; 
-    font-size: 16px; 
+    padding: 6px 14px; 
+    font-size: 14px; 
     border-radius: 15px;
-    flex-shrink: 0; /* 👈 버튼이 찌그러지지 않게 보호 */
+    flex-shrink: 0; 
+  }
+  
+  .category-tag {
+    font-size: 14px; /* 배지 형태일 때는 글씨를 살짝 줄이는 게 더 세련되어 보입니다 */
   }
 
-  /* 4. 더보기(+) 버튼: 탭 버튼 오른쪽 옆에 고정 */
   .more-btn {
-    font-size: 40px;
-    margin-top: -4px;
-    flex-shrink: 0; /* 더보기 버튼도 고정 */
-    position: static; /* 절대 위치 해제 */
-    color: #0084ff;
+    font-size: 45px;
+    margin-top: -8px; 
   }
 
-  /* 5. 리스트 항목 (400px 이하 대응 포함) */
   .board-item a {
-    flex-direction: column;
     align-items: flex-start;
     gap: 6px;
-    padding: 12px 5px;
+    padding: 6px 5px;
+  }
+  .board-title {
+    font-size: 16px;
+  } 
+
+  .board-date {
+    font-size: 12px;
   }
   
-  .board-title-group { margin-right: 0; }
-  .board-date { align-self: flex-end; font-size: 12px; }
+  .board-title-group { margin-right: 10px; }
+  .board-date { 
+    /* align-self: flex-end; <-- 이것도 지우거나 아래처럼 바꿉니다 */
+    align-self: center; 
+    font-size: 13px; 
+    flex-shrink: 0; /* 👈 날짜는 공간이 좁아져도 절대 찌그러지거나 줄바꿈되지 않게 방어! */
+  }
 }
 
-/* 400px 이하 초소형 기기 대응 */
+/* 4. 400px 이하: 초소형 모바일 기기 대응 */
 @media (max-width: 400px) {
-  .board-main-title { font-size: 20px; }
-  
-  .more-btn {
-    font-size: 32px;
-    top: -2px;
-  }
-  
-  .tab-btn {
-    padding: 5px 12px;
-    font-size: 12px;
-    border-radius: 15px;
-  }
-
-  .category-tag {
-    min-width: 60px;
-    font-size: 12px;
-    padding: 3px 6px;
-  }
+  .board-main-title { font-size: 22px; }
+  .more-btn { font-size: 36px; top: 0; margin-top: -5px; }
+  .tab-btn { padding: 5px 12px; font-size: 13px; border-radius: 15px; }
+  .category-tag { min-width: 60px; font-size: 12px; padding: 3px 6px; }
 }

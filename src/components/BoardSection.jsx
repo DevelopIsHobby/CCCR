@@ -1,5 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react'; // useRef 추가
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay, A11y } from 'swiper/modules';
+import 'swiper/css';
 import './BoardSection.css';
+
+import tabaImg from '../assets/TABA_7기.jpg';
+import sassaakImg from '../assets/새싹_3기.png';
+import recruitImg from '../assets/채용_4기.jpg';
+
 
 const BoardSection = () => {
   // 기본 탭을 '전체(all)'로 설정합니다.
@@ -23,11 +31,48 @@ const BoardSection = () => {
     return orderA - orderB;
   });
 
-// 활성화된 탭에 따라 정렬된 데이터를 필터링하고 최대 4개를 자릅니다.
+  // 활성화된 탭에 따라 정렬된 데이터를 필터링하고 최대 4개를 자릅니다.
   const filteredData = (activeTab === 'all' 
     ? groupedData 
     : allBoardData.filter(item => item.category === activeTab)
   ).slice(0, 4); // 보여줄 개수를 늘리고 싶다면 이 숫자를 5나 6으로 변경하세요!
+
+
+  // 👇 --- 알림판(홍보 배너) 슬라이드 로직 --- 👇
+  const [isPromoPlaying, setIsPromoPlaying] = useState(true);
+  const [activePromoIndex, setActivePromoIndex] = useState(0); 
+  const promoSwiperRef = useRef(null);
+
+  // 👇 여기를 실제 이미지 변수로 교체합니다!
+  const promoSlides = [
+    { id: 1, img: tabaImg },
+    { id: 2, img: sassaakImg },
+    { id: 3, img: recruitImg }
+  ];
+
+  const togglePromoPlay = () => {
+      if (promoSwiperRef.current && promoSwiperRef.current.swiper) {
+        if (isPromoPlaying) {
+          promoSwiperRef.current.swiper.autoplay.stop();
+        } else {
+          promoSwiperRef.current.swiper.autoplay.start();
+        }
+        setIsPromoPlaying(!isPromoPlaying);
+      }
+    };
+
+  const handlePromoPrev = () => {
+    if (promoSwiperRef.current && promoSwiperRef.current.swiper) {
+      promoSwiperRef.current.swiper.slidePrev();
+    }
+  };
+
+  const handlePromoNext = () => {
+    if (promoSwiperRef.current && promoSwiperRef.current.swiper) {
+      promoSwiperRef.current.swiper.slideNext();
+    }
+  };
+  // 👆 --- 알림판 슬라이드 로직 끝 --- 👆
 
   return (
     <div className="board-section-wrapper">
@@ -71,6 +116,7 @@ const BoardSection = () => {
                         {item.categoryLabel}
                       </span>
                       <span className="board-title">{item.title}</span>
+                      
                     </div>
                     <span className="board-date">{item.date}</span>
                   </a>
@@ -80,12 +126,52 @@ const BoardSection = () => {
           </div>
         </div>
 
-        {/* 우측: 홍보 배너 */}
+        {/* 우측: 알림판 (미니 슬라이드 배너) */}
         <div className="board-banner-area">
-          <div className="promo-banner">
-            <h3>기업 지원 프로그램</h3>
-            <p>중소 SW기업의 성장을 지원합니다.</p>
-            <button className="promo-btn">자세히 보기 →</button>
+          
+          {/* 좌측 상단 타이틀 */}
+          <div className="promo-header">
+            <h2 className="promo-title">알림판</h2>
+          </div>
+
+          <div className="promo-carousel-container">
+            <Swiper
+              ref={promoSwiperRef}
+              modules={[Autoplay, A11y]}
+              spaceBetween={0}
+              slidesPerView={1}
+              autoplay={{ delay: 3000, disableOnInteraction: false }}
+              loop={true}
+              onSlideChange={(swiper) => setActivePromoIndex(swiper.realIndex)}
+              className="promo-swiper"
+            >
+              {promoSlides.map((slide) => (
+                <SwiperSlide key={slide.id}>
+                  {/* 글자 없이 이미지만 꽉 차게 들어갑니다 */}
+                  <div 
+                    className="promo-slide-bg" 
+                    style={{ backgroundImage: `url("${slide.img}")` }}
+                  />
+                </SwiperSlide>
+              ))}
+            </Swiper>
+
+            {/* 우측 하단: 「 1 - 3 < || > 형태의 컨트롤 박스 */}
+            <div className="promo-controls-wrapper">
+              
+              <span className="promo-pagination">
+                <span className="current">{activePromoIndex + 1}</span>
+                <span className="dash">-</span>
+                <span className="total">{promoSlides.length}</span>
+              </span>
+              
+              <button className="promo-ctrl-btn" onClick={handlePromoPrev}>&lt;</button>
+              <button className="promo-ctrl-btn play-pause" onClick={togglePromoPlay}>
+                {isPromoPlaying ? '||' : '▶'}
+              </button>
+              <button className="promo-ctrl-btn" onClick={handlePromoNext}>&gt;</button>
+            </div>
+            
           </div>
         </div>
 

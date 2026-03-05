@@ -1,5 +1,5 @@
 .board-section-wrapper {
-  padding: 60px 0;
+  padding: 40px 0;
   background-color: #ffffff;
   width: 100%; 
 }
@@ -414,7 +414,10 @@
 
   /* 알림판이 한 줄을 다 차지하므로 높이를 시원하게 키워줍니다 */
   .promo-carousel-container {
-    min-height: 400px; 
+    min-height: 300px; 
+  }
+  .promo-title {
+    font-size: 26px;
   }
   .board-main-title { font-size: 26px; }
   .more-btn {
@@ -453,6 +456,7 @@
     align-items: flex-start;
     gap: 6px;
     padding: 6px 5px;
+    margin-bottom: 6px;
   }
   .board-title {
     font-size: 16px;

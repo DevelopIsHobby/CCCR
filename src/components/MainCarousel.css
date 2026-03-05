@@ -288,7 +288,8 @@
   .slide-inner, .carousel-info-bar .inner-container {
     padding: 0 15px; /* 양옆 여백을 줄여서 공간 확보 */
   }
-  
+
+
   /* 👇 하단 바를 모바일에서도 무조건 1줄(가로)로 유지 */
   .carousel-info-bar .inner-container {
     flex-direction: row; 

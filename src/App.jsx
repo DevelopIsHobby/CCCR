@@ -37,18 +37,18 @@ function App() {
           <BoardSection />
         </section>
 
-        {/* 3. 교육 프로그램 영역 (새로 추가됨!) */}
+        {/* 3. 교육 프로그램 영역 */}
         <section className="edu-section">
           <EduSection />
         </section>
 
-        {/* 4. CCCR 회원 공간 (새로 추가됨!) */}
+        {/* 4. CCCR 회원 공간 */}
         <section className="member-section">
           <MemberSpace />
         </section>
       </main>
 
-      {/* 푸터 임시 영역 */}
+      {/* 푸터 영역 */}
       <footer className="temp-section" style={{ backgroundColor: '#343a40', color: 'white', height: '150px' }}>
         <Footer />
       </footer>

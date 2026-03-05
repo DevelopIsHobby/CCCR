@@ -11,7 +11,7 @@
 .hero-layout-full {
   display: flex;
   gap: 20px;
-  height: 400px;
+  height: 450px;
   /* 정렬 코드 통일 */
   width: 100%;
   max-width: 1600px; 
@@ -54,7 +54,7 @@
     width: 100%;
     flex: none; 
     
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 16 / 9;
     display: flex;
     flex-direction: column;
     border-radius: 0; 

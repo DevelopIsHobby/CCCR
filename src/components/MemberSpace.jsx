@@ -1,56 +1,126 @@
-import React from 'react';
-// 사용할 아이콘들을 불러옵니다
-import { FiGift, FiMessageCircle, FiUsers, FiDatabase } from 'react-icons/fi';
+import React, { useState } from 'react';
 import './MemberSpace.css';
 
 const MemberSpace = () => {
-  // 우측에 들어갈 카드 데이터
-  const memberServices = [
-    { id: 1, title: '회원 혜택 안내', desc: 'CCCR 가입 기업을 위한 특별한 맞춤 혜택', icon: <FiGift /> },
-    { id: 2, title: '전문가 무료 상담', desc: '법률, 노무, 세무 등 1:1 온라인 상담 지원', icon: <FiMessageCircle /> },
-    { id: 3, title: 'SW 인재 채용', desc: '우수 인재와 회원사 간의 다이렉트 매칭', icon: <FiUsers /> },
-    { id: 4, title: '최신 기술 자료실', desc: '국내외 산업 동향 보고서 및 연구 자료 제공', icon: <FiDatabase /> },
+  // 1. 우측: 네이버 뉴스 API 임시 데이터 (6개 노출)
+  const [newsList] = useState([
+    { id: 1, category: '클라우드', title: '클라우드 네이티브 전환 가속화... 공공부문 도입 활기', date: '2026.03.05', source: '전자신문' },
+    { id: 2, category: 'AI', title: '생성형 AI 모델 최적화를 위한 하이브리드 클라우드 전략', date: '2026.03.04', source: '디지털데일리' },
+    { id: 3, category: '데이터센터', title: '친환경 데이터센터 건립 붐... 전력 효율성이 핵심 경쟁력', date: '2026.03.02', source: '아이티비즈' },
+    { id: 4, category: '양자', title: '양자컴퓨팅과 클라우드의 결합, 차세대 암호 통신 시대 연다', date: '2026.02.28', source: 'ZDNet' },
+    { id: 5, category: '통신', title: '5G 특화망 기반 엣지 클라우드, 스마트 팩토리 도입 확산', date: '2026.02.25', source: '테크월드' },
+    { id: 6, category: '자율주행', title: '자율주행차 데이터 처리를 위한 초저지연 클라우드 기술', date: '2026.02.20', source: '아이티데일리' },
+  ]);
+
+  // 2. 좌측 상단: 클라우드 소식
+  const cloudInfo = [
+    { id: 1, title: 'IITP 기술동향', desc: '최신 ICT 및 클라우드 동향' },
+    { id: 2, title: '클라우드 법령정보', desc: '관련 법률 및 보안 규제 안내' },
+    { id: 3, title: '뉴스레터', desc: 'CCCR 월간 핵심 이슈 구독' },
+    { id: 4, title: '세미나/자료실', desc: '전문가 발표 자료 다시보기' }
+  ];
+
+  // 3. 좌측 하단: 회원공간
+  const memberInfo = [
+    { id: 1, title: '회원사 소식', desc: '조합원 동향 및 보도자료' },
+    { id: 2, title: '홍보 서비스', desc: '회원사 제품 및 서비스 홍보' },
+    { id: 3, title: '회원사 가입안내', desc: 'CCCR 조합원 신규 가입 절차' },
+    { id: 4, title: '회원사 현황', desc: '든든한 CCCR 파트너스 목록' }
   ];
 
   return (
     <div className="member-space-wrapper">
-      <div className="member-grid-full">
-        
-        {/* 섹션 타이틀 */}
-        <div className="member-header">
-          <h2>CCCR 회원 공간</h2>
-          <p>회원사만의 특별한 혜택과 맞춤형 서비스를 누려보세요.</p>
-        </div>
-
-        {/* 좌/우 분할 레이아웃 */}
-        <div className="member-content-layout">
+      <div className="member-space-grid">
+        <div className="ms-layout">
           
-          {/* 좌측: 뉴스레터 영역 (1 비율) */}
-          <div className="newsletter-area">
-            <div className="newsletter-box">
-              <h3>CCCR 뉴스레터 구독</h3>
-              <p>최신 소프트웨어 산업 동향과 주요 소식을<br/>매월 이메일로 빠르게 받아보세요.</p>
-              
-              <form className="newsletter-form" onSubmit={(e) => e.preventDefault()}>
-                <input type="email" placeholder="이메일 주소를 입력해주세요" required />
-                <button type="submit">구독하기</button>
-              </form>
+          {/* ================= 좌측: 카드형 소식 영역 ================= */}
+          <div className="ms-left-cards">
+            <div className="ms-card-section">
+              <div className="ms-section-header">
+                <h3 className="ms-title">클라우드 <span className="ms-highlight">소식</span></h3>
+              </div>
+              <div className="ms-card-grid">
+                {cloudInfo.map(item => (
+                  <a href="#link" key={item.id} className="ms-info-card">
+                    <h4>{item.title}</h4>
+                    <p>{item.desc}</p>
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            <div className="ms-card-section">
+              <div className="ms-section-header">
+                <h3 className="ms-title">CCCR <span className="ms-highlight">회원공간</span></h3>
+              </div>
+              <div className="ms-card-grid">
+                {memberInfo.map(item => (
+                  <a href="#link" key={item.id} className="ms-info-card member-card-theme">
+                    <h4>{item.title}</h4>
+                    <p>{item.desc}</p>
+                  </a>
+                ))}
+              </div>
             </div>
           </div>
 
-          {/* 우측: 회원 서비스 카드 영역 (2 비율) */}
-          <div className="member-cards-area">
-            <div className="member-cards-grid">
-              {memberServices.map(service => (
-                <a href={`#service-${service.id}`} className="member-card" key={service.id}>
-                  <div className="member-card-icon">{service.icon}</div>
-                  <div className="member-card-text">
-                    <h4>{service.title}</h4>
-                    <p>{service.desc}</p>
-                  </div>
-                </a>
-              ))}
+          {/* ================= 우측: 뉴스 및 하단 배너 영역 ================= */}
+          <div className="ms-right-news">
+            <div className="ms-section-header news-header">
+              <h3 className="ms-title">최신 <span className="ms-highlight">뉴스</span></h3>
+              <a href="#more" className="ms-more-btn">+</a>
             </div>
+            
+            <ul className="ms-news-list">
+              {/* slice(0, 6)을 사용해 데이터가 몇 개든 무조건 위에서부터 6개만 자릅니다! */}
+              {newsList.slice(0, 6).map((news) => (
+                <li key={news.id} className="ms-news-item">
+                  <a href="#news" className="ms-news-link">
+                    
+                    {/* 좌측: 카테고리 + 제목 묶음 */}
+                    <div className="ms-news-left">
+                      <span className="ms-category">[{news.category}]</span>
+                      <span className="ms-news-title">{news.title}</span>
+                    </div>
+
+                    {/* 우측: 신문사 뱃지 + 날짜 묶음 */}
+                    <div className="ms-news-right">
+                      <span className="ms-source-badge">{news.source}</span>
+                      <span className="ms-date">{news.date}</span>
+                    </div>
+
+                  </a>
+                </li>
+              ))}
+            </ul>
+
+            {/* 🚀 하단 배너 그룹 (2개, 둘 다 3D 그라데이션 적용) */}
+            <div className="ms-banner-group">
+              
+              {/* 첫 번째 배너: 사전등록 (다크 블루 3D) */}
+              <a href="#register" className="ms-event-banner primary-banner">
+                <div className="banner-content">
+                  <span className="banner-subtitle">선착순 100명 얼리버드 혜택</span>
+                  <h4 className="banner-title">2026 CCCR 클라우드 컨퍼런스 사전등록</h4>
+                </div>
+                <div className="banner-btn">
+                  참가 신청하기 &rarr;
+                </div>
+              </a>
+
+              {/* 두 번째 배너: 뉴스레터 (🚀 다크 청록색 3D로 전면 개편!) */}
+              <a href="#newsletter" className="ms-event-banner secondary-banner">
+                <div className="banner-content">
+                  <span className="banner-subtitle">매월 첫째 주 수요일 발행</span>
+                  <h4 className="banner-title">CCCR 공식 뉴스레터 정기구독</h4>
+                </div>
+                <div className="banner-btn">
+                  구독 신청하기 &rarr;
+                </div>
+              </a>
+
+            </div>
+
           </div>
 
         </div>

@@ -28,10 +28,35 @@
   background-repeat: no-repeat;
   background-position: center; 
   
-  /* 👇 cover를 contain으로 변경합니다! */
-  background-size: contain; 
-  background-position: center; 
-  background-size: 100% 100%;
+  /* 이미지가 잘려도 다 나오고 싶다면 contain, 화면에 꽉차야한다면 cover를 사용합니다! */
+  /* background-size: contain;  */
+  
+  /* 만약 이미지가 잘리는 게 싫다면 cover 대신 contain을 쓰고, 
+     남는 빈 공간을 자연스럽게 채울 배경색을 추가해도 됩니다. */
+  /* background-color: #222; */
+
+  z-index: 1; 
+  overflow: hidden;
+}
+
+/* 🚀 1. 뒤에 깔리는 아주 흐린 배경 (화면 꽉 채움) */
+.slide-bg-blur {
+  position: absolute;
+  /* 테두리 하얗게 뜨는 것 방지 위해 조금 크게 잡음 */
+  top: -5%; left: -5%; right: -5%; bottom: -5%; 
+  background-size: cover; 
+  background-position: center;
+  filter: blur(20px) brightness(0.5); /* 흐리게 + 어둡게 */
+  z-index: -2; /* 가장 맨 밑바닥 */
+}
+/* 🚀 2. 앞에 보여지는 선명한 원본 이미지 (절대 안 잘림) */
+.slide-bg-clear {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-size: contain; /* 원본 비율 유지 */
+  background-repeat: no-repeat;
+  background-position: center;
+  z-index: -1; /* 흐린 배경보다는 위, 글씨보다는 아래 */
 }
 
 /* 👇 배너 하단에 스르륵 깔리는 어두운 그라데이션 효과 */
@@ -52,7 +77,7 @@
 /* ========================================= */
 .slide-text-overlay {
   position: absolute;
-  bottom: 15px; 
+  bottom: 10px; 
   left: 20px;   
   z-index: 2;   
   text-align: left;

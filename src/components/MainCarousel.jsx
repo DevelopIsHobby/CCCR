@@ -86,26 +86,29 @@ const MainCarousel = () => {
       >
         {slides.map((slide) => (
           <SwiperSlide key={slide.id}>
-            <div 
-              className="slide-content" 
-              style={{ backgroundImage: `url(${slide.img})` }} // 이미지 경로만 전달
-            >
-              <div className="slide-text-overlay">
-                
-                <div className="text-content-wrapper">
-                  
-                  {/* 첫 번째 줄 (흰색 계열) */}
-                  <div className="text-line-1">
-                    {slide.title}
-                  </div>
-                  
-                  {/* 두 번째 줄 (투명한 회색 계열) */}
-                  <div className="text-line-2">
-                    {slide.desc}
-                  </div>
+            {/* 부모 상자에서는 style을 뺍니다! */}
+            <div className="slide-content">
+              
+              {/* 🚀 1. 흐린 배경을 담당할 레이어 */}
+              <div 
+                className="slide-bg-blur" 
+                style={{ backgroundImage: `url(${slide.img})` }} 
+              />
+              
+              {/* 🚀 2. 선명한 원본 이미지를 담당할 레이어 */}
+              <div 
+                className="slide-bg-clear" 
+                style={{ backgroundImage: `url(${slide.img})` }} 
+              />
 
+              {/* 텍스트 영역은 그대로 유지 */}
+              <div className="slide-text-overlay">
+                <div className="text-content-wrapper">
+                  <div className="text-line-1">{slide.title}</div>
+                  <div className="text-line-2">{slide.desc}</div>
                 </div>
               </div>
+              
             </div>
           </SwiperSlide>
         ))}

@@ -147,7 +147,7 @@ const BoardSection = () => {
             >
               {promoSlides.map((slide) => (
                 <SwiperSlide key={slide.id}>
-                  {/* 글자 없이 이미지만 꽉 차게 들어갑니다 */}
+                  {/* 🚀 원래대로 심플하게 1개의 div로 되돌립니다 */}
                   <div 
                     className="promo-slide-bg" 
                     style={{ backgroundImage: `url("${slide.img}")` }}
@@ -165,11 +165,15 @@ const BoardSection = () => {
                 <span className="total">{promoSlides.length}</span>
               </span>
               
-              <button className="promo-ctrl-btn" onClick={handlePromoPrev}>&lt;</button>
-              <button className="promo-ctrl-btn play-pause" onClick={togglePromoPlay}>
-                {isPromoPlaying ? '||' : '▶'}
-              </button>
-              <button className="promo-ctrl-btn" onClick={handlePromoNext}>&gt;</button>
+              {/* 🚀 버튼 3개를 그룹으로 묶어줍니다! */}
+              <div className="promo-btn-group">
+                <button className="promo-ctrl-btn" onClick={handlePromoPrev}>&lt;</button>
+                <button className="promo-ctrl-btn play-pause" onClick={togglePromoPlay}>
+                  {isPromoPlaying ? '||' : '▶'}
+                </button>
+                <button className="promo-ctrl-btn" onClick={handlePromoNext}>&gt;</button>
+              </div>
+
             </div>
             
           </div>

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import cccrLogo from '../assets/cccr-logo.png'; 
 import kakaoIcon from '../assets/kakao-icon.png';
 import './Header.css';
@@ -7,23 +8,56 @@ import './Header.css';
 const menuData = [
   {
     title: '주요사업',
-    subMenus: ['연구개발', '표준화', '교육', '대외협력', '홍보', '회원사 지원']
+    subMenus: [
+      { name: '연구개발', path: '/business/rnd' }, 
+      { name: '표준화', path: '/business/standard' },
+      { name: '교육', path: '/business/edu' },
+      { name: '대외협력', path: '/business/coop' }, // cooperation
+      { name: '홍보', path: '/business/pr' }, // public relations
+      { name: '회원사 지원', path: '/business/support' }
+    ]
   },
   {
     title: '인재양성',
-    subMenus: ['교육훈련', '교육신청', '교육일정', '교육문의', '교육제안']
+    subMenus: [
+      { name: '교육훈련', path: '/academy/training' }, 
+      { name: '교육신청', path: '/academy/apply' }, 
+      { name: '교육일정', path: '/academy/schedule' }, 
+      { name: '교육문의', path: '/academy/inquiry' }, 
+      { name: '교육제안', path: '/academy/suggest' }
+    ]
   },
   {
     title: '알림마당',
-    subMenus: ['공지사항', '행사소식', '기술동향', '법령정보', '뉴스레터']
+    subMenus: [
+      { name: '공지사항', path: '/news/notice' }, 
+      { name: '행사소식', path: '/news/event' }, 
+      { name: '기술동향', path: '/news/trend' }, 
+      { name: '법령정보', path: '/news/law' }, 
+      { name: '뉴스레터', path: '/news/newsletter' }
+    ]
   },
   {
     title: '회원공간',
-    subMenus: ['가입안내', '회원안내', '회원소식', '회원홍보', '온·오프라인 홍보 서비스']
+    subMenus: [
+      { name: '가입안내', path: '/members/join' }, 
+      { name: '회원안내', path: '/members/info' }, 
+      { name: '회원소식', path: '/members/news' }, 
+      { name: '회원홍보', path: '/members/pr' }, 
+      { name: '온·오프라인', path: '/members/service' }
+    ]
   },
   {
     title: '조합안내',
-    subMenus: ['인사말', '설립목적 및 연혁', '역대조합장', '이사 소개', '조직도', '오시는길', 'CI']
+    subMenus: [
+      { name: '인사말', path: '/about/greeting' }, 
+      { name: '설립목적 및 연혁', path: '/about/history' }, 
+      { name: '역대 조합장', path: '/about/presidents' }, 
+      { name: '이사 소개', path: '/about/directors' }, 
+      { name: '조직도', path: '/about/organization' },
+      { name: '오시는길', path: '/about/location' },
+      { name: 'CI', path: '/about/ci' }
+    ]
   }
 ];
 
@@ -85,7 +119,7 @@ const Header = () => {
           <ul className="utility-links">
             <li><a href="#login">로그인</a></li>
             <li><a href="#join">회원가입</a></li>
-            <li><a href="#sitemap">사이트맵</a></li>
+            <li><a href="#sitemap">아카데미</a></li>
           </ul>
           
         </div>
@@ -106,11 +140,13 @@ const Header = () => {
             <ul>
               {menuData.map((menu, index) => (
                 <li key={index} className="gnb-item">
-                  <a href={`#menu-${index}`}>{menu.title}</a>
-                  {/* PC용 2뎁스 드롭다운 메뉴 */}
+                  <a href="#none">{menu.title}</a>
                   <ul className="submenu">
                     {menu.subMenus.map((sub, subIndex) => (
-                      <li key={subIndex}><a href={`#sub-${index}-${subIndex}`}>{sub}</a></li>
+                      <li key={subIndex}>
+                        {/* 🚀 a 태그 대신 Link 태그 사용! 새로고침 없이 부드럽게 이동합니다. */}
+                        <Link to={sub.path}>{sub.name}</Link>
+                      </li>
                     ))}
                   </ul>
                 </li>
@@ -161,20 +197,30 @@ const Header = () => {
           </div>
         </div>
 
+       {/* 모바일 사이드바 메뉴 */}
         <ul className="sidebar-menu">
           {menuData.map((menu, index) => (
-            <li key={index} className={`sidebar-item ${openMenuIndex === index ? 'open' : ''}`}>
-              {/* 1뎁스 타이틀 (클릭 시 토글) */}
-              <div className="sidebar-title" onClick={() => toggleSubMenu(index)}>
-                <span>{menu.title}</span>
-                <span className="arrow">{openMenuIndex === index ? '▲' : '▼'}</span>
+            <li key={index} className="sidebar-item">
+              <div 
+                className="sidebar-title" 
+                /* 🚀 1. toggleAccordion -> toggleSubMenu 로 수정 */
+                onClick={() => toggleSubMenu(index)}
+              >
+                {menu.title}
+                {/* 🚀 2. activeAccordion -> openMenuIndex 로 수정 */}
+                <span className={`arrow ${openMenuIndex === index ? 'up' : 'down'}`}>
+                  ▼
+                </span>
               </div>
               
-              {/* 2뎁스 하위 메뉴 리스트 */}
-              <ul className="sidebar-submenu">
+              {/* 🚀 3. activeAccordion -> openMenuIndex 로 수정 */}
+              <ul className={`sidebar-submenu ${openMenuIndex === index ? 'open' : ''}`}>
                 {menu.subMenus.map((sub, subIndex) => (
                   <li key={subIndex}>
-                    <a href={`#sub-${index}-${subIndex}`}>- {sub}</a>
+                    {/* 🚀 4. closeSidebar -> closeAll 로 수정 */}
+                    <Link to={sub.path} onClick={closeAll}>
+                      {sub.name}
+                    </Link>
                   </li>
                 ))}
               </ul>

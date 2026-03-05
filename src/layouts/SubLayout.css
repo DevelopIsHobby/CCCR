@@ -1,0 +1,264 @@
+.sub-layout-wrapper {
+  width: 100%;
+  background-color: #ffffff;
+}
+
+/* ===================================== */
+/* 1. 서브 비주얼 (배너 이미지 & 축소)      */
+/* ===================================== */
+.sub-visual {
+  position: relative;
+  width: 100%;
+  
+  /* 🚀 높이를 기존의 80% 수준으로 축소 (260px -> 210px) */
+  height: 210px; 
+  
+  /* JSX에서 지정한 이미지를 완벽하게 배경으로 세팅 */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+    
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* 🚀 이미지 위에 씌우는 어두운 파란색 레이어 (가독성 & 분위기 통일) */
+.sub-visual::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: linear-gradient(135deg, rgba(0, 34, 85, 0.8) 0%, rgba(0, 58, 140, 0.9) 100%);
+  z-index: 1;
+}
+
+/* 배너 텍스트 래퍼 */
+.sub-visual-content {
+  position: relative;
+  text-align: center;
+  color: #ffffff;
+  z-index: 2; /* 오버레이보다 위로 올림 */
+  animation: fadeUp 0.6s ease-out;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.visual-title {
+  /* 🚀 타이틀 크기를 미세하게 줄여 콤팩트하게 조절 */
+  font-size: 38px; 
+  font-weight: 700;
+  
+  /* 🚀 타이틀과 아래 설명 사이 여백 축소 (15px -> 8px) */
+  margin: 0 0 8px 0; 
+  letter-spacing: -1px;
+}
+
+.visual-desc {
+  /* 🚀 설명 글자 크기 축소 (16px -> 15px) */
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0;
+  font-weight: 400;
+}
+
+/* ===================================== */
+/* 2. 경로 네비게이션 (Breadcrumb)       */
+/* ===================================== */
+.sub-breadcrumb {
+  width: 100%;
+  border-bottom: 1px solid #e0e0e0;
+  background-color: #f8f9fa;
+}
+
+.breadcrumb-inner {
+  max-width: 1280px; 
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  /* 🚀 네비바 높이를 살짝 축소 (56px -> 48px) */
+  height: 48px; 
+}
+
+.home-btn {
+  /* 🚀 좌우 패딩 축소 (20px -> 15px) */
+  padding: 0 15px; 
+  border-right: 1px solid #e0e0e0;
+  border-left: 1px solid #e0e0e0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  color: #555;
+  font-size: 14px;
+}
+
+.breadcrumb-item {
+  /* 🚀 좌우 패딩 대폭 축소 (30px -> 18px) */
+  padding: 0 18px; 
+  height: 100%;
+  display: flex;
+  align-items: center;
+  border-right: 1px solid #e0e0e0;
+  font-size: 13px; /* 글자 크기 살짝 축소 */
+  color: #666;
+  position: relative;
+}
+
+.breadcrumb-item::before {
+  content: '>';
+  position: absolute;
+  /* 🚀 화살표 위치 미세 조정 */
+  left: 6px; 
+  color: #ccc;
+  font-size: 11px;
+}
+
+.breadcrumb-item .current-sub {
+  color: #003a8c;
+  font-weight: 600;
+}
+
+/* ===================================== */
+/* 3. 콘텐츠 영역 (여백 대폭 축소)       */
+/* ===================================== */
+.sub-content-area {
+  /* 🚀 상하단 패딩 대폭 축소 (상60,하100 -> 상40,하60) */
+  padding: 40px 20px 60px 20px; 
+}
+
+.sub-layout-split {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  /* 🚀 좌측 메뉴와 본문 사이 간격 축소 (50px -> 30px) */
+  gap: 30px; 
+  align-items: flex-start;
+}
+
+/* --- 좌측 LNB (사이드바) --- */
+.sub-sidebar {
+  width: 220px; /* 🚀 너비를 미세하게 축소 (240px -> 220px) */
+  flex-shrink: 0; 
+}
+
+.sidebar-main-title {
+  background-color: #003a8c;
+  color: #ffffff;
+  font-size: 20px; /* 글자 크기 살짝 축소 */
+  font-weight: 700;
+  margin: 0;
+  
+  /* 🚀 타이틀 내부 패딩 축소 (상하24 -> 18) */
+  padding: 18px 20px; 
+  text-align: center;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+}
+
+.sidebar-menu-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-left: 1px solid #e0e0e0;
+  border-right: 1px solid #e0e0e0;
+  border-bottom: 1px solid #e0e0e0;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+  overflow: hidden;
+}
+
+.sidebar-link {
+  display: block;
+  /* 🚀 링크 상하 패딩 축소 (16px -> 12px) */
+  padding: 12px 20px; 
+  color: #444;
+  text-decoration: none;
+  font-size: 14px; /* 글자 크기 축소 */
+  font-weight: 500;
+  border-bottom: 1px solid #f0f0f0;
+  position: relative;
+  transition: all 0.2s;
+}
+
+/* 현재 선택된 메뉴 강조 (.active) */
+.sidebar-link.active {
+  background-color: #f8fbfd;
+  color: #003a8c;
+  font-weight: 700;
+}
+
+/* 선택된 메뉴 우측에 화살표 */
+.sidebar-link.active::after {
+  content: '>';
+  position: absolute;
+  right: 18px;
+  color: #003a8c;
+  font-size: 11px;
+}
+
+/* --- 우측 본문 영역 --- */
+.sub-content-right {
+  flex: 1; 
+  min-width: 0; 
+}
+
+.content-header {
+  /* 🚀 타이틀 아래 여백 대폭 축소 (40px -> 25px) */
+  margin-bottom: 25px; 
+  border-bottom: 2px solid #222;
+  
+  /* 🚀 타이틀과 선 사이 간격 축소 (15px -> 10px) */
+  padding-bottom: 10px; 
+}
+
+.content-title {
+  /* 🚀 본문 타이틀 크기 축소 (32px -> 28px) */
+  font-size: 28px; 
+  font-weight: 700;
+  color: #222;
+  margin: 0;
+}
+
+/* 🚀 추가된 Breadcrumb 링크 스타일 */
+.breadcrumb-link {
+  text-decoration: none;
+  color: #666;
+  transition: color 0.2s;
+}
+
+.breadcrumb-link:hover {
+  color: #003a8c;
+  text-decoration: underline; /* 마우스 올리면 클릭할 수 있다는 표시로 밑줄 */
+}
+
+.breadcrumb-link.current-sub {
+  color: #003a8c;
+  font-weight: 600;
+}
+
+/* ===================================== */
+/* 모바일 반응형 (여백 최적화)           */
+/* ===================================== */
+@media (max-width: 1024px) {
+  .sub-layout-split {
+    gap: 20px;
+  }
+  
+  /* 🚀 모바일 배너 높이 더 축소 (200px -> 150px) */
+  .sub-visual {
+    height: 150px; 
+  }
+  .visual-title {
+    font-size: 28px;
+  }
+  
+  .content-title { font-size: 24px; }
+  
+  /* 🚀 모바일 콘텐츠 상하단 패딩 더 축소 (상40,하60 -> 상25,하40) */
+  .sub-content-area { 
+    padding: 25px 15px 40px 15px; 
+  }
+}

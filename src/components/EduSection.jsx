@@ -63,7 +63,15 @@ const EduSection = () => {
               <SwiperSlide key={edu.id}>
                 <div className="edu-card">
                   <div className="edu-card-img-box">
-                    <img src={edu.imgUrl} alt={edu.title} className="edu-card-img" />
+                    
+                    {/* 🚀 기존 img 태그를 지우고 div 배경 이미지 방식으로 교체! */}
+                    <div 
+                      className="edu-card-img" 
+                      style={{ backgroundImage: `url("${edu.imgUrl}")` }}
+                      role="img"
+                      aria-label={edu.title}
+                    />
+                    
                     <div className={`edu-badge ${edu.isRecruiting ? 'active' : 'closed'} ${edu.status === '마감임박' ? 'warning' : ''}`}>
                       {edu.status}
                     </div>

@@ -1,7 +1,7 @@
 .kosa-footer {
   width: 100%;
   border-top: 1px solid #ddd;
-  background-color: #343a40; /* 차분한 다크 그레이 */
+  background-color: #343a40; 
   color: #adb5bd;
 }
 
@@ -10,11 +10,21 @@
   padding: 15px 0;
 }
 
+.footer-top-layout {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
 .footer-policy {
   list-style: none;
   display: flex;
   gap: 30px;
-  flex-wrap: wrap; /* 모바일에서 줄바꿈 되도록 설정 */
+  flex-wrap: wrap; 
+  margin: 0;
+  padding: 0;
 }
 
 .footer-policy a {
@@ -28,22 +38,65 @@
   font-weight: bold;
 }
 
+.footer-sns {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.sns-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 🚀 새롭게 추가된 SNS 이미지 전용 스타일 */
+.sns-img {
+  width: 26px;  /* 이미지 가로 크기 */
+  height: 26px; /* 이미지 세로 크기 */
+  border-radius: 50%; /* meta.jpg 같은 네모 이미지를 동그랗게 깎아줌 */
+  object-fit: cover;
+  opacity: 0.7; /* 기본적으로 살짝 어둡게 (다크테마 어울림) */
+  transition: all 0.2s ease;
+}
+
+.sns-icon:hover .sns-img {
+  opacity: 1; /* 마우스 올리면 선명해짐 */
+  transform: translateY(-2px); /* 살짝 뜸 */
+}
+
 .footer-bottom {
-  padding: 30px 0;
+  padding: 30px 0 40px 0;
 }
 
 .footer-bottom-layout {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  gap: 20px;
-  flex-wrap: wrap; /* 모바일에서 아래로 떨어지도록 설정 */
+  align-items: flex-start;
+  gap: 40px;
+  flex-wrap: wrap; 
 }
 
-.footer-logo .logo-text {
-  font-size: 32px;
-  font-weight: 800;
-  color: #6c757d;
+.footer-logo {
+  flex-shrink: 0; 
+}
+
+.footer-logo-img {
+  height: 60px;
+  width: auto;
+  object-fit: contain;
+  filter: grayscale(80%) brightness(100%);
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+
+.footer-logo-img:hover {
+  opacity: 1;
+}
+
+.footer-info {
+  flex: 1; 
+  min-width: 0;
 }
 
 .footer-info address {
@@ -52,56 +105,81 @@
   line-height: 1.6;
 }
 
+.footer-info address p {
+  margin: 0 0 5px 0; 
+}
+
 .footer-info .divider {
   margin: 0 10px;
   color: #6c757d;
 }
 
 .copyright {
-  margin-top: 10px;
+  margin: 10px 0 0 0; 
   font-size: 13px;
   color: #868e96;
 }
 
-.family-site {
-  display: flex;
-  gap: 5px;
-}
+/* ========================================= */
+/* 🚀 Footer 모바일 반응형 (여백 대폭 축소) */
+/* ========================================= */
+@media (max-width: 812px) {
+  .footer-top-layout {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;    
+    gap: 15px; /* 상단 간격 축소 */
+  }
 
-.family-site select {
-  padding: 8px 10px;
-  background-color: #495057;
-  color: #fff;
-  border: 1px solid #6c757d;
-  outline: none;
-}
+  .footer-policy {
+    justify-content: center;
+    gap: 10px 15px; /* 약관 사이 간격 축소 */
+  }
+  
+  .footer-policy a {
+    font-size: 12px;
+  }
 
-.family-site .family-btn {
-  padding: 8px 15px;
-  background-color: #6c757d;
-  color: #fff;
-  border: none;
-  cursor: pointer;
-}
+  /* 🚀 하단 전체 패딩(위아래 공간) 축소 */
+  .footer-bottom {
+    padding: 20px 0 25px 0; /* 기존 30px, 40px에서 확 줄임! */
+  }
 
-/* --- Footer 모바일 반응형 --- */
-@media (max-width: 768px) {
+  /* 🚀 로고와 주소 사이의 빈 공간(gap) 축소 */
   .footer-bottom-layout {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center; 
+    gap: 15px; /* 기존 40px에서 15px로 대폭 줄여 로고를 텍스트에 밀착! */
   }
+  
+  .footer-logo-img {
+    height: 40px; /* 로고 이미지 크기도 모바일에 맞게 축소 */
+  }
+
+  .footer-info {
+    width: 100%;
+    text-align: center;
+  }
+
+  .footer-info address {
+    font-size: 12px; 
+  }
+
   .footer-info .divider {
-    display: none; /* 모바일에서는 가로줄 숨기고 줄바꿈 */
+    display: none; 
   }
-  .footer-info p {
+  
+  .footer-info address p {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 8px;
   }
-  .family-site {
-    margin-top: 20px;
-    width: 100%;
-  }
-  .family-site select {
-    flex-grow: 1; /* 셀렉트박스가 모바일 화면 꽉 차게 */
+  
+  .copyright {
+    font-size: 11px; 
+    text-align: center;
+    margin-top: 10px;
   }
 }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import cccrLogo from '../assets/cccr-logo.png'; 
 import kakaoIcon from '../assets/kakao-icon.png';
@@ -93,8 +93,27 @@ const Header = () => {
     setOpenMenuIndex(openMenuIndex === index ? null : index);
   };
 
+  // 스크롤 내리면 흰색으로 바뀌게 함
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      // 스크롤이 50px 이상 내려가면 true, 아니면 false
+      if (window.scrollY > 50) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll); // 컴포넌트가 꺼질 때 정리
+    };
+  }, []);
+
   return (
-    <header className="kosa-header">
+    <header className={`kosa-header ${isScrolled ? 'scrolled' : ''}`}>
       {/* 상단 유틸리티 메뉴 */}
       <div className="header-utility">
         <div className="inner-container">
@@ -140,11 +159,11 @@ const Header = () => {
             <ul>
               {menuData.map((menu, index) => (
                 <li key={index} className="gnb-item">
-                  <a href="#none">{menu.title}</a>
+                  {/* 🚀 a 태그를 Link로 변경하고, 첫 번째 서브메뉴의 path를 연결합니다. */}
+                  <Link to={menu.subMenus[0].path}>{menu.title}</Link>
                   <ul className="submenu">
                     {menu.subMenus.map((sub, subIndex) => (
                       <li key={subIndex}>
-                        {/* 🚀 a 태그 대신 Link 태그 사용! 새로고침 없이 부드럽게 이동합니다. */}
                         <Link to={sub.path}>{sub.name}</Link>
                       </li>
                     ))}
@@ -203,21 +222,29 @@ const Header = () => {
             <li key={index} className="sidebar-item">
               <div 
                 className="sidebar-title" 
-                /* 🚀 1. toggleAccordion -> toggleSubMenu 로 수정 */
                 onClick={() => toggleSubMenu(index)}
               >
-                {menu.title}
-                {/* 🚀 2. activeAccordion -> openMenuIndex 로 수정 */}
+                {/* 🚀 div 내부에 텍스트 대신 Link 컴포넌트 사용 */}
+                <Link 
+                  to={menu.subMenus[0].path} 
+                  className="sidebar-title-link"
+                  onClick={(e) => {
+                    // e.stopPropagation(); // 필요에 따라 이벤트 전파 차단
+                    // 페이지 이동 시 사이드바를 닫고 싶다면 closeAll() 호출, 
+                    // 열어둔 채로 이동만 하려면 주석 처리
+                    // closeAll(); 
+                  }}
+                >
+                  {menu.title}
+                </Link>
                 <span className={`arrow ${openMenuIndex === index ? 'up' : 'down'}`}>
                   ▼
                 </span>
               </div>
               
-              {/* 🚀 3. activeAccordion -> openMenuIndex 로 수정 */}
               <ul className={`sidebar-submenu ${openMenuIndex === index ? 'open' : ''}`}>
                 {menu.subMenus.map((sub, subIndex) => (
                   <li key={subIndex}>
-                    {/* 🚀 4. closeSidebar -> closeAll 로 수정 */}
                     <Link to={sub.path} onClick={closeAll}>
                       {sub.name}
                     </Link>

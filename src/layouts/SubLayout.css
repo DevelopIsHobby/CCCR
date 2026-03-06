@@ -4,27 +4,21 @@
 }
 
 /* ===================================== */
-/* 1. 서브 비주얼 (배너 이미지 & 축소)      */
+/* 1. 서브 비주얼 (배너 이미지)          */
 /* ===================================== */
 .sub-visual {
   position: relative;
   width: 100%;
-  
-  /* 🚀 높이를 기존의 80% 수준으로 축소 (260px -> 210px) */
   height: 210px; 
-  
-  /* JSX에서 지정한 이미지를 완벽하게 배경으로 세팅 */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-    
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
 }
 
-/* 🚀 이미지 위에 씌우는 어두운 파란색 레이어 (가독성 & 분위기 통일) */
 .sub-visual::after {
   content: "";
   position: absolute;
@@ -33,12 +27,11 @@
   z-index: 1;
 }
 
-/* 배너 텍스트 래퍼 */
 .sub-visual-content {
   position: relative;
   text-align: center;
   color: #ffffff;
-  z-index: 2; /* 오버레이보다 위로 올림 */
+  z-index: 2; 
   animation: fadeUp 0.6s ease-out;
 }
 
@@ -48,17 +41,13 @@
 }
 
 .visual-title {
-  /* 🚀 타이틀 크기를 미세하게 줄여 콤팩트하게 조절 */
   font-size: 38px; 
   font-weight: 700;
-  
-  /* 🚀 타이틀과 아래 설명 사이 여백 축소 (15px -> 8px) */
   margin: 0 0 8px 0; 
   letter-spacing: -1px;
 }
 
 .visual-desc {
-  /* 🚀 설명 글자 크기 축소 (16px -> 15px) */
   font-size: 15px;
   color: rgba(255, 255, 255, 0.85);
   margin: 0;
@@ -71,95 +60,210 @@
 .sub-breadcrumb {
   width: 100%;
   border-bottom: 1px solid #e0e0e0;
-  background-color: #f8f9fa;
+  background-color: #f1f3f6; 
 }
 
+/* 전체 영역 너비 */
 .breadcrumb-inner {
-  max-width: 1280px; 
+  max-width: 1440px; 
   margin: 0 auto;
   display: flex;
+  flex-wrap: nowrap !important; 
   align-items: center;
-  /* 🚀 네비바 높이를 살짝 축소 (56px -> 48px) */
+  /* 내비게이션 높이 */
   height: 48px; 
 }
 
 .home-btn {
-  /* 🚀 좌우 패딩 축소 (20px -> 15px) */
-  padding: 0 15px; 
+  /* 내비게이션 패딩 */
+  padding: 0 20px; 
   border-right: 1px solid #e0e0e0;
   border-left: 1px solid #e0e0e0;
   height: 100%;
   display: flex;
   align-items: center;
   color: #555;
-  font-size: 14px;
+  /* 홈 버튼 크기 */
+  font-size: 16px;
+  flex-shrink: 0;
 }
 
 .breadcrumb-item {
-  /* 🚀 좌우 패딩 대폭 축소 (30px -> 18px) */
-  padding: 0 18px; 
+  /* 내비게이션 패딩 */
+  padding: 0 24px; 
   height: 100%;
   display: flex;
   align-items: center;
   border-right: 1px solid #e0e0e0;
-  font-size: 13px; /* 글자 크기 살짝 축소 */
-  color: #666;
   position: relative;
+  /* 내비게이션 너비 */
+  min-width: 180px;   
+  flex-shrink: 1; 
 }
 
-.breadcrumb-item::before {
-  content: '>';
-  position: absolute;
-  /* 🚀 화살표 위치 미세 조정 */
-  left: 6px; 
-  color: #ccc;
-  font-size: 11px;
+
+/* --- 드롭다운 버튼 세련되게 (투명 링크 스타일) --- */
+.breadcrumb-drop-btn {
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  /* 내비게이션 글자 사이즈 */
+  font-size: 16px;
+  font-weight: 600;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  font-family: inherit;
+  outline: none;
+  min-width: 0;
 }
 
-.breadcrumb-item .current-sub {
+.breadcrumb-drop-btn .text-truncate {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap; 
+  text-overflow: clip; /* ... 없이 깔끔하게 잘리게 */
+}
+
+.breadcrumb-drop-btn .current-sub {
   color: #003a8c;
   font-weight: 600;
 }
 
+.breadcrumb-drop-btn .drop-icon {
+  margin-left: 8px; 
+  /* 내비게이션 햄버거 크기 */
+  font-size: 15px;
+  color: #888;
+  flex-shrink: 0; /* 아이콘은 줄어들지 않음 */
+}
+
+/* --- 드롭다운 리스트 --- */
+.breadcrumb-drop-list {
+  position: absolute;
+  top: 48px; /* 경로바 높이 바로 아래에 안착 */
+  left: -1px; /* 왼쪽 테두리 선에 완벽하게 맞춤 */
+  min-width: 229px; /* 너무 좁지 않게 최소 너비 보장 */
+  background-color: #ffffff;
+  
+  /* ❌ 투박한 검은색 선(#222)을 지우고, 경로바와 동일한 부드러운 선(#e0e0e0)으로 변경 */
+  border: 1px solid #e0e0e0; 
+  border-top: none; /* 위쪽 선을 없애서 경로바와 한 몸처럼 연결되게 만듭니다 */
+  
+  /* 🚀 아래쪽 모서리만 살짝 둥글게 처리하여 현대적인 느낌 부여 */
+  border-radius: 0 0 8px 8px; 
+  
+  padding: 0;
+  margin: 0;
+  z-index: 100;
+  
+  /* 그림자를 더 넓고 부드럽게 퍼뜨려서 붕 떠있는 느낌을 줍니다 */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08); 
+  
+  overflow: hidden; /* 둥근 모서리 바깥으로 삐져나가는 색상 방지 */
+  
+  /* 🚀 스르륵 나타나는 애니메이션 추가! */
+  animation: slideDownFade 0.25s ease-out forwards; 
+  transform-origin: top center; /* 위쪽을 기준으로 열림 */
+}
+
+
+/* 드롭다운이 열릴 때의 애니메이션 키프레임 */
+@keyframes slideDownFade {
+  from {
+    opacity: 0;
+    transform: translateY(-10px); /* 위에서 아래로 살짝 내려옴 */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.breadcrumb-drop-list li {
+  list-style: none !important;
+}
+
+/* 드롭다운 메뉴 글자 */
+.breadcrumb-drop-list li a {
+  display: block;
+  padding: 14px 20px;
+  color: #555;
+  text-decoration: none;
+  font-size: 14px;
+  border-bottom: 1px solid #f5f5f5; /* 아주 연한 구분선 */
+  transition: all 0.2s ease;
+  text-align: left;
+}
+
+/* 마지막 항목은 아래쪽 선 제거 */
+.breadcrumb-drop-list li:last-child a {
+  border-bottom: none; 
+}
+
+/* 🚀 마우스를 올렸을 때의 고급스러운 호버 모션 */
+.breadcrumb-drop-list li a:hover {
+  background-color: #f8fbfd; /* 아주 연한 파란색 배경 */
+  color: #003a8c;
+  font-weight: 600;
+  
+  /* 글자가 오른쪽으로 살짝 밀려나는(Indent) 효과 추가! */
+  padding-left: 26px; 
+}
+
+/* 데이터가 없을 때의 빈 칸 스타일 */
+.empty-drop-item {
+  padding: 16px 20px;
+  font-size: 13px;
+  color: #999;
+  text-align: center;
+  background-color: #fafafa;
+}
+
+
 /* ===================================== */
-/* 3. 콘텐츠 영역 (여백 대폭 축소)       */
+/* 3. 메인 콘텐츠 영역                   */
 /* ===================================== */
 .sub-content-area {
-  /* 🚀 상하단 패딩 대폭 축소 (상60,하100 -> 상40,하60) */
   padding: 40px 20px 60px 20px; 
 }
 
+/* 전체 메인 영역 너비 */
 .sub-layout-split {
-  max-width: 1280px;
+  max-width: 1440px;
   margin: 0 auto;
   display: flex;
-  /* 🚀 좌측 메뉴와 본문 사이 간격 축소 (50px -> 30px) */
   gap: 30px; 
   align-items: flex-start;
 }
 
 /* --- 좌측 LNB (사이드바) --- */
 .sub-sidebar {
-  width: 220px; /* 🚀 너비를 미세하게 축소 (240px -> 220px) */
+  /* 사이드바 너비 */
+  width: 260px; 
   flex-shrink: 0; 
+  height: auto; 
 }
 
+/* 사이드바 타이틀 */
 .sidebar-main-title {
   background-color: #003a8c;
   color: #ffffff;
-  font-size: 20px; /* 글자 크기 살짝 축소 */
-  font-weight: 700;
+  font-size: 24px; 
+  font-weight: 500;
   margin: 0;
-  
-  /* 🚀 타이틀 내부 패딩 축소 (상하24 -> 18) */
-  padding: 18px 20px; 
+  padding: 26px 20px; 
   text-align: center;
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
 }
 
 .sidebar-menu-list {
-  list-style: none;
+  list-style: none !important; 
   margin: 0;
   padding: 0;
   border-left: 1px solid #e0e0e0;
@@ -167,36 +271,95 @@
   border-bottom: 1px solid #e0e0e0;
   border-bottom-left-radius: 6px;
   border-bottom-right-radius: 6px;
-  overflow: hidden;
+}
+
+.sidebar-menu-list li {
+  list-style: none !important; 
 }
 
 .sidebar-link {
   display: block;
-  /* 🚀 링크 상하 패딩 축소 (16px -> 12px) */
-  padding: 12px 20px; 
+  /* 🚀 2. 오른쪽 패딩(50px)을 넉넉히 줘서 글자가 + 버튼 밑으로 안 들어가게 막습니다 */
+  padding: 16px 60px 16px 24px; 
   color: #444;
   text-decoration: none;
-  font-size: 14px; /* 글자 크기 축소 */
-  font-weight: 500;
+  /* 사이드바 글자 크기 */
+  font-size: 18px; 
+  font-weight: 400;
   border-bottom: 1px solid #f0f0f0;
-  position: relative;
   transition: all 0.2s;
 }
 
-/* 현재 선택된 메뉴 강조 (.active) */
+/* 🚀 1. 버튼을 오른쪽에 띄우기 위해 li에 relative 속성 추가 */
+.sidebar-item-wrap {
+  position: relative;
+}
+
 .sidebar-link.active {
   background-color: #f8fbfd;
   color: #003a8c;
   font-weight: 700;
 }
 
-/* 선택된 메뉴 우측에 화살표 */
-.sidebar-link.active::after {
-  content: '>';
+/* 🚀 2. 새로 만든 독립적인 + / - 토글 버튼 스타일 */
+.sidebar-toggle-btn {
   position: absolute;
-  right: 18px;
+  top: 0;
+  right: 0;
+  width: 50px;  /* 터치하기 좋은 너비 */
+  height: 53px; /* 글자 박스 높이와 일치시킴 */
+  background: transparent;
+  border: none;
+  /* 더보기 버튼 크기 */
+  font-size: 26px; /* 기호가 잘 보이게 큼직하게 */
+  color: #888;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+}
+
+.sidebar-toggle-btn:hover {
   color: #003a8c;
-  font-size: 11px;
+  font-weight: bold;
+}
+
+/* 🚀 3뎁스(세부사업) 하위 메뉴 디자인 */
+.sidebar-depth3 {
+  list-style: none !important;
+  margin: 0;
+  padding: 10px 0;
+  background-color: #fdfdfd;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.sidebar-depth3 li {
+  list-style: none !important;
+}
+
+/* 하위 메뉴 글자 크기 조정 */
+.sidebar-depth3 a {
+  display: block;
+  padding: 10px 20px 10px 34px; /* 안쪽으로 살짝 들여쓰기 */
+  font-size: 14px;
+  color: #666;
+  text-decoration: none;
+  position: relative;
+}
+
+/* 하위 메뉴 앞에 작은 불릿 기호(-) 추가 */
+.sidebar-depth3 a::before {
+  content: '-';
+  position: absolute;
+  /* 불릿 기호 위치 */
+  left: 22px;
+  color: #ccc;
+}
+
+.sidebar-depth3 a:hover {
+  color: #003a8c;
+  font-weight: 600;
 }
 
 /* --- 우측 본문 영역 --- */
@@ -206,59 +369,179 @@
 }
 
 .content-header {
-  /* 🚀 타이틀 아래 여백 대폭 축소 (40px -> 25px) */
   margin-bottom: 25px; 
   border-bottom: 2px solid #222;
-  
-  /* 🚀 타이틀과 선 사이 간격 축소 (15px -> 10px) */
   padding-bottom: 10px; 
 }
 
 .content-title {
-  /* 🚀 본문 타이틀 크기 축소 (32px -> 28px) */
-  font-size: 28px; 
+  font-size: 32px; 
   font-weight: 700;
   color: #222;
   margin: 0;
 }
 
-/* 🚀 추가된 Breadcrumb 링크 스타일 */
-.breadcrumb-link {
-  text-decoration: none;
-  color: #666;
-  transition: color 0.2s;
-}
-
-.breadcrumb-link:hover {
-  color: #003a8c;
-  text-decoration: underline; /* 마우스 올리면 클릭할 수 있다는 표시로 밑줄 */
-}
-
-.breadcrumb-link.current-sub {
-  color: #003a8c;
-  font-weight: 600;
-}
-
 /* ===================================== */
-/* 모바일 반응형 (여백 최적화)           */
+/* 모바일 반응형                         */
 /* ===================================== */
+
+/* 태블릿 (1024px 이하) */
 @media (max-width: 1024px) {
+  .sub-layout-split { gap: 20px; }
+  .sub-visual { height: 160px; }
+  .visual-title { font-size: 32px; }
+  .content-title { font-size: 26px; }
+  .sub-sidebar { width: 200px; } 
+
+  /* 👇 경로바 유연하게 찌그러지도록 처리 */
+  .breadcrumb-item {
+    min-width: 0; /* 200px 고정 해제! */
+    flex: 1;      /* 남은 공간을 알맞게 나눠 가짐 */
+    padding: 0 15px; /* 양옆 패딩 살짝 축소 */
+  }
+  
+  /* 👇 글자가 길어서 칸을 넘어가면 ... 처리 */
+  .breadcrumb-drop-btn .text-truncate {
+    text-overflow: ellipsis; 
+  }
+}
+
+/* 모바일 (812px 이하) - 가로 스와이프 탭 메뉴 */
+@media (max-width: 812px) {
   .sub-layout-split {
-    gap: 20px;
+    flex-direction: column; 
+    gap: 0;
   }
+
+  /* 👇 모바일에서 경로바 텍스트 및 패딩 더 작게 조절 */
+  .breadcrumb-inner { height: 48px; }
+  .home-btn { padding: 0 12px; font-size: 14px; }
+  .breadcrumb-item { padding: 0 10px; }
+  .breadcrumb-drop-btn { font-size: 14px; }
+  .breadcrumb-drop-btn .drop-icon { margin-left: 4px; }
   
-  /* 🚀 모바일 배너 높이 더 축소 (200px -> 150px) */
-  .sub-visual {
-    height: 150px; 
-  }
-  .visual-title {
-    font-size: 28px;
-  }
-  
+  .sub-visual { height: 140px; }
+  .visual-title { font-size: 28px; margin-bottom: 5px; }
+  .visual-desc { font-size: 13px; padding: 0 15px; }
   .content-title { font-size: 24px; }
   
-  /* 🚀 모바일 콘텐츠 상하단 패딩 더 축소 (상40,하60 -> 상25,하40) */
   .sub-content-area { 
-    padding: 25px 15px 40px 15px; 
+    padding: 0 15px 40px 15px; 
+  }
+
+  .sub-sidebar {
+    width: calc(100% + 30px); 
+    margin: 0 -15px 30px -15px; 
+    flex-shrink: 1;
+  }
+
+  .sidebar-main-title {
+    display: none; 
+  }
+
+  .sidebar-menu-list {
+    display: flex;
+    flex-wrap: nowrap; 
+    width: 100%; 
+    overflow-x: auto; 
+    -webkit-overflow-scrolling: touch; 
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    border-top: 1px solid #e0e0e0;
+    border-bottom: 1px solid #e0e0e0;
+    background-color: #ffffff; 
+  }
+
+  .sidebar-menu-list::-webkit-scrollbar {
+    display: none; 
+  }
+
+  .sidebar-menu-list li {
+    flex-grow: 1;    
+    flex-shrink: 0;  
+    flex-basis: 0;   
+    min-width: max-content; 
+  }
+
+  .sidebar-link {
+    display: flex;               
+    justify-content: center;     
+    align-items: center;         
+    box-sizing: border-box;      
+    width: 100%; 
+    padding: 14px 10px;
+    font-size: 15px;
+    color: #666;
+    border-bottom: 2px solid transparent; 
+    white-space: nowrap; 
+    border-right: 1px solid #e0e0e0; 
+  }
+
+  .sidebar-menu-list li:last-child .sidebar-link {
+    border-right: none;
+  }
+
+  .sidebar-link.active {
+    background-color: #ffffff;
+    color: #003a8c;
+    border-bottom: 2px solid #003a8c; 
+  }
+
+  .sidebar-toggle-btn,
+  .sidebar-depth3 {
+    display: none !important;
+  }
+}
+
+/* 초소형 모바일 (500px 이하) - 2x3 바둑판 배열 */
+@media (max-width: 500px) {
+  .sidebar-menu-list {
+    flex-wrap: wrap;       
+    overflow-x: hidden;    
+  }
+
+  .sidebar-menu-list li {
+    flex: 0 0 50%; 
+    max-width: 50%;
+    min-width: auto;       
+  }
+
+  /* 🚀 1. 메뉴가 홀수 개(5개 등)일 때, 마지막 메뉴를 두 칸(100%)으로 쫙 늘려줍니다! */
+  .sidebar-menu-list li:last-child:nth-child(odd) {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+
+  .sidebar-link {
+    font-size: 14px;       
+    padding: 12px 10px;    
+    border-bottom: 1px solid #e0e0e0; 
+    
+    /* 🚀 2. 글자가 위로 쏠리지 않도록 높이를 100%로 주고 완벽하게 중앙 정렬! */
+    height: 100%; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .sidebar-menu-list li:nth-child(odd) .sidebar-link {
+    border-right: 1px solid #e0e0e0;
+  }
+
+  .sidebar-menu-list li:nth-child(even) .sidebar-link {
+    border-right: none;
+  }
+
+  /* 🚀 3. 아래쪽 테두리 선(보더)도 홀수/짝수 상황에 맞춰 깔끔하게 떨어지도록 개선 */
+  .sidebar-menu-list li:last-child .sidebar-link {
+    border-bottom: none; /* 무조건 맨 마지막 요소는 밑줄 제거 */
+  }
+  .sidebar-menu-list li:nth-last-child(2):nth-child(odd) .sidebar-link {
+    border-bottom: none; /* 메뉴가 짝수 개일 때 밑에서 두 번째 요소도 밑줄 제거 */
+  }
+
+  .sidebar-link.active {
+    border-bottom: 2px solid #003a8c; 
   }
 }

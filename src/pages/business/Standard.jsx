@@ -1,7 +1,7 @@
 // src/pages/business/Standard.jsx
 import React from 'react';
 import SubLayout from '../../layouts/SubLayout';
-import './Business.css'; // 🚀 아까 만든 R&D 페이지와 완벽하게 동일한 CSS를 공유합니다!
+import './Business.css'; 
 
 const Standard = () => {
   return (

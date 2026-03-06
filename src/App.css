@@ -1,10 +1,14 @@
-/* 두 컴포넌트를 감싸는 최상위 배경 섹션 */
 .hero-and-quick-section {
   width: 100%;
-  /* CCCR 스타일의 배경색 (원하시는 색으로 변경 가능) */
-  background-color: #001f4d;
-  /* 위아래 여백을 주어 배경이 컴포넌트를 품고 있는 느낌을 줍니다 */
-  padding: 40px 0; 
+  
+  /* 🚀 1. 단색 배경을 지우고 외부 이미지 URL을 넣습니다 */
+  background-image: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2000&auto=format&fit=crop'); /* 원하는 멋진 IT/클라우드 배경으로 바꿔주세요! */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  
+  /* 🚀 2. 헤더가 fixed로 공중에 떴기 때문에, 헤더 높이(약 80px)만큼 위쪽 패딩을 넉넉히 주어 내용이 헤더에 가려지지 않게 합니다. */
+  padding: 120px 0 60px 0; /* 위 120px, 아래 60px */
 }
 
 /* --- 와이드형: 메인 배너 & 퀵메뉴 통합 레이아웃 --- */

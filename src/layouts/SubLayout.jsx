@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './SubLayout.css';
 
-// 🚀 Header에서 세팅했던 '주소가 포함된 메뉴 데이터'를 똑같이 가져옵니다.
+// 1. 메뉴 데이터 세팅
 const menuData = [
   {
     title: '주요사업',
@@ -67,24 +67,46 @@ const categoryDesc = {
   조합안내: "대한민국 클라우드 컴퓨팅 산업의 발전을 이끄는 CCCR을 소개합니다."
 };
 
+// ==========================================
+// 🚀 컴포넌트 시작 (Hook은 무조건 이 안쪽에 있어야 합니다!)
+// ==========================================
 const SubLayout = ({ mainCategory, subCategory, children }) => {
-  // 🚀 1. 현재 메인 카테고리(예: '주요사업')의 데이터를 통째로 찾습니다.
+  
+  // 데이터 찾기
   const currentMain = menuData.find(menu => menu.title === mainCategory);
   const currentSubMenus = currentMain ? currentMain.subMenus : [];
   const currentDesc = categoryDesc[mainCategory] || "";
-
-  // 🚀 2. 현재 서브 카테고리(예: '표준화')의 데이터를 찾습니다.
-  const currentSub = currentSubMenus.find(sub => sub.name === subCategory);
   
-  // 🚀 3. 사용자가 경로(Breadcrumb)에서 '주요사업'을 누르면 어디로 보낼까요? (일단 첫 번째 메뉴인 연구개발로 보냅니다)
   const mainLink = currentSubMenus.length > 0 ? currentSubMenus[0].path : '/';
-  
   const bgImageUrl = "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1600&auto=format&fit=crop";
+
+  // 🚀 1. 경로바 드롭다운 State
+  const [openDropdown, setOpenDropdown] = useState(null); 
+
+  const toggleDropdown = (type) => {
+    setOpenDropdown(openDropdown === type ? null : type);
+  };
+
+  // 🚀 2. 좌측 사이드바 아코디언(+/-) State
+  const [expandedSidebar, setExpandedSidebar] = useState(null);
+
+  const toggleSidebar = (menuName, e) => {
+    e.preventDefault(); 
+    setExpandedSidebar(expandedSidebar === menuName ? null : menuName);
+  };
+  
+  // 🚀 1. 연구개발의 세부 사업(3뎁스) 데이터 (연구개발 페이지일 때만 나오게 설정)
+  const thirdDepthItems = subCategory === '연구개발' 
+    ? [
+        { name: '엣지AI/GPU 등 (준비중)', path: '#none' },
+        { name: '기타 세부사업 (준비중)', path: '#none' }
+      ]
+    : [];
 
   return (
     <div className="sub-layout-wrapper">
       
-      {/* 1. 서브 비주얼 배너 */}
+      {/* 서브 비주얼 배너 */}
       <section className="sub-visual" style={{ backgroundImage: `url(${bgImageUrl})` }}>
         <div className="sub-visual-overlay"></div>
         <div className="sub-visual-content">
@@ -93,16 +115,51 @@ const SubLayout = ({ mainCategory, subCategory, children }) => {
         </div>
       </section>
 
-      {/* 2. 가로형 경로 네비게이션 (Breadcrumb) */}
+      {/* 2. 가로형 경로 네비게이션 */}
       <nav className="sub-breadcrumb">
         <div className="breadcrumb-inner">
-          {/* 🚀 텍스트 대신 이동 가능한 Link로 전부 교체했습니다! */}
           <Link to="/" className="home-btn" style={{textDecoration: 'none'}}>🏠</Link>
-          <div className="breadcrumb-item">
-            <Link to={mainLink} className="breadcrumb-link">{mainCategory}</Link>
+          
+          {/* --- [1뎁스] 주요사업 --- */}
+          <div className="breadcrumb-item has-dropdown">
+            <button className="breadcrumb-drop-btn" onClick={() => toggleDropdown('main')}>
+              <span className="text-truncate">{mainCategory}</span> 
+              <span className="drop-icon">☰</span>
+            </button>
+            {/* 🚀 1뎁스 클릭 시 -> 2뎁스(연구개발, 표준화 등) 메뉴가 내려옵니다! */}
+            {openDropdown === 'main' && (
+              <ul className="breadcrumb-drop-list">
+                {currentSubMenus.map((item, idx) => (
+                  <li key={idx}>
+                    <Link to={item.path} onClick={() => setOpenDropdown(null)}>
+                      {item.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
-          <div className="breadcrumb-item">
-            <Link to={currentSub?.path || '#'} className="breadcrumb-link current-sub">{subCategory}</Link>
+
+          {/* --- [2뎁스] 세부 메뉴 --- */}
+          <div className="breadcrumb-item has-dropdown">
+            <button className="breadcrumb-drop-btn" onClick={() => toggleDropdown('sub')}>
+              <span className="current-sub text-truncate">{subCategory}</span> 
+              <span className="drop-icon">☰</span>
+            </button>
+            {/* 🚀 2뎁스 클릭 시 -> 3뎁스(엣지AI/GPU 등) 메뉴가 내려옵니다! */}
+            {openDropdown === 'sub' && (
+              <ul className="breadcrumb-drop-list">
+                {thirdDepthItems.length > 0 ? (
+                  thirdDepthItems.map((item, idx) => (
+                    <li key={idx}>
+                      <Link to={item.path} onClick={() => setOpenDropdown(null)}>{item.name}</Link>
+                    </li>
+                  ))
+                ) : (
+                  <li className="empty-drop-item">등록된 세부 사업이 없습니다.</li>
+                )}
+              </ul>
+            )}
           </div>
         </div>
       </nav>
@@ -111,25 +168,43 @@ const SubLayout = ({ mainCategory, subCategory, children }) => {
       <main className="sub-content-area">
         <div className="content-inner sub-layout-split">
           
-          {/* 3-1. 좌측 LNB (사이드바) */}
+          {/* --- 좌측 LNB (사이드바) --- */}
           <aside className="sub-sidebar">
             <h2 className="sidebar-main-title">{mainCategory}</h2>
             <ul className="sidebar-menu-list">
               {currentSubMenus.map((menu, index) => (
-                <li key={index}>
-                  {/* 🚀 메뉴 클릭 시 해당 주소(menu.path)로 정확히 이동합니다! */}
+                <li key={index} className="sidebar-item-wrap">
+                  
+                  {/* 실제 페이지 이동 링크 (글자) */}
                   <Link 
                     to={menu.path} 
                     className={`sidebar-link ${menu.name === subCategory ? 'active' : ''}`}
                   >
                     {menu.name}
                   </Link>
+
+                  {/* 독립적으로 작동하는 + / - 아코디언 버튼 */}
+                  <button 
+                    className="sidebar-toggle-btn"
+                    onClick={(e) => toggleSidebar(menu.name, e)}
+                  >
+                    {expandedSidebar === menu.name ? '-' : '+'}
+                  </button>
+
+                  {/* 3뎁스 하위 메뉴 영역 */}
+                  {expandedSidebar === menu.name && (
+                    <ul className="sidebar-depth3">
+                      <li><Link to="#none">엣지AI/GPU 등 (준비중)</Link></li>
+                      <li><Link to="#none">기타 세부사업 (준비중)</Link></li>
+                    </ul>
+                  )}
+
                 </li>
               ))}
             </ul>
           </aside>
 
-          {/* 3-2. 우측 실제 본문 영역 */}
+          {/* --- 우측 실제 본문 영역 --- */}
           <div className="sub-content-right">
             <div className="content-header">
               <h3 className="content-title">{subCategory}</h3>

@@ -393,12 +393,7 @@
   .content-title { font-size: 26px; }
   .sub-sidebar { width: 200px; } 
 
-  /* 👇 경로바 유연하게 찌그러지도록 처리 */
-  .breadcrumb-item {
-    min-width: 0; /* 200px 고정 해제! */
-    flex: 1;      /* 남은 공간을 알맞게 나눠 가짐 */
-    padding: 0 15px; /* 양옆 패딩 살짝 축소 */
-  }
+
   
   /* 👇 글자가 길어서 칸을 넘어가면 ... 처리 */
   .breadcrumb-drop-btn .text-truncate {
@@ -411,6 +406,15 @@
   .sub-layout-split {
     flex-direction: column; 
     gap: 0;
+    width: 100%;             /* 🚀 부모도 100%로 꽉 잡아주기 추가! */
+    align-items: stretch !important;
+  }
+
+      /* 👇 경로바 유연하게 찌그러지도록 처리 */
+  .breadcrumb-item {
+    min-width: 0; /* 200px 고정 해제! */
+    flex: 1;      /* 남은 공간을 알맞게 나눠 가짐 */
+    padding: 0 15px; /* 양옆 패딩 살짝 축소 */
   }
 
   /* 👇 모바일에서 경로바 텍스트 및 패딩 더 작게 조절 */
@@ -427,6 +431,9 @@
   
   .sub-content-area { 
     padding: 0 15px 40px 15px; 
+    width: 100%;             /* 🚀 핵심! 너비 100% 강제 적용 */
+    box-sizing: border-box;  /* 🚀 패딩이 너비를 초과하지 않게 보호 */
+    flex: none;              /* 🚀 PC 버전의 flex 설정 해제 */
   }
 
   .sub-sidebar {
@@ -500,6 +507,7 @@
     flex-wrap: wrap;       
     overflow-x: hidden;    
   }
+
 
   .sidebar-menu-list li {
     flex: 0 0 50%; 

@@ -399,10 +399,34 @@
   }
   .board-main-title { font-size: 32px; }
 
-  
+  .more-btn {
+    font-size: 55px; 
+     margin-top: -8px; 
+  }
+
+  .category-tag {
+    font-size: 14px; /* 배지 형태일 때는 글씨를 살짝 줄이는 게 더 세련되어 보입니다 */
+    padding : 2px;
+  }
+
+  .tab-btn { 
+    padding: 6px 14px; 
+    font-size: 18px;
+    border-radius: 15px;
+    flex-shrink: 0; 
+  }
+
+  .board-title {
+    font-size: 18px;
+  } 
+
   /* 👈 1단으로 떨어질 때 알림판이 시원하게 보이도록 높이 대폭 증가 */
   .promo-carousel-container {
     min-height: 400px; 
+  }
+
+  .board-date {
+    font-size: 14px;
   }
 }
 
@@ -494,23 +518,68 @@
     font-size: 16px;
   } 
 
-  .board-date {
-    font-size: 12px;
-  }
   
   .board-title-group { margin-right: 10px; }
   .board-date { 
     /* align-self: flex-end; <-- 이것도 지우거나 아래처럼 바꿉니다 */
     align-self: center; 
-    font-size: 13px; 
+    font-size: 14px; 
     flex-shrink: 0; /* 👈 날짜는 공간이 좁아져도 절대 찌그러지거나 줄바꿈되지 않게 방어! */
+  }
+}
+@media (max-width: 550px) {
+  .board-date {
+    display: none; /* 화면이 600px 이하일 때 날짜를 완전히 숨깁니다 */
   }
 }
 
 /* 4. 400px 이하: 초소형 모바일 기기 대응 */
-@media (max-width: 400px) {
-  .board-main-title { font-size: 22px; }
-  .more-btn { font-size: 36px; top: 0; margin-top: -5px; }
+@media (max-width: 430px) {
+  .board-section-wrapper {padding-top: 20px; padding-bottom: 30px;}
+  /* 🚀 1. flex 충돌 방지! block으로 바꿔서 확실하게 위아래 층을 나눕니다 */
+  .board-header {
+    display: block; 
+    border-bottom: none; 
+    position: relative;  /* 더보기(+) 버튼의 기준점 */
+    padding-bottom: 0;
+  }
+  .board-grid-full {
+    gap : 20px;
+  }
+  .promo-header {
+    margin-bottom: 0px;
+  }
+  /* 🚀 2. 타이틀 (윗줄) */
+  .board-main-title { 
+    display: block;
+    width: 100%; 
+    font-size: 22px; 
+    border-bottom: 2px solid #222; /* 타이틀 아래 밑줄 쫙! */
+    padding-bottom: 10px;
+    margin-right: 0;
+  }
+
+  /* 🚀 3. 사라진 탭 영역 복구 (아랫줄) */
+  .board-controls {
+    flex: none; /* 🚨 범인 검거! 영역이 사라지던 원인 해제 */
+    display: flex;
+    width: 100%;
+    margin-top: 5px;
+    justify-content: flex-start; /* 탭 버튼들 왼쪽 정렬 */
+  }
+
+  /* 🚀 4. 더보기(+) 버튼 우측 상단 고정 */
+  .more-btn { 
+    position: absolute;
+    top: 0; 
+    right: 0;
+    font-size: 36px; 
+    margin-top: -2px; 
+  }
+
+  /* 기존 폰트/크기 설정 유지 */
+  .board-title { font-size: 14px; }
   .tab-btn { padding: 5px 12px; font-size: 13px; border-radius: 15px; }
-  .category-tag { min-width: 60px; font-size: 12px; padding: 3px 6px; }
+  .category-tag { min-width: 60px; font-size: 11px; padding: 2px 0px; }
+  .promo-title { font-size: 22px;}
 }

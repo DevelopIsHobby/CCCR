@@ -43,7 +43,8 @@
 /* 모바일 화면 반응형 */
 @media (max-width: 812px) {
   .hero-and-quick-section {
-    padding: 0; 
+    /* 헤더 높이(약 80px)만큼 띄우고, 좌우 아래는 0으로 설정 */
+    padding: 80px 0 0 0;
   }
 
   .hero-layout-full {
@@ -56,8 +57,8 @@
   .hero-left {
     /* 👇 1. 너비를 무조건 100%로 꽉 채우고, PC에서 쓰던 비율(flex: 7)을 해제합니다. */
     width: 100%;
-    flex: none; 
-    
+    flex: none;
+
     aspect-ratio: 16 / 9;
     display: flex;
     flex-direction: column;
@@ -73,5 +74,31 @@
 
   .board-section {
     width: 100%;
+  }
+}
+
+@media (max-width: 570px) {
+  .hero-and-quick-section {
+    /* 헤더 높이(약 80px)만큼 띄우고, 좌우 아래는 0으로 설정 */
+    padding: 60px 0 0 0;
+  }
+
+  .hero-layout-full {
+    flex-direction: column;
+    height: auto;
+    padding: 0; 
+    gap : 0;
+  }
+  
+  .hero-left {
+    /* 👇 1. 너비를 무조건 100%로 꽉 채우고, PC에서 쓰던 비율(flex: 7)을 해제합니다. */
+    width: 100%;
+    flex: none;
+
+    aspect-ratio: 4 / 3;
+    display: flex;
+    flex-direction: column;
+    border-radius: 0; 
+    box-shadow: none; 
   }
 }

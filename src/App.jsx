@@ -45,6 +45,10 @@ import Organization from './pages/about/Organization';
 import Location from './pages/about/Location';
 import Ci from './pages/about/Ci';
 
+// Auth
+import JoinCCCR from './pages/auth/Join'
+import Login from './pages/auth/Login'
+
 import './App.css';
 
 function App() {
@@ -92,6 +96,11 @@ function App() {
           <Route path="/about/organization" element={<Organization />} />
           <Route path="/about/location" element={<Location />} />
           <Route path="/about/ci" element={<Ci />} />
+        
+          {/* 👇 회원가입 및 로그인 */}
+          <Route path="/auth/joincccr" element={<JoinCCCR />} />
+          <Route path="/auth/login" element={<Login />} />
+          
         </Routes>
         
         <Footer />

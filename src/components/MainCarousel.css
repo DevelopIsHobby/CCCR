@@ -310,6 +310,7 @@
 }
 
 @media (max-width: 812px) {
+
   .slide-inner, .carousel-info-bar .inner-container {
     padding: 0 15px; /* 양옆 여백을 줄여서 공간 확보 */
   }
@@ -557,4 +558,39 @@
     font-size: 9px;
     padding: 2px;
   }
+
+  .slide-text-overlay {
+  position: absolute;
+  bottom: 12px; 
+  left: 10px;   
+  z-index: 2;   
+  text-align: left;
+}
+/* 👇 세로 선을 만들어주는 핵심 컨테이너 */
+.text-content-wrapper {
+  /* 왼쪽에 4px 두께의 하얀색 실선을 만듭니다. (색상/두께 조절 가능!) */
+  border-left: 3px solid #ffffff; 
+  padding-left: 16px; /* 선과 글자 사이의 간격 */
+  display: flex;
+  flex-direction: column;
+  gap: 8px; /* 1번째 줄과 2번째 줄 사이 간격 */
+}
+
+/* 첫 번째 줄: 또렷한 흰색 */
+.text-line-1 {
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.4;
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.4); 
+}
+
+/* 두 번째 줄: 투명한 회색 계열 */
+.text-line-2 {
+  color: rgba(255, 255, 255, 0.7); 
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.2;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
+}
 }

@@ -55,6 +55,14 @@ const menuData = [
       { name: '조직도', path: '/about/organization' },
       { name: '오시는길', path: '/about/location' },
       { name: 'CI', path: '/about/ci' }
+    ],
+  },
+  {
+    title: '멤버십', // 🚀 이 카테고리 이름을 SubLayout의 mainCategory로 쓸 겁니다!
+    subMenus: [
+      { name: '로그인', path: '/auth/login' },
+      { name: '회원가입', path: '/auth/joincccr' },
+      { name: '아이디/비밀번호 찾기', path: '#none' }
     ]
   }
 ];
@@ -184,19 +192,24 @@ const SubLayout = ({ mainCategory, subCategory, children }) => {
                   </Link>
 
                   {/* 독립적으로 작동하는 + / - 아코디언 버튼 */}
-                  <button 
-                    className="sidebar-toggle-btn"
-                    onClick={(e) => toggleSidebar(menu.name, e)}
-                  >
-                    {expandedSidebar === menu.name ? '-' : '+'}
-                  </button>
+                  {mainCategory !== '멤버십' && (
+                    <>
+                      {/* 독립적으로 작동하는 + / - 아코디언 버튼 */}
+                      <button 
+                        className="sidebar-toggle-btn"
+                        onClick={(e) => toggleSidebar(menu.name, e)}
+                      >
+                        {expandedSidebar === menu.name ? '-' : '+'}
+                      </button>
 
-                  {/* 3뎁스 하위 메뉴 영역 */}
-                  {expandedSidebar === menu.name && (
-                    <ul className="sidebar-depth3">
-                      <li><Link to="#none">엣지AI/GPU 등 (준비중)</Link></li>
-                      <li><Link to="#none">기타 세부사업 (준비중)</Link></li>
-                    </ul>
+                      {/* 3뎁스 하위 메뉴 영역 */}
+                      {expandedSidebar === menu.name && (
+                        <ul className="sidebar-depth3">
+                          <li><Link to="#none">엣지AI/GPU 등 (준비중)</Link></li>
+                          <li><Link to="#none">기타 세부사업 (준비중)</Link></li>
+                        </ul>
+                      )}
+                    </>
                   )}
 
                 </li>

@@ -256,6 +256,23 @@
     gap: 10px;
   }
 
+  .edu-main-title {
+    font-size: 32px; 
+    margin-bottom: 5px;
+  }
+  
+  .edu-main-desc {
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  .edu-more-btn {
+    font-size: 17px;
+    white-space: nowrap; /* 글자 줄바꿈 강제 방지 */
+    flex-shrink: 0; /* 공간이 부족해도 버튼 크기를 절대 줄이지 않음 */
+    margin-bottom: 5px; /* 타이틀과 밑단 선 맞추기 */
+  }
+
   .edu-grid-full {
     padding: 0 20px; 
   }
@@ -266,17 +283,18 @@
   }
   
   .edu-card-content {
-    padding: 16px; /* 내부 여백 축소 */
+    padding: 12px; /* 내부 여백 축소 */
   }
 
   .edu-card-title {
-    font-size: 16px; /* 제목 폰트 살짝 작게 */
-    height: 44px; /* 2줄 높이에 맞게 조절 */
+    font-size: 18px; /* 제목 폰트 살짝 작게 */
+    height: 50px; /* 2줄 높이에 맞게 조절 */
+    margin-top: 5px;
     margin-bottom: 12px;
   }
 
   .edu-card-info li {
-    font-size: 12px; /* 리스트 정보 폰트 축소 */
+    font-size: 14px; /* 리스트 정보 폰트 축소 */
     margin-bottom: 6px;
   }
 
@@ -354,4 +372,11 @@
     top: 10px;
     left: 10px;
   }
+}
+
+@media(max-width : 430px) {
+  .edu-header {margin-bottom : 8px; padding-top : 8px; display : block;}
+  .edu-main-title {font-size: 22px;}
+  .edu-main-desc {font-size: 12px;}
+  .edu-more-btn {font-size: 14px;}
 }

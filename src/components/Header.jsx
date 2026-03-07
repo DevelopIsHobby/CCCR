@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import cccrLogo from '../assets/cccr-logo.png'; 
 import kakaoIcon from '../assets/kakao-icon.png';
 import './Header.css';
@@ -62,6 +62,9 @@ const menuData = [
 ];
 
 const Header = () => {
+  const location = useLocation();
+  const isHome = location.pathname === '/'; // 메인 페이지인지 확인 (true/false)
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   
   // 검색 사이드바 상태 추가
@@ -113,8 +116,7 @@ const Header = () => {
   }, []);
 
   return (
-    <header className={`kosa-header ${isScrolled ? 'scrolled' : ''}`}>
-      {/* 상단 유틸리티 메뉴 */}
+    <header className={`kosa-header ${isHome ? (isScrolled ? 'scrolled' : '') : 'scrolled subpage-header'}`}> {/* 상단 유틸리티 메뉴 */}
       <div className="header-utility">
         <div className="inner-container">
           
@@ -136,9 +138,9 @@ const Header = () => {
 
           {/* 오른쪽: HOME 삭제 및 | 구분선 적용 */}
           <ul className="utility-links">
-            <li><a href="#login">로그인</a></li>
-            <li><a href="#join">회원가입</a></li>
-            <li><a href="#sitemap">아카데미</a></li>
+            <li><Link to="/auth/login">로그인</Link></li>
+            <li><Link to="/auth/joincccr">회원가입</Link></li>
+            <li><Link to="https://www.cccr-edu.or.kr/main/index.jsp">아카데미</Link></li>
           </ul>
           
         </div>
@@ -211,7 +213,10 @@ const Header = () => {
           <div className="sidebar-util">
             <span className="sidebar-cccr">cccrMenu</span>
             <div className="sidebar-auth">
-              <a href="#join">회원가입</a><span className="divider">/</span><a href="#login">로그인</a>
+              <Link to="/auth/joincccr" onClick={closeAll}>회원가입</Link>
+              <span className="divider">/</span>
+              {/* 👇 /auth/login 으로 수정 */}
+              <Link to="/auth/login" onClick={closeAll}>로그인</Link>
             </div>
           </div>
         </div>

@@ -95,20 +95,65 @@
 .contact-info span { font-size: 14px; color: #666; }
 .contact-detail { display: flex; gap: 20px; font-size: 15px; color: #333; font-weight: 500; }
 
-/* 5. 애니메이션 및 반응형 */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+
+/* ========================================= */
+/* 🚀 주요사업 인페이지 탭(Tab) 메뉴 스타일 */
+/* ========================================= */
+.biz-tab-menu {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  margin-bottom: 40px;
 }
 
-@media (max-width: 1024px) {
-  .biz-card-grid { grid-template-columns: repeat(2, 1fr); }
+.biz-tab-item {
+  flex: 1; /* 🚀 PC에서는 6개가 한 줄에 꽉 차게 배분 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 0;
+  font-size: 15px;
+  font-weight: 500;
+  color: #444;
+  background-color: #fff;
+  border: 1px solid #dcdcdc; /* KOSA 특유의 옅은 회색 테두리 */
+  
+  /* 🚀 핵심 스킬: 테두리가 두 줄로 겹치지 않도록 마이너스 마진으로 겹쳐버림 */
+  margin-left: -1px; 
+  margin-top: -1px; 
+  
+  text-decoration: none;
+  box-sizing: border-box;
+  position: relative;
+  transition: background-color 0.2s;
 }
 
-@media (max-width: 768px) {
-  .biz-card-grid { grid-template-columns: 1fr; }
-  .biz-intro-box { padding: 30px 20px; }
-  .biz-intro-box h4, .edu-intro-area h4 { font-size: 20px; }
-  .edu-contact-box { flex-direction: column; align-items: flex-start; gap: 16px; }
-  .contact-detail { flex-direction: column; gap: 8px; }
+.biz-tab-item:hover {
+  background-color: #f4f6f9;
+}
+
+/* 🚀 현재 선택된 탭 활성화 디자인 (KOSA 네이비 톤) */
+.biz-tab-item.active {
+  background-color: #1a2849; /* 묵직하고 신뢰감 있는 딥 네이비 */
+  color: #fff;
+  border-color: #1a2849;
+  font-weight: 600;
+  z-index: 1; /* 마이너스 마진 때문에 테두리가 가려지지 않게 맨 위로 끌어올림 */
+}
+
+/* 🚀 탭 메뉴 모바일 반응형 */
+@media (max-width: 812px) {
+  .biz-tab-item {
+    flex: 1 1 calc(100% / 3); /* 태블릿 사이즈에서는 한 줄에 3개씩 2줄로 배치 */
+    font-size: 14px;
+    padding: 14px 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .biz-tab-item {
+    flex: 1 1 calc(100% / 2); /* 모바일에서는 한 줄에 2개씩 3줄로 배치 */
+    font-size: 13px;
+    padding: 12px 0;
+  }
 }

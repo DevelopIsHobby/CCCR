@@ -104,12 +104,31 @@ const SubLayout = ({ mainCategory, subCategory, children }) => {
   };
   
   // 🚀 1. 연구개발의 세부 사업(3뎁스) 데이터 (연구개발 페이지일 때만 나오게 설정)
-  const thirdDepthItems = subCategory === '연구개발' 
-    ? [
-        { name: '엣지AI/GPU 등 (준비중)', path: '#none' },
-        { name: '기타 세부사업 (준비중)', path: '#none' }
-      ]
-    : [];
+  let thirdDepthItems = [];
+  
+  if (subCategory === '연구개발') {
+    thirdDepthItems = [
+      { name: '유연의료', path: '/business/rnd/medical' },
+      { name: '써드파티', path: '/business/rnd/thirdparty' },
+      { name: '자율행동체', path: '/business/rnd/autonomous' },
+      { name: '자원풀링', path: '/business/rnd/pooling' },
+      { name: '엣지 AI', path: '/business/rnd/edgeai' },
+      { name: '위기대응', path: '/business/rnd/crisis' }
+    ];
+  } else if (subCategory === '교육') {
+    // (기존 코드 유지)
+    thirdDepthItems = [
+      { name: '재직자 교육', path: '/business/edu/incumbent' },
+      { name: '미취업자 교육', path: '/business/edu/jobseeker' }
+    ];
+  } else if (subCategory === '홍보') {
+    // (기존 코드 유지)
+    thirdDepthItems = [
+      { name: '정보서비스', path: '/business/pr/info' },
+      { name: '포럼', path: '/business/pr/forum' },
+      { name: '뉴스레터', path: '/business/pr/newsletter' }
+    ];
+  } 
 
   return (
     <div className="sub-layout-wrapper">
@@ -191,8 +210,8 @@ const SubLayout = ({ mainCategory, subCategory, children }) => {
                     {menu.name}
                   </Link>
 
-                  {/* 독립적으로 작동하는 + / - 아코디언 버튼 */}
-                  {mainCategory !== '멤버십' && (
+                  {/* 🚀 '멤버십'과 '인재양성'이 아닐 때만 + 기호와 3뎁스를 보여줍니다! */}
+                  {mainCategory !== '멤버십' && mainCategory !== '인재양성' && (
                     <>
                       {/* 독립적으로 작동하는 + / - 아코디언 버튼 */}
                       <button 
@@ -205,8 +224,17 @@ const SubLayout = ({ mainCategory, subCategory, children }) => {
                       {/* 3뎁스 하위 메뉴 영역 */}
                       {expandedSidebar === menu.name && (
                         <ul className="sidebar-depth3">
-                          <li><Link to="#none">엣지AI/GPU 등 (준비중)</Link></li>
-                          <li><Link to="#none">기타 세부사업 (준비중)</Link></li>
+                          {/* 🚀 현재 메뉴가 선택된 메뉴이고, thirdDepthItems 데이터가 있다면 진짜 메뉴를 뿌려줌! */}
+                          {menu.name === subCategory && thirdDepthItems.length > 0 ? (
+                            thirdDepthItems.map((item, idx) => (
+                              <li key={idx}><Link to={item.path}>{item.name}</Link></li>
+                            ))
+                          ) : (
+                            <>
+                              {/* 🚀 주석을 반드시 이 빈 태그(Fragment) 안쪽으로 넣어야 에러가 안 납니다! */}
+                              <li><Link to="#none">세부메뉴 준비중</Link></li>
+                            </>
+                          )}
                         </ul>
                       )}
                     </>

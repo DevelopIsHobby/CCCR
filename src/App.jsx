@@ -49,6 +49,12 @@ import Ci from './pages/about/Ci';
 import JoinCCCR from './pages/auth/Join'
 import Login from './pages/auth/Login'
 
+// 사전등록 신청폼
+import EventApply from './pages/news/EventApply';
+
+// 공지사항 상세페이지
+import NoticeDetail from './pages/news/NoticeDetail';
+
 import './App.css';
 
 function App() {
@@ -66,6 +72,9 @@ function App() {
           <Route path="/business/coop" element={<Cooperation />} />
           <Route path="/business/pr" element={<Pr />} /> 
           <Route path="/business/support" element={<Support />} />
+          <Route path="/business/rnd/:projectId" element={<Rnd />} />
+          <Route path="/business/edu/:eduType" element={<Edu />} />
+          <Route path="/business/pr/:prType" element={<Pr />} />
 
           {/* 인재양성 카테고리 라우트 */}
           <Route path="/academy/training" element={<Training />} />
@@ -73,6 +82,8 @@ function App() {
           <Route path="/academy/schedule" element={<Schedule />} />
           <Route path="/academy/inquiry" element={<Inquiry />} />
           <Route path="/academy/suggest" element={<Suggest />} />
+          <Route path="/academy/training/:type" element={<Training />} />
+          <Route path="/academy/apply/:type" element={<Apply />} />
 
           {/* 알림마당 카테고리 라우트 */}
           <Route path="/news/notice" element={<Notice />} />
@@ -80,6 +91,8 @@ function App() {
           <Route path="/news/trend" element={<Trend />} />
           <Route path="/news/law" element={<Law />} />
           <Route path="/news/newsletter" element={<Newsletter />} />
+          <Route path="/news/event/apply/:id" element={<EventApply />} />
+          <Route path="/news/notice/:id" element={<NoticeDetail />} />
         
           {/* 👇 회원공간 카테고리 라우트 추가 */}
           <Route path="/members/join" element={<Join />} />

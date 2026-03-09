@@ -4,17 +4,47 @@ import cccrLogo from '../assets/cccr-logo.png';
 import kakaoIcon from '../assets/kakao-icon.png';
 import './Header.css';
 
-// 관리하기 쉽도록 메뉴 데이터를 배열로 정리합니다.
+// 🚀 3뎁스(thirdDepth) 데이터가 추가된 새로운 메뉴 배열
 const menuData = [
   {
     title: '주요사업',
     subMenus: [
-      { name: '연구개발', path: '/business/rnd' }, 
+      { 
+        name: '연구개발', path: '/business/rnd',
+        thirdDepth: [
+          { name: '유연의료', path: '/business/rnd/medical' },
+          { name: '써드파티', path: '/business/rnd/thirdparty' },
+          { name: '자율행동체', path: '/business/rnd/autonomous' },
+          { name: '자원풀링', path: '/business/rnd/pooling' },
+          { name: '엣지AI', path: '/business/rnd/edgeai' },
+          { name: '위기대응', path: '/business/rnd/crisis' }
+        ]
+      }, 
       { name: '표준화', path: '/business/standard' },
-      { name: '교육', path: '/business/edu' },
-      { name: '대외협력', path: '/business/coop' }, // cooperation
-      { name: '홍보', path: '/business/pr' }, // public relations
-      { name: '회원사 지원', path: '/business/support' }
+      { 
+        name: '교육', path: '/business/edu',
+        thirdDepth: [
+          { name: '전문인력', path: '/business/edu/expert' },
+          { name: '대학·기업협력형', path: '/business/edu/univ' },
+          { name: '채용연계형', path: '/business/edu/recruit' },
+          { name: '새싹', path: '/business/edu/sesac' }
+        ]
+      },
+      { name: '대외협력', path: '/business/coop' }, 
+      { 
+        name: '홍보', path: '/business/pr',
+        thirdDepth: [
+          { name: '홍보서비스', path: '/business/pr/service' },
+          { name: '홍보서비스이용료', path: '/business/pr/fee' }
+        ]
+      }, 
+      { 
+        name: '회원사 지원', path: '/business/support',
+        thirdDepth: [
+          { name: '회원사소식', path: '/business/support/news' },
+          { name: '회원사 특전', path: '/business/support/benefits' }
+        ]
+      }
     ]
   },
   {
@@ -64,64 +94,37 @@ const menuData = [
 
 const Header = () => {
   const location = useLocation();
-  const isHome = location.pathname === '/'; // 메인 페이지인지 확인 (true/false)
+  const isHome = location.pathname === '/'; 
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  
-  // 검색 사이드바 상태 추가
+  const [isNewsletterOpen, setIsNewsletterOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-
-  // 검색창 토글 함수 (메뉴가 열려있으면 닫기)
-  const toggleSearch = () => {
-    if (isMenuOpen) setIsMenuOpen(false);
-    setIsSearchOpen(!isSearchOpen);
-  };
-
-  // 오버레이(빈 공간) 클릭 시 모두 닫기
-  const closeAll = () => {
-    setIsMenuOpen(false);
-    setIsSearchOpen(false);
-  };
-
-  // 사이드바에서 어떤 아코디언 메뉴가 열려있는지 추적하는 State
   const [openMenuIndex, setOpenMenuIndex] = useState(null);
-
-  const toggleMenu = () => {
-    if (isSearchOpen) setIsSearchOpen(false);
-    setIsMenuOpen(!isMenuOpen);
-  };
-
-  // 사이드바 메인 메뉴 클릭 시 하위 메뉴 열기/닫기
-  const toggleSubMenu = (index) => {
-    // 이미 열려있는 메뉴를 다시 누르면 닫히고, 다른 메뉴를 누르면 그 메뉴가 열립니다.
-    setOpenMenuIndex(openMenuIndex === index ? null : index);
-  };
-
-  // 스크롤 내리면 흰색으로 바뀌게 함
   const [isScrolled, setIsScrolled] = useState(false);
+
+  const openNewsletter = (e) => { e.preventDefault(); setIsNewsletterOpen(true); };
+  const closeNewsletter = () => setIsNewsletterOpen(false);
+
+  const toggleSearch = () => { if (isMenuOpen) setIsMenuOpen(false); setIsSearchOpen(!isSearchOpen); };
+  const closeAll = () => { setIsMenuOpen(false); setIsSearchOpen(false); };
+  const toggleMenu = () => { if (isSearchOpen) setIsSearchOpen(false); setIsMenuOpen(!isMenuOpen); };
+  const toggleSubMenu = (index) => { setOpenMenuIndex(openMenuIndex === index ? null : index); };
 
   useEffect(() => {
     const handleScroll = () => {
-      // 스크롤이 50px 이상 내려가면 true, 아니면 false
-      if (window.scrollY > 50) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
+      if (window.scrollY > 50) setIsScrolled(true);
+      else setIsScrolled(false);
     };
-
     window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll); // 컴포넌트가 꺼질 때 정리
-    };
+    return () => window.removeEventListener('scroll', handleScroll); 
   }, []);
 
   return (
-    <header className={`kosa-header ${isHome ? (isScrolled ? 'scrolled' : '') : 'scrolled subpage-header'}`}> {/* 상단 유틸리티 메뉴 */}
+    <>
+    {/* 🚀 기존 헤더 스타일 완벽하게 그대로 사용합니다! (건드리지 않음) */}
+    <header className={`kosa-header ${isHome ? (isScrolled ? 'scrolled' : '') : 'scrolled subpage-header'}`}> 
       <div className="header-utility">
         <div className="inner-container">
-          
-          {/* 왼쪽: 둥근 테두리가 적용된 채널 추가, 소식 받기 */}
           <ul className="utility-left">
             <li>
               <a href="#channel" className="highlight-btn kakao-btn">
@@ -130,55 +133,85 @@ const Header = () => {
               </a>
             </li>
             <li>
-                <a href="#news" className="highlight-btn news-btn">
-                <span className="icon" aria-hidden="true">📰</span> 
-                <span className="btn-text">조합 소식 받기</span>
-              </a>
+                <a href="#news" className="highlight-btn news-btn" onClick={openNewsletter}>
+                  <span className="icon" aria-hidden="true">📰</span> 
+                  <span className="btn-text">조합 소식 받기</span>
+                </a>
             </li>
           </ul>
-
-          {/* 오른쪽: HOME 삭제 및 | 구분선 적용 */}
           <ul className="utility-links">
             <li><Link to="/auth/login">로그인</Link></li>
             <li><Link to="/auth/joincccr">회원가입</Link></li>
             <li><Link to="https://www.cccr-edu.or.kr/main/index.jsp">아카데미</Link></li>
           </ul>
-          
         </div>
       </div>
 
-      {/* 메인 네비게이션 영역 */}
       <div className="header-main">
         <div className="inner-container">
-          {/* 로고 */}
           <h1 className="logo">
             <a href="/">
               <img src={cccrLogo} alt="CCCR 로고" className="logo-img" />
             </a>
           </h1>
 
-          {/* 👇 3. PC 가로형 메인 메뉴 (hover 시 드롭다운) */}
+          {/* 🚀 PC 가로형 메인 메뉴 (풀사이즈 드롭다운 2뎁스/3뎁스 구조) */}
           <nav className="gnb">
             <ul>
               {menuData.map((menu, index) => (
                 <li key={index} className="gnb-item">
-                  {/* 🚀 a 태그를 Link로 변경하고, 첫 번째 서브메뉴의 path를 연결합니다. */}
-                  <Link to={menu.subMenus[0].path}>{menu.title}</Link>
-                  <ul className="submenu">
-                    {menu.subMenus.map((sub, subIndex) => (
-                      <li key={subIndex}>
-                        <Link to={sub.path}>{sub.name}</Link>
-                      </li>
-                    ))}
-                  </ul>
+                  <Link to={menu.subMenus[0].path} className="gnb-main-link">{menu.title}</Link>
+                  
+                  {/* 각 메뉴 호버 시 떨어지는 풀사이즈 메가메뉴 패널 */}
+                  <div className="mega-menu-panel">
+                    <div className="mega-inner">
+                      {/* 왼쪽: 메인 타이틀 */}
+                      <div className="mega-left">
+                        <h2>{menu.title}</h2>
+                      </div>
+                      
+                      {/* 오른쪽: 2뎁스 + 3뎁스 리스트 */}
+                      <div className="mega-right">
+                        {/* 🚀 3뎁스가 하나라도 존재하는 메뉴인지 검사! */}
+                        {menu.subMenus.some(sub => sub.thirdDepth && sub.thirdDepth.length > 0) ? (
+                          
+                          // [타입 A] 3뎁스가 있는 경우: 기존처럼 줄바꿈(Row) 형태 유지
+                          <div className="mega-list-with-3depth">
+                            {menu.subMenus.map((sub, subIdx) => (
+                              <div key={subIdx} className="mega-row">
+                                <Link to={sub.path} className="mega-2depth">{sub.name}</Link>
+                                {sub.thirdDepth && (
+                                  <div className="mega-3depth-group">
+                                    {sub.thirdDepth.map((third, tIdx) => (
+                                      <Link key={tIdx} to={third.path} className="mega-3depth">{third.name}</Link>
+                                    ))}
+                                  </div>
+                                )}
+                              </div>
+                            ))}
+                          </div>
+
+                        ) : (
+                          
+                          // 🚀 [타입 B] 3뎁스가 아예 없는 경우: 2뎁스들을 3열 바둑판으로 예쁘게 쫙 펼침!
+                          <div className="mega-list-only-2depth">
+                            {menu.subMenus.map((sub, subIdx) => (
+                              <Link key={subIdx} to={sub.path} className="mega-2depth-card">
+                                {sub.name}
+                              </Link>
+                            ))}
+                          </div>
+                          
+                        )}
+                      </div>
+                    </div>
+                  </div>
                 </li>
               ))}
             </ul>
           </nav>
 
-          {/* 우측 아이콘 */}
           <div className="header-icons">
-            {/* 👇 PC용 확장형 검색창 래퍼 추가 */}
             <div className={`desktop-search-wrap ${isSearchOpen ? 'active' : ''}`}>
               <input 
                 type="text" 
@@ -186,7 +219,6 @@ const Header = () => {
                 className="desktop-search-input" 
               />
               <button className="icon-btn search-btn" aria-label="검색" onClick={toggleSearch}>
-                {/* 상태에 따라 돋보기와 X 아이콘 전환 */}
                 <span className="icon-search">🔍</span>
                 <span className="icon-close">✕</span>
               </button>
@@ -199,15 +231,8 @@ const Header = () => {
         </div>
       </div>
 
-     {/* 오버레이 : 메뉴나 검색창 중 하나라도 열리면 나타남 */}
-      <div 
-        className={`menu-overlay ${isMenuOpen ? 'active' : ''}`} 
-        onClick={closeAll} 
-        aria-hidden="true"
-      >
-      </div>
-
-      {/* 모바일 & 전체화면 사이드바 (클릭 시 아코디언) */}
+      {/* 오버레이 & 모바일 사이드바 영역 유지 */}
+      <div className={`menu-overlay ${isMenuOpen ? 'active' : ''}`} onClick={closeAll} aria-hidden="true"></div>
       <aside className={`sidebar ${isMenuOpen ? 'active' : ''}`}>
         <div className="sidebar-header">
           <button className="sidebar-close-btn" onClick={toggleMenu} aria-label="닫기">✕</button>
@@ -216,44 +241,21 @@ const Header = () => {
             <div className="sidebar-auth">
               <Link to="/auth/joincccr" onClick={closeAll}>회원가입</Link>
               <span className="divider">/</span>
-              {/* 👇 /auth/login 으로 수정 */}
               <Link to="/auth/login" onClick={closeAll}>로그인</Link>
             </div>
           </div>
         </div>
-
-       {/* 모바일 사이드바 메뉴 */}
         <ul className="sidebar-menu">
           {menuData.map((menu, index) => (
             <li key={index} className="sidebar-item">
-              <div 
-                className="sidebar-title" 
-                onClick={() => toggleSubMenu(index)}
-              >
-                {/* 🚀 div 내부에 텍스트 대신 Link 컴포넌트 사용 */}
-                <Link 
-                  to={menu.subMenus[0].path} 
-                  className="sidebar-title-link"
-                  onClick={(e) => {
-                    // e.stopPropagation(); // 필요에 따라 이벤트 전파 차단
-                    // 페이지 이동 시 사이드바를 닫고 싶다면 closeAll() 호출, 
-                    // 열어둔 채로 이동만 하려면 주석 처리
-                    // closeAll(); 
-                  }}
-                >
-                  {menu.title}
-                </Link>
-                <span className={`arrow ${openMenuIndex === index ? 'up' : 'down'}`}>
-                  ▼
-                </span>
+              <div className="sidebar-title" onClick={() => toggleSubMenu(index)}>
+                <Link to={menu.subMenus[0].path} className="sidebar-title-link">{menu.title}</Link>
+                <span className={`arrow ${openMenuIndex === index ? 'up' : 'down'}`}>▼</span>
               </div>
-              
               <ul className={`sidebar-submenu ${openMenuIndex === index ? 'open' : ''}`}>
                 {menu.subMenus.map((sub, subIndex) => (
                   <li key={subIndex}>
-                    <Link to={sub.path} onClick={closeAll}>
-                      {sub.name}
-                    </Link>
+                    <Link to={sub.path} onClick={closeAll}>{sub.name}</Link>
                   </li>
                 ))}
               </ul>
@@ -262,6 +264,43 @@ const Header = () => {
         </ul>
       </aside>
     </header>
+
+    {/* 뉴스레터 팝업 (기존 유지) */}
+    {isNewsletterOpen && (
+        <div className="newsletter-overlay" onClick={closeNewsletter}>
+          <div className="newsletter-modal" onClick={(e) => e.stopPropagation()}>
+            <button className="newsletter-close-x" onClick={closeNewsletter}>✕</button>
+            <div className="newsletter-header">
+              <span className="newsletter-kicker">SUBSCRIBE</span>
+              <h2>CCCR 뉴스레터 구독</h2>
+              <p>매월 클라우드 최신 동향과 주요 소식을 전해드립니다.</p>
+            </div>
+            <div className="newsletter-body">
+              <div className="input-group">
+                <label>이름 <span className="req">*</span></label>
+                <input type="text" placeholder="홍길동" />
+              </div>
+              <div className="input-group">
+                <label>이메일 <span className="req">*</span></label>
+                <input type="email" placeholder="example@cccr.or.kr" />
+              </div>
+              <div className="input-group">
+                <label>소속 (선택)</label>
+                <input type="text" placeholder="회사명 또는 학교명" />
+              </div>
+              <label className="agree-checkbox">
+                <input type="checkbox" />
+                <span className="checkbox-text">개인정보 수집 및 이용에 동의합니다. <a href="#none">(전문보기)</a></span>
+              </label>
+            </div>
+            <div className="newsletter-footer">
+              <button className="btn-cancel" onClick={closeNewsletter}>취소</button>
+              <button className="btn-submit" onClick={() => { alert('구독 신청이 완료되었습니다!'); closeNewsletter(); }}>구독하기</button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 

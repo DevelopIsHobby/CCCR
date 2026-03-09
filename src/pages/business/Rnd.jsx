@@ -4,7 +4,6 @@ import { useParams, Navigate, Link } from 'react-router-dom';
 import SubLayout from '../../layouts/SubLayout';
 import './Business.css';
 
-// 🚀 6개 세부 사업에 대한 데이터를 객체로 묶어둡니다.
 const rndData = {
   medical: {
     title: '유연의료',
@@ -93,22 +92,19 @@ const rndData = {
 };
 
 const Rnd = () => {
-  // 🚀 App.jsx의 <Route path="/business/rnd/:projectId" /> 에서 값을 받아옵니다.
   const { projectId } = useParams();
 
-  // projectId가 없거나 이상한 값이면 기본값인 'medical'로 리다이렉트합니다.
   if (!projectId || !rndData[projectId]) {
     return <Navigate to="/business/rnd/medical" replace />;
   }
 
-  // 현재 선택된 탭의 데이터를 꺼내옵니다.
   const currentData = rndData[projectId];
 
   return (
     <SubLayout mainCategory="주요사업" subCategory="연구개발">
       <div className="biz-container">
         
-        {/* 🚀 1. 상단 탭 (Tab) 메뉴 */}
+        {/* 🚀 1. 상단 탭 (Tab) 메뉴 - 알약 형태 */}
         <div className="biz-tab-menu">
           <Link to="/business/rnd/medical" className={`biz-tab-item ${projectId === 'medical' ? 'active' : ''}`}>유연의료</Link>
           <Link to="/business/rnd/thirdparty" className={`biz-tab-item ${projectId === 'thirdparty' ? 'active' : ''}`}>써드파티</Link>
@@ -118,13 +114,13 @@ const Rnd = () => {
           <Link to="/business/rnd/crisis" className={`biz-tab-item ${projectId === 'crisis' ? 'active' : ''}`}>위기대응</Link>
         </div>
 
-        {/* 2. 소개 요약 박스 (선택된 탭의 데이터로 바뀝니다) */}
+        {/* 2. 소개 요약 박스 */}
         <div className="biz-intro-box">
           <h4>{currentData.title} : {currentData.subtitle}</h4>
           <p>{currentData.intro}</p>
         </div>
 
-        {/* 3. 상세 내용 섹션 (카드) */}
+        {/* 3. 상세 내용 섹션 (3D 플로팅 카드) */}
         <div className="biz-section">
           <h3 className="biz-section-title">주요 연구 분야</h3>
           <div className="biz-card-grid">
@@ -138,11 +134,14 @@ const Rnd = () => {
           </div>
         </div>
 
-        {/* 4. 추진 체계 섹션 (리스트) */}
+        {/* 4. 추진 체계 섹션 (리스트 박스) */}
         <div className="biz-section">
-          <h3 className="biz-section-title">추진 방향</h3>
-          <div className="biz-intro-box" style={{ backgroundColor: '#fff', textAlign: 'left' }}>
-            <ul style={{ lineHeight: '2', color: '#444' }}>
+          {/* 🚀 plan-title 클래스 추가하여 영문 Kicker 변경 */}
+          <h3 className="biz-section-title plan-title">추진 방향</h3>
+          
+          {/* 🚀 지저분한 style={{}} 인라인 코드를 지우고 CSS 클래스로 연결! */}
+          <div className="biz-plan-box">
+            <ul className="biz-plan-list">
               {currentData.plans.map((plan, idx) => (
                 <li key={idx} dangerouslySetInnerHTML={{ __html: plan }}></li>
               ))}

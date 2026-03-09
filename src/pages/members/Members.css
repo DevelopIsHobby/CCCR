@@ -1,30 +1,86 @@
 /* src/pages/members/Members.css */
+
+/* ========================================= */
+/* 🚀 1. 공통 레이아웃 & 애니메이션 */
+/* ========================================= */
 .members-container {
-  padding: 40px 20px;
-  width : 100%;
-  margin: 0 auto;
+  width: 100%;
+  animation: fadeIn 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ========================================= */
+/* 🚀 2. 모던 섹션 타이틀 (영문 Kicker) */
+/* ========================================= */
 .members-title {
-  font-size: 28px;
-  font-weight: bold;
-  color: #222;
-  margin-bottom: 24px;
-  padding-bottom: 12px;
-  border-bottom: 2px solid #0056b3;
+  font-size: 26px;
+  font-weight: 800;
+  color: #0f172a; /* 시크한 다크 네이비 */
+  margin-bottom: 30px;
+  border-bottom: none; /* 투박한 밑줄 제거 */
+  padding-bottom: 0;
+  display: block;
 }
 
+/* 제목 위의 영문 강조 라벨 */
+.members-title::before {
+  content: 'MEMBER ZONE';
+  display: block;
+  font-size: 13px;
+  color: #0ea5e9; /* 스카이 블루 */
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+
+/* ========================================= */
+/* 🚀 3. 플로팅 카드 디자인 */
+/* ========================================= */
+.members-card {
+  background-color: #ffffff;
+  border: 1px solid #f1f5f9;
+  border-radius: 24px; /* 모서리를 둥글게 */
+  padding: 50px 40px;
+  margin-top: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03); /* 은은한 기본 그림자 */
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* 마우스를 올렸을 때의 3D 부양 효과 */
+.members-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(14, 165, 233, 0.1); /* 파란빛 그림자 퍼짐 */
+  border-color: #0ea5e9;
+}
+
+/* ========================================= */
+/* 🚀 4. 본문 텍스트 타이포그래피 */
+/* ========================================= */
 .members-content {
   font-size: 16px;
-  line-height: 1.6;
-  color: #555;
+  line-height: 1.8;
+  color: #475569; /* 세련된 슬레이트 그레이 */
+  word-break: keep-all; /* 단어 단위로 끊어지게 하여 가독성 향상 */
 }
 
-.members-card {
-  background-color: #fff;
-  border: 1px solid #eaeaea;
-  border-radius: 8px;
-  padding: 40px;
-  margin-top: 20px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+
+/* ========================================= */
+/* 🚀 모바일 반응형 처리 */
+/* ========================================= */
+@media (max-width: 812px) {
+  .members-title {
+    font-size: 22px;
+  }
+  .members-card {
+    padding: 30px 20px;
+    border-radius: 20px;
+  }
+  .members-content {
+    font-size: 15px;
+    line-height: 1.6;
+  }
 }

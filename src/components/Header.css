@@ -323,59 +323,161 @@
   color: #003a8c;
 }
 
-/* ========================================= */
-/* PC 메인 GNB 드롭다운 스타일   */
-/* ========================================= */
-.gnb-item {
-  position: relative; /* 하위 메뉴의 기준점 */
-  padding: 30px 0;    /* 호버 영역을 넓게 잡기 위해 패딩 추가 */
+/* 메인 GNB */
+.gnb {
+  position: static; /* 🚀 풀사이즈 드롭다운을 위해 gnb의 위치 제한 해제 */
 }
 
-/* PC 2뎁스 하위 메뉴 (기본 상태는 숨김) */
-.gnb-item .submenu {
+.gnb ul {
+  list-style: none;
+  display: flex;
+  gap: 60px; /* 메인메뉴 폰트 사이 공간 */
+  margin: 0;
+  padding: 0;
+}
+
+/* 🚀 기존 relative를 static으로 변경하여 하위 메뉴가 화면 전체를 덮도록 허용 */
+.gnb-item {
+  position: static; 
+}
+
+.gnb-main-link {
+  display: flex;
+  align-items: center;
+  height: 80px; /* 헤더 높이만큼 꽉 채움 */
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.75); /* 은은한 투명색 유지 */
+  font-size: 20px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: color 0.3s;
+}
+
+.gnb-main-link:hover { 
+  color: #ffffff; 
+}
+
+/* ========================================= */
+/* 🚀 메가 메뉴 (기본: 다크 모드 / 투명 헤더용) */
+/* ========================================= */
+
+.mega-menu-panel {
   position: absolute;
-  top: 70px; /* 메인 메뉴 아래로 위치 */
-  left: 50%;
-  transform: translateX(-50%);
-  width: max-content;
-  min-width: 140px;
-  background-color: #ffffff;
-  border: 1px solid #eeeeee;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-  padding: 10px 0;
-  border-radius: 4px;
+  top: 100%; 
+  left: 0;
+  width: 100vw; 
+  /* 🚀 푸른 기를 완전히 뺀 시크한 퓨어 블랙 (반투명) */
+  background-color: rgba(0, 0, 0, 0.9); 
+  border-top: 1px solid rgba(255, 255, 255, 0.15); 
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5); 
+  backdrop-filter: blur(10px); 
   
-  /* 부드러운 호버 효과 */
   opacity: 0;
   visibility: hidden;
-  transition: all 0.3s ease;
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  z-index: 1000;
+  transform: translateY(-5px); 
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  z-index: 999;
 }
 
-/* 메인 메뉴에 마우스를 올리면 하위 메뉴 등장 */
-.gnb-item:hover .submenu {
-  opacity: 1;
-  visibility: visible;
-  top: 80px; /* 살짝 위에서 아래로 내려오는 느낌 */
+.gnb-item:hover .mega-menu-panel { 
+  opacity: 1; 
+  visibility: visible; 
+  transform: translateY(0); 
 }
 
-/* PC 하위 메뉴 아이템 디자인 */
-.submenu li a {
-  font-size: 14px;
-  font-weight: 400;
-  padding: 8px 20px;
-  display: block;
-  color: #555;
-  text-align: center;
+.mega-inner {
+  display: flex; max-width: 1600px; padding: 0 40px; margin: 0 auto; box-sizing: border-box;
 }
 
-.submenu li a:hover {
-  background-color: #f8f9fa;
-  color: #003a8c;
+/* 왼쪽 타이틀 (퓨어 블랙 기반의 연한 다크 그레이) */
+.mega-left {
+  width: 220px; 
+  background-color: rgba(255, 255, 255, 0.04); /* 검은 바탕 위에서 예쁜 다크 그레이로 보임 */
+  padding: 25px 25px; 
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
 }
+.mega-left h2 { font-size: 24px; color: #0ea5e9; font-weight: 800; margin: 0 0 10px 0; letter-spacing: -1px; }
+.mega-left p { font-size: 13px; color: #94a3b8; line-height: 1.5; margin: 0; word-break: keep-all; }
+
+.mega-right { flex: 1; padding: 25px 40px; background-color: transparent; }
+
+/* [타입 A] 3뎁스 있는 메뉴 */
+.mega-list-with-3depth { display: flex; flex-direction: column; gap: 12px; }
+.mega-row { display: flex; align-items: flex-start; padding-bottom: 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+.mega-row:last-child { border-bottom: none; padding-bottom: 0; }
+
+/* 2뎁스 타이틀 (다크모드 흰 글씨) */
+.gnb li .mega-menu-panel .mega-2depth {
+  width: 130px; font-size: 16px; font-weight: 800;
+  color: #ffffff !important; 
+  text-decoration: none; padding-top: 1px; transition: color 0.2s;
+}
+.gnb li .mega-menu-panel .mega-2depth:hover { color: #0ea5e9 !important; }
+
+.mega-3depth-group { flex: 1; display: flex; flex-wrap: wrap; gap: 8px 20px; }
+
+/* 3뎁스 아이템 (다크모드 밝은 회색 글씨) */
+.gnb li .mega-menu-panel .mega-3depth {
+  font-size: 14px; font-weight: 600;
+  color: #cbd5e1 !important; 
+  text-decoration: none; transition: all 0.2s ease; position: relative; padding-left: 12px;
+}
+.gnb li .mega-menu-panel .mega-3depth::before {
+  content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 3px; height: 3px; background-color: #64748b; border-radius: 50%; transition: background-color 0.2s;
+}
+.gnb li .mega-menu-panel .mega-3depth:hover { color: #0ea5e9 !important; transform: translateX(3px); }
+.gnb li .mega-menu-panel .mega-3depth:hover::before { background-color: #0ea5e9; }
+
+/* [타입 B] 3뎁스 없는 카드 메뉴 (다크모드) */
+.mega-list-only-2depth { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.gnb li .mega-menu-panel .mega-2depth-card {
+  display: flex; align-items: center; padding: 12px 16px;
+  background-color: rgba(255, 255, 255, 0.08); /* 블랙 위에 올렸을 때 깔끔한 다크 그레이 카드 */
+  border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 10px; font-size: 15px; font-weight: 700;
+  color: #ffffff !important; 
+  text-decoration: none; transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1); box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+.gnb li .mega-menu-panel .mega-2depth-card:hover {
+  background-color: rgba(14, 165, 233, 0.2); border-color: #0ea5e9; color: #0ea5e9 !important; transform: translateY(-2px);
+}
+
+/* ========================================= */
+/* 🚀 메가 메뉴 (스크롤 시: 라이트 모드 전환) */
+/* ========================================= */
+
+.kosa-header.scrolled .mega-menu-panel {
+  background-color: #ffffff; /* 하얀 바탕 */
+  border-top: 1px solid #e2e8f0;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08); 
+}
+.kosa-header.scrolled .mega-left {
+  background-color: #f8fafc;
+  border-right: 1px solid #e2e8f0;
+}
+.kosa-header.scrolled .mega-left p { color: #64748b; }
+
+.kosa-header.scrolled .mega-row { border-bottom: 1px solid #f1f5f9; }
+
+/* 라이트 모드 글자색 복구 (검은색/진회색) */
+.kosa-header.scrolled .gnb li .mega-menu-panel .mega-2depth { color: #0f172a !important; }
+.kosa-header.scrolled .gnb li .mega-menu-panel .mega-3depth { color: #475569 !important; }
+.kosa-header.scrolled .gnb li .mega-menu-panel .mega-3depth::before { background-color: #cbd5e1; }
+
+.kosa-header.scrolled .gnb li .mega-menu-panel .mega-2depth-card {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  color: #1e293b !important;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+}
+.kosa-header.scrolled .gnb li .mega-menu-panel .mega-2depth-card:hover {
+  background-color: #f0f9ff;
+  border-color: #0ea5e9;
+  box-shadow: 0 6px 15px rgba(14, 165, 233, 0.12);
+}
+
+/* 우측 아이콘 */
+.header-icons { display: flex; gap: 10px; }
+.icon-btn { background: none; border: none; font-size: 24px; cursor: pointer; color: #ffffff; transition: color 0.3s; }
 
 /* ========================================= */
 /* 사이드바 아코디언 메뉴 스타일 */
@@ -520,6 +622,203 @@
   top: 0;
   
   /* 이미 scrolled 클래스가 같이 붙어있으므로 흰색 배경, 검정 글씨는 자동 적용됩니다 */
+}
+
+/* ========================================= */
+/* 🚀 뉴스레터 팝업 (모달) 스타일 */
+/* ========================================= */
+
+/* 어두운 반투명 배경 (블러 효과) */
+.newsletter-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(15, 23, 42, 0.6); /* 다크 슬레이트 반투명 */
+  backdrop-filter: blur(5px); /* 배경을 흐릿하게 만들어 모달에 집중하게 함 */
+  z-index: 10000; /* 헤더보다 무조건 위에 뜨게 설정 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  animation: fadeInModal 0.3s ease-out;
+}
+
+@keyframes fadeInModal {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* 팝업 창 본체 (플로팅 카드 스타일) */
+.newsletter-modal {
+  background-color: #ffffff;
+  width: 100%;
+  max-width: 480px;
+  border-radius: 24px;
+  padding: 40px;
+  box-sizing: border-box;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+  position: relative;
+  animation: slideUpModal 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+@keyframes slideUpModal {
+  from { opacity: 0; transform: translateY(30px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* 우측 상단 닫기 X 버튼 */
+.newsletter-close-x {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  color: #94a3b8;
+  cursor: pointer;
+  transition: transform 0.2s, color 0.2s;
+}
+
+.newsletter-close-x:hover {
+  color: #0f172a;
+  transform: rotate(90deg);
+}
+
+/* 팝업 헤더 */
+.newsletter-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.newsletter-kicker {
+  display: block;
+  font-size: 13px;
+  color: #0ea5e9;
+  font-weight: 700;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+
+.newsletter-header h2 {
+  font-size: 26px;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0 0 10px 0;
+  letter-spacing: -1px;
+}
+
+.newsletter-header p {
+  font-size: 15px;
+  color: #64748b;
+  margin: 0;
+  word-break: keep-all;
+}
+
+/* 팝업 폼 바디 */
+.newsletter-body .input-group {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.newsletter-body label {
+  font-size: 14px;
+  font-weight: 700;
+  color: #334155;
+}
+
+.newsletter-body .req {
+  color: #ef4444; /* 필수항목 빨간 별표 */
+  margin-left: 2px;
+}
+
+.newsletter-body input[type="text"],
+.newsletter-body input[type="email"] {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  background-color: #f8fafc;
+  font-size: 15px;
+  color: #1e293b;
+  outline: none;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+
+.newsletter-body input:focus {
+  border-color: #0ea5e9;
+  background-color: #ffffff;
+  box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.1);
+}
+
+/* 동의 체크박스 영역 */
+.agree-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.agree-checkbox input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #0ea5e9;
+  cursor: pointer;
+}
+
+.checkbox-text {
+  font-size: 14px;
+  font-weight: 500;
+  color: #475569;
+}
+
+.checkbox-text a {
+  color: #0ea5e9;
+  text-decoration: underline;
+}
+
+/* 팝업 하단 버튼 그룹 */
+.newsletter-footer {
+  display: flex;
+  gap: 12px;
+  margin-top: 30px;
+}
+
+.newsletter-footer button {
+  flex: 1; /* 반반 나눠가짐 */
+  padding: 16px 0;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.newsletter-footer .btn-cancel {
+  background-color: #f1f5f9;
+  color: #64748b;
+}
+
+.newsletter-footer .btn-cancel:hover {
+  background-color: #e2e8f0;
+  color: #334155;
+}
+
+.newsletter-footer .btn-submit {
+  background-color: #0ea5e9;
+  color: #ffffff;
+}
+
+.newsletter-footer .btn-submit:hover {
+  background-color: #0284c7;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(14, 165, 233, 0.2);
 }
 
 /* ========================================= */

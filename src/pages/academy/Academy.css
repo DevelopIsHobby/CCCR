@@ -1,23 +1,33 @@
 /* src/pages/academy/Academy.css */
 
 /* ========================================= */
-/* 1. 공통 레이아웃 */
+/* 🚀 1. 공통 레이아웃 */
 /* ========================================= */
 .academy-container {
-  padding: 0 0 20px 0; /* 🚀 상단(top) 여백을 0으로 만들어 일괄 통일! */
+  padding: 0 0 20px 0; 
+  animation: fadeIn 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 .academy-content {
-  background-color: #fff;
+  background-color: transparent;
 }
 
 /* ========================================= */
-/* 2. 상단 탭 (Tab) 메뉴 */
+/* 🚀 2. 상단 탭 (Tab) 메뉴 (모던 세그먼트 스타일) */
 /* ========================================= */
 .academy-tab-menu {
   display: flex;
   flex-wrap: wrap;
-  width: 100%;
-  margin-bottom: 40px;
+  background-color: #f8fafc; /* 아주 연한 배경 */
+  padding: 6px;
+  border-radius: 16px;
+  gap: 6px;
+  margin-bottom: 50px;
 }
 
 .academy-tab-item {
@@ -25,182 +35,190 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 16px 0;
-  font-size: 15px;
-  font-weight: 500;
-  color: #444;
-  background-color: #fff;
-  border: 1px solid #dcdcdc;
-  margin-left: -1px;
-  margin-top: -1px;
+  padding: 14px 10px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #64748b;
+  background-color: transparent;
+  border: none;
+  border-radius: 12px; /* 둥근 알약 모양 */
   text-decoration: none;
-  box-sizing: border-box;
-  position: relative;
-  transition: background-color 0.2s;
+  transition: all 0.3s ease;
+  white-space: nowrap;
 }
 
-.academy-tab-item:hover { background-color: #f4f6f9; }
+.academy-tab-item:hover { color: #0ea5e9; }
+
 .academy-tab-item.active {
-  background-color: #1a2849;
-  color: #fff;
-  border-color: #1a2849;
-  font-weight: 600;
-  z-index: 1;
+  background-color: #ffffff;
+  color: #0ea5e9;
+  font-weight: 700;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
 }
 
 /* ========================================= */
-/* 3. 공통 테이블 (교육신청, 교육문의용) */
+/* 🚀 3. 공통 테이블 (카드형 테이블로 고급화) */
 /* ========================================= */
 .academy-table-wrap {
   width: 100%;
   overflow-x: auto;
-  margin-bottom: 30px;
+  margin-bottom: 40px;
+  background: #ffffff;
+  border: 1px solid #f1f5f9;
+  border-radius: 20px; /* 둥근 테이블 래퍼 */
+  box-shadow: 0 10px 30px rgba(0,0,0,0.03);
 }
 
 .academy-table {
   width: 100%;
   border-collapse: collapse;
-  border-top: 2px solid #222;
+  text-align: center;
+  min-width: 700px; /* 모바일 가로 스크롤 방어 */
 }
 
 .academy-table th, .academy-table td {
-  padding: 15px 10px;
-  text-align: center;
-  border-bottom: 1px solid #ddd;
+  padding: 18px 15px;
+  border-bottom: 1px solid #f1f5f9;
   font-size: 15px;
+  color: #475569;
 }
 
-.academy-table th { background-color: #f8f9fa; font-weight: 600; color: #333; }
-.academy-table td.title-col { text-align: left; }
-
-/* 상태 배지 및 버튼 */
-.academy-badge {
-  display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; color: #fff; white-space: nowrap;
-}
-.academy-badge.ing { background-color: #004ecc; }
-.academy-badge.ready { background-color: #008773; }
-.academy-badge.end { background-color: #888; }
-
-.academy-btn {
-  display: inline-block; padding: 6px 12px; border: 1px solid #003a8c; background-color: #fff; color: #003a8c; border-radius: 4px; font-size: 12px; font-weight: 600; text-decoration: none;
-}
-.academy-btn:hover { background-color: #003a8c; color: #fff; }
-.academy-btn:disabled { border-color: #ddd; background-color: #f9f9f9; color: #aaa; cursor: not-allowed; }
-
-/* ========================================= */
-/* 4. 입력 폼 (교육제안용) */
-/* ========================================= */
-.academy-form-section { margin-bottom: 40px; }
-.academy-form-title { font-size: 18px; font-weight: 700; border-bottom: 2px solid #222; padding-bottom: 12px; margin-bottom: 15px; }
-.academy-form-table { width: 100%; border-collapse: collapse; }
-.academy-form-table th { background-color: #f8f9fa; width: 180px; padding: 15px 20px; text-align: left; font-weight: 600; border-bottom: 1px solid #ddd; }
-.academy-form-table td { padding: 15px 20px; border-bottom: 1px solid #ddd; }
-.academy-input, .academy-textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-family: inherit; }
-.academy-input { max-width: 300px; }
-.academy-textarea { max-width: 100%; min-height: 120px; resize: vertical; }
-
-.academy-submit-btn { padding: 14px 40px; background-color: #003a8c; color: #fff; border: none; font-size: 15px; font-weight: 600; border-radius: 4px; cursor: pointer; }
-/* 필수 입력사항 별표 표시 */
-.required-mark {
-  color: #e12e2e;
-  font-weight: 700;
-  margin-left: 4px;
-}
-
-.required-info {
-  text-align: right;
-  font-size: 13px;
-  color: #e12e2e;
-  margin-bottom: 10px;
-  font-weight: 500;
-}
-/* ========================================= */
-/* 5. 교육일정 (달력) */
-/* ========================================= */
-.calendar-header { 
-  display: flex; 
-  justify-content: center; 
-  align-items: center; 
-  gap: 20px; 
-  margin-bottom: 30px; 
-}
-
-.calendar-header h3 { 
-  font-size: 24px; 
+.academy-table th { 
+  background-color: #f8fafc; 
   font-weight: 700; 
-  margin: 0; 
+  color: #0f172a; 
+  border-bottom: 1px solid #e2e8f0; 
 }
 
+.academy-table tr:last-child td { border-bottom: none; }
+.academy-table td.title-col { text-align: left; font-weight: 600; color: #1e293b; }
+
+/* 🚀 상태 뱃지 (파스텔 톤 트렌드 반영) */
+.academy-badge {
+  display: inline-block; padding: 6px 12px; border-radius: 8px; font-size: 13px; font-weight: 700; white-space: nowrap;
+}
+.academy-badge.ing { background-color: #e0f2fe; color: #0284c7; } /* 모집중: 스카이블루 */
+.academy-badge.ready { background-color: #ecfdf5; color: #059669; } /* 대기중: 에메랄드 */
+.academy-badge.end { background-color: #f1f5f9; color: #64748b; } /* 마감: 슬레이트 그레이 */
+
+/* 🚀 수강신청/버튼 디자인 */
+.academy-btn {
+  display: inline-block; padding: 8px 16px; border-radius: 8px; font-size: 14px; font-weight: 700; text-decoration: none;
+  background-color: #f0f9ff; color: #0ea5e9; border: 1px solid transparent; transition: all 0.3s ease;
+}
+.academy-btn:hover { background-color: #0ea5e9; color: #fff; transform: translateY(-2px); box-shadow: 0 4px 10px rgba(14,165,233,0.2); }
+.academy-btn:disabled { background-color: #f1f5f9; color: #94a3b8; cursor: not-allowed; transform: none; box-shadow: none; }
+
+
+/* ========================================= */
+/* 🚀 4. 입력 폼 (교육제안용 - 깔끔한 모달/카드 스타일) */
+/* ========================================= */
+.academy-form-section { 
+  background: #ffffff; border: 1px solid #f1f5f9; border-radius: 24px; 
+  padding: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.03); margin-bottom: 40px; 
+}
+
+/* 폼 타이틀에 영문 Kicker 추가 */
+.academy-form-title { 
+  font-size: 24px; font-weight: 800; color: #0f172a; margin-bottom: 30px; display: flex; flex-direction: column; border: none; padding: 0;
+}
+.academy-form-title::before { content: 'APPLICATION FORM'; font-size: 13px; color: #0ea5e9; letter-spacing: 2px; margin-bottom: 8px; font-weight: 700; }
+
+.academy-form-table { width: 100%; border-collapse: collapse; }
+.academy-form-table th { background-color: transparent; width: 180px; padding: 20px 10px; text-align: left; font-weight: 700; color: #334155; border-bottom: 1px solid #f1f5f9; vertical-align: top; }
+.academy-form-table td { padding: 20px 10px; border-bottom: 1px solid #f1f5f9; }
+
+/* 🚀 인풋 필드 모던화 (포커스 시 파란색 빛 발산) */
+.academy-input, .academy-textarea { 
+  width: 100%; padding: 14px 16px; border: 1px solid #cbd5e1; border-radius: 10px; 
+  font-family: inherit; font-size: 15px; transition: all 0.3s; background-color: #f8fafc; 
+}
+.academy-input { max-width: 340px; }
+.academy-input:focus, .academy-textarea:focus { border-color: #0ea5e9; background-color: #ffffff; outline: none; box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.1); }
+.academy-textarea { max-width: 100%; min-height: 160px; resize: vertical; }
+
+.required-mark { color: #ef4444; font-weight: 800; margin-left: 4px; }
+.required-info { text-align: right; font-size: 13px; color: #ef4444; margin-bottom: 15px; font-weight: 600; }
+
+.academy-submit-btn { 
+  display: block; width: 100%; max-width: 320px; margin: 40px auto 0 auto; 
+  padding: 16px 40px; background-color: #0f172a; color: #ffffff; border: none; 
+  font-size: 16px; font-weight: 700; border-radius: 12px; cursor: pointer; transition: all 0.3s; 
+}
+.academy-submit-btn:hover { background-color: #0ea5e9; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(14, 165, 233, 0.2); }
+
+
+/* ========================================= */
+/* 🚀 5. 교육일정 (달력 모던화) */
+/* ========================================= */
+.calendar-header { display: flex; justify-content: center; align-items: center; gap: 24px; margin-bottom: 30px; }
+.calendar-header h3 { font-size: 28px; font-weight: 800; color: #0f172a; margin: 0; letter-spacing: -1px; }
+
+/* 달력 좌우 이동 버튼 */
 .calendar-nav-btn { 
-  background: none; 
-  border: 1px solid #ddd; 
-  border-radius: 4px; 
-  width: 36px; 
-  height: 36px; 
-  cursor: pointer; 
+  background: #ffffff; border: 1px solid #e2e8f0; border-radius: 50%; 
+  width: 44px; height: 44px; cursor: pointer; font-size: 18px; color: #64748b; 
+  display: flex; align-items: center; justify-content: center; transition: all 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.02);
 }
+.calendar-nav-btn:hover { background-color: #f0f9ff; color: #0ea5e9; border-color: #0ea5e9; transform: scale(1.05); }
 
+/* 달력 그리드 (투박한 검은선 지우고 연한 톤으로) */
 .calendar-grid { 
-  display: grid; 
-  grid-template-columns: repeat(7, 1fr); 
-  border-top: 2px solid #222; 
-  border-left: 1px solid #ddd; 
+  display: grid; grid-template-columns: repeat(7, 1fr); 
+  border: 1px solid #f1f5f9; border-radius: 16px; overflow: hidden; 
+  background-color: #f1f5f9; gap: 1px; /* 1px 갭을 줘서 자연스러운 내부 선 연출 */
+  box-shadow: 0 10px 30px rgba(0,0,0,0.02);
 }
 
-.calendar-cell { 
-  border-right: 1px solid #ddd; 
-  border-bottom: 1px solid #ddd; 
-  min-height: 120px; 
-  padding: 10px; 
-  background-color: #fff; 
-}
+.calendar-day-header { background-color: #f8fafc; text-align: center; padding: 16px 0; font-weight: 700; font-size: 15px; color: #475569; }
+.calendar-day-header:nth-child(1) { color: #ef4444; } /* 일요일 */
+.calendar-day-header:nth-child(7) { color: #0ea5e9; } /* 토요일 */
 
-.calendar-day-header { 
-  background-color: #f8f9fa; 
-  text-align: center; 
-  padding: 15px 0; 
-  font-weight: 600; 
-  font-size: 14px; 
-  min-height: auto; 
-}
+.calendar-cell { background-color: #ffffff; min-height: 140px; padding: 12px; transition: background-color 0.2s; }
+.calendar-cell:hover { background-color: #f8fafc; } /* 셀 호버 시 살짝 어두워짐 */
 
-.calendar-day-header:nth-child(1), 
-.calendar-cell:nth-child(7n+1) .date-num { 
-  color: #e12e2e; 
-}
+.date-num { font-size: 15px; font-weight: 700; margin-bottom: 10px; display: block; color: #1e293b; }
+.calendar-cell:nth-child(7n+1) .date-num { color: #ef4444; }
+.calendar-cell:nth-child(7n) .date-num { color: #0ea5e9; }
 
-.calendar-day-header:nth-child(7), 
-.calendar-cell:nth-child(7n) .date-num { 
-  color: #004ecc; 
-}
-
-.date-num { 
-  font-size: 14px; 
-  font-weight: 600; 
-  margin-bottom: 10px; 
-  display: block; 
-}
-
+/* 🚀 일정 이벤트 칩 디자인 */
 .calendar-event { 
-  font-size: 11px; 
-  padding: 4px 6px; 
-  margin-bottom: 4px; 
-  border-radius: 3px; 
-  color: #fff; 
-  cursor: pointer; 
-  white-space: nowrap; 
-  overflow: hidden; 
-  text-overflow: ellipsis; 
+  font-size: 12px; padding: 6px 8px; margin-bottom: 6px; border-radius: 6px; 
+  font-weight: 600; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; 
+  box-shadow: 0 2px 4px rgba(0,0,0,0.03); transition: transform 0.2s;
+}
+.calendar-event:hover { transform: scale(1.02); }
+
+.calendar-event.incumbent { background-color: #e0f2fe; color: #0284c7; border-left: 3px solid #0ea5e9; }
+.calendar-event.jobseeker { background-color: #ecfdf5; color: #059669; border-left: 3px solid #10b981; }
+
+.calendar-cell.fade .date-num { color: #cbd5e1 !important; }
+
+
+/* ========================================= */
+/* 🚀 모바일 반응형 처리 */
+/* ========================================= */
+@media (max-width: 1024px) {
+  .academy-form-table th { width: 140px; }
+  .calendar-cell { min-height: 100px; padding: 8px; }
+  .calendar-event { font-size: 11px; padding: 4px; }
 }
 
-.calendar-event.incumbent { 
-  background-color: #004ecc; 
+@media (max-width: 812px) {
+  .academy-tab-menu { display: grid; grid-template-columns: repeat(3, 1fr); }
+  .academy-form-section { padding: 30px 20px; }
+  .academy-form-table th, .academy-form-table td { display: block; width: 100%; border-bottom: none; }
+  .academy-form-table th { padding: 15px 10px 5px 10px; }
+  .academy-form-table td { padding: 0 10px 15px 10px; border-bottom: 1px solid #f1f5f9; }
+  .academy-input { max-width: 100%; }
+  
+  /* 모바일 달력 스크롤 */
+  .calendar-wrap { width: 100%; overflow-x: auto; padding-bottom: 10px; }
+  .calendar-grid { min-width: 700px; } 
 }
 
-.calendar-event.jobseeker { 
-  background-color: #008773; 
-}
-
-.calendar-cell.fade .date-num { 
-  color: #ccc !important; 
+@media (max-width: 600px) {
+  .academy-tab-menu { grid-template-columns: repeat(2, 1fr); background-color: transparent; padding: 0; gap: 10px;}
+  .academy-tab-item { border: 1px solid #f1f5f9; background-color: #f8fafc; padding: 12px 0; font-size: 14px;}
+  .academy-tab-item.active { border-color: #0ea5e9; }
 }

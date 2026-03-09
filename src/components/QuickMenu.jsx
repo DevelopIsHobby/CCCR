@@ -3,7 +3,6 @@ import { FiBriefcase, FiCheckSquare, FiBookOpen, FiAward, FiHeadphones, FiFolder
 import './QuickMenu.css';
 
 const QuickMenu = () => {
-  // 짝수(6개)로 맞추어 3열 배치 최적화
   const quickServices = [
     { id: 1, title: '연구개발 현황', icon: <FiBriefcase />, link: '#register' },
     { id: 2, title: '미취업자 교육', icon: <FiCheckSquare />, link: '#cert' },
@@ -15,11 +14,6 @@ const QuickMenu = () => {
 
   return (
     <div className="quick-menu-widget">
-      <div className="quick-menu-header">
-        <h2>QUICK MENU</h2>
-        <p>자주 찾는 서비스를 안내해드립니다.</p>
-      </div>
-      
       <ul className="quick-menu-grid">
         {quickServices.map((service) => (
           <li key={service.id} className="quick-menu-item">

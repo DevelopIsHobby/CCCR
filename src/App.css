@@ -1,104 +1,55 @@
+/* ========================================= */
+/* 🚀 메가 박스 배너 레이아웃 (위아래 여백 확보) */
+/* ========================================= */
 .hero-and-quick-section {
   width: 100%;
-  
-  /* 🚀 1. 단색 배경을 지우고 외부 이미지 URL을 넣습니다 */
-  background-image: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2000&auto=format&fit=crop'); /* 원하는 멋진 IT/클라우드 배경으로 바꿔주세요! */
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  
-  /* 🚀 2. 헤더가 fixed로 공중에 떴기 때문에, 헤더 높이(약 80px)만큼 위쪽 패딩을 넉넉히 주어 내용이 헤더에 가려지지 않게 합니다. */
-  padding: 120px 0 60px 0; /* 위 120px, 아래 60px */
-}
-
-/* --- 와이드형: 메인 배너 & 퀵메뉴 통합 레이아웃 --- */
-.hero-layout-full {
-  display: flex;
-  gap: 20px;
-  height: 450px;
-  /* 정렬 코드 통일 */
-  width: 100%;
-  max-width: 1600px; 
-  margin: 0 auto;
-  padding: 0 40px;
+  padding: 120px 40px 60px 40px; 
+  /* 🚀 배경을 어두운 다크 네이비~블랙 톤으로 깔아 배너가 확 살아나게 만듭니다! */
+  background-image: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2000&auto=format&fit=crop');
   box-sizing: border-box;
 }
 
-.hero-left {
-  flex: 7;
-  min-width: 0;
-  border-radius: 12px;
-  overflow: hidden; /* 슬라이드 모서리 둥글게 */
-  box-shadow: 0 10px 30px rgba(0,0,0,0.08); /* 배경 위에서 살짝 뜨게 그림자 추가 */
-}
-
-.hero-right {
-  flex: 3;         /* 30% 영역 차지 */
+.hero-layout-full {
   display: flex;
-  flex-direction: column;
-  min-width: 0;
+  flex-direction: column; /* 🚀 배너 아래에 퀵메뉴가 오도록 세로로 쌓기! */
+  gap: 30px; /* 배너와 퀵메뉴 사이의 시원한 간격 */
+  width: 100%;
+  max-width: 1600px; 
+  margin: 0 auto;
 }
 
+.hero-left {
+  width: 100%;
+  height: 550px; /* 시원하지만 너무 꽉 차지 않는 최적의 높이 */
+  border-radius: 24px; /* 둥근 모서리로 '박스' 느낌 강조 */
+  overflow: hidden;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1); /* 예쁜 그림자 */
+}
 
-/* 모바일 화면 반응형 */
+/* 🚀 PC: 퀵메뉴가 배너 안쪽 하단에 떠 있음 */
+.hero-right {
+  width: 100%;
+  max-width: 1200px; 
+  margin: 0 auto; /* 정중앙 정렬 */
+  z-index: 10;
+}
+
+/* ========================================= */
+/* 🚀 모바일 반응형 (핵심: 퀵메뉴를 배너 밖으로 빼냄!) */
+/* ========================================= */
+@media (max-width: 1024px) {
+  .hero-and-quick-section { padding: 100px 20px 60px 20px; }
+  .hero-left { height: 450px; border-radius: 20px; }
+  .hero-right { max-width: 90%; }
+}
+
 @media (max-width: 812px) {
-  .hero-and-quick-section {
-    /* 헤더 높이(약 80px)만큼 띄우고, 좌우 아래는 0으로 설정 */
-    padding: 80px 0 0 0;
-  }
-
-  .hero-layout-full {
-    flex-direction: column;
-    height: auto;
-    padding: 0; 
-    gap : 0;
-  }
-  
-  .hero-left {
-    /* 👇 1. 너비를 무조건 100%로 꽉 채우고, PC에서 쓰던 비율(flex: 7)을 해제합니다. */
-    width: 100%;
-    flex: none;
-
-    aspect-ratio: 16 / 9;
-    display: flex;
-    flex-direction: column;
-    border-radius: 0; 
-    box-shadow: none; 
-  }
-
-  /* 👇 2. 퀵 메뉴 영역(.hero-right)도 추가해서 너비 100% 설정 및 비율 해제! */
-  .hero-right {
-    width: 100%;
-    flex: none;
-  }
-
-  .board-section {
-    width: 100%;
-  }
+  .hero-and-quick-section { padding: 90px 15px 40px 15px; }
+  .hero-layout-full { gap: 15px; }
+  .hero-left { height: 350px; border-radius: 16px; }
+  .hero-right { max-width: 100%; }
 }
 
 @media (max-width: 570px) {
-  .hero-and-quick-section {
-    /* 헤더 높이(약 80px)만큼 띄우고, 좌우 아래는 0으로 설정 */
-    padding: 60px 0 0 0;
-  }
-
-  .hero-layout-full {
-    flex-direction: column;
-    height: auto;
-    padding: 0; 
-    gap : 0;
-  }
-  
-  .hero-left {
-    /* 👇 1. 너비를 무조건 100%로 꽉 채우고, PC에서 쓰던 비율(flex: 7)을 해제합니다. */
-    width: 100%;
-    flex: none;
-
-    aspect-ratio: 4 / 3;
-    display: flex;
-    flex-direction: column;
-    border-radius: 0; 
-    box-shadow: none; 
-  }
+  .hero-left { height: 350px; }
 }

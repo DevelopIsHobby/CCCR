@@ -1,596 +1,125 @@
-/* ========================================= */
-/* 1. 배너 상단 영역 (이미지 & 타이틀)        */
-/* ========================================= */
-.main-carousel-wrapper {
-  width: 100%;
-  height: 100%; /* 부모(.hero-left)의 높이에 100% 맞춤 */
-  display: flex;
-  flex-direction: column; /* 세로로 배치 (위: 슬라이드 / 아래: 인포바) */
-  border-radius: 12px; /* 바깥 hero-left와 둥근 모서리 곡률 통일 */
-  overflow: hidden; 
-  background-color: transparent;
-}
-
-.kosa-swiper {
-  width: 100%;
-  flex: 1; /* 하단 인포 바의 높이를 뺀 나머지 '모든' 세로 공간을 슬라이드가 차지함 */
-}
+.main-carousel-wrapper { width: 100%; height: 100%; position: relative; border-radius: 0; }
+.kosa-swiper { width: 100%; height: 100%; }
 
 .slide-content {
-  position: relative; 
-  width: 100%;
-  height: 100%; 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #ffffff;
-  
-  background-repeat: no-repeat;
-  background-position: center; 
-  
-  /* 이미지가 잘려도 다 나오고 싶다면 contain, 화면에 꽉차야한다면 cover를 사용합니다! */
-  /* background-size: contain;  */
-  
-  /* 만약 이미지가 잘리는 게 싫다면 cover 대신 contain을 쓰고, 
-     남는 빈 공간을 자연스럽게 채울 배경색을 추가해도 됩니다. */
-  /* background-color: #222; */
-
-  z-index: 1; 
-  overflow: hidden;
+  position: relative; width: 100%; height: 100%; 
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden; z-index: 1;
 }
 
-/* 🚀 1. 뒤에 깔리는 아주 흐린 배경 (화면 꽉 채움) */
-.slide-bg-blur {
-  position: absolute;
-  /* 테두리 하얗게 뜨는 것 방지 위해 조금 크게 잡음 */
-  top: -5%; left: -5%; right: -5%; bottom: -5%; 
-  background-size: cover; 
-  background-position: center;
-  filter: blur(20px) brightness(0.5); /* 흐리게 + 어둡게 */
-  z-index: -2; /* 가장 맨 밑바닥 */
-}
-/* 🚀 2. 앞에 보여지는 선명한 원본 이미지 (절대 안 잘림) */
+.slide-bg-blur { display: none; } /* 풀화면이므로 블러 불필요 */
+
 .slide-bg-clear {
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background-size: contain; /* 원본 비율 유지 */
-  background-repeat: no-repeat;
-  background-position: center;
-  z-index: -1; /* 흐린 배경보다는 위, 글씨보다는 아래 */
+  position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+  background-size: cover; /* 사진 꽉 차게 */
+  background-position: center; z-index: -1; 
 }
 
-/* 👇 배너 하단에 스르륵 깔리는 어두운 그라데이션 효과 */
+/* 🚀 그라데이션을 '아래쪽'과 '왼쪽'에만 살짝 깔아서 텍스트 가독성 확보 */
 .slide-content::after {
   content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 20%; /* 배너 아래에서부터 60% 높이까지 그라데이션 적용 */
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 100%);
-  pointer-events: none; /* 클릭 방해 금지 */
-  z-index: 1;
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+  background: linear-gradient(to top, rgba(79, 33, 33, 0.6) 0%, rgba(0, 0, 0, 0) 40%),
+              linear-gradient(to right, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0) 40%);
+  pointer-events: none; z-index: 1;
 }
 
-/* ========================================= */
-/* 배너 이미지 위 텍스트 오버레이 디자인       */
-/* ========================================= */
+/* 🚀 텍스트 위치: 퀵메뉴 띠(bottom 40px)에 가려지지 않도록 높이 240px로 확보 */
 .slide-text-overlay {
   position: absolute;
-  bottom: 10px; 
-  left: 20px;   
-  z-index: 2;   
+  bottom: 50px; /* 190px -> 50px로 확 내립니다! */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 1200px; 
+  z-index: 2; 
+  display: flex;
+  justify-content: flex-start; 
+}
+
+.text-content-wrapper { 
+  border-left: 4px solid #ffffff; /* 네온 시안 라인 유지 */
+  padding-left: 20px; 
+  margin-left: 20px;
+  display: flex; flex-direction: column; gap: 10px; 
   text-align: left;
 }
 
-/* 👇 세로 선을 만들어주는 핵심 컨테이너 */
-.text-content-wrapper {
-  /* 왼쪽에 4px 두께의 하얀색 실선을 만듭니다. (색상/두께 조절 가능!) */
-  border-left: 3px solid #ffffff; 
-  padding-left: 16px; /* 선과 글자 사이의 간격 */
-  display: flex;
-  flex-direction: column;
-  gap: 10px; /* 1번째 줄과 2번째 줄 사이 간격 */
-}
+.text-line-1 { color: #ffffff; font-size: 46px; font-weight: 800; letter-spacing: -1px; line-height: 1.2; text-shadow: 0 2px 15px rgba(0,0,0,0.4); }
+.text-line-2 { color: rgba(255, 255, 255, 0.95); font-size: 18px; font-weight: 400; line-height: 1.4; text-shadow: 0 2px 15px rgba(0,0,0,0.4); }
 
-/* 첫 번째 줄: 또렷한 흰색 */
-.text-line-1 {
-  color: #ffffff;
-  font-size: 24px;
-  font-weight: 600;
-  line-height: 1.2;
-  text-shadow: 1px 1px 4px rgba(0,0,0,0.4); 
-}
-
-/* 두 번째 줄: 투명한 회색 계열 */
-.text-line-2 {
-  color: rgba(255, 255, 255, 0.7); 
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 1.4;
-  text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
-}
-
-
-/* 기본 Swiper 네비게이션 숨김 */
-.swiper-button-next,
-.swiper-button-prev,
-.swiper-pagination {
-  display: none !important; 
-}
-
-
-/* ========================================= */
-/* 2. 배너 하단 정보 & 컨트롤 바 (블랙 테마)  */
-/* ========================================= */
+/* 🚀 컨트롤 바 위치: 텍스트와 똑같이 240px로 올려줍니다! */
 .carousel-info-bar {
-  width: 100%;
-  background-color: #111111; /* 세련된 블랙 배경 (쌩 검정색보다 살짝 부드러운 블랙) */
-  padding: 15px 0;
-}
-
-.carousel-info-bar .inner-container {
+  position: absolute;
+  bottom: 50px; /* 190px -> 50px로 확 내립니다! */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100% !important; 
+  max-width: 1200px; 
+  background-color: transparent; 
+  padding: 0; 
+  z-index: 10;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  padding: 0 15px; 
-  box-sizing: border-box;
-  /* max-width: 1280px; 와 margin: 0 auto; 가 있었다면 삭제! */
+  pointer-events: none;
 }
 
-/* --- 왼쪽 소제목 (흰색 텍스트) --- */
-.info-desc {
-  flex : 1;
-  min-width: 0;
-  line-height: 1.4;
-  white-space: normal;
-  word-break: keep-all;
-  font-size: 16px;
-  color: #ffffff; /* 블랙 배경에 맞춰 흰색으로 변경 */
-  font-weight: 400; /* 어두운 배경에서는 폰트 굵기를 살짝 빼주는 것이 예쁩니다 */
-  letter-spacing: -0.5px;
+.carousel-info-bar .inner-container { 
+  width: 100%; /* 부모 너비 그대로 상속 */
+  padding: 0; 
+  display: flex; 
+  align-items: center;
+  pointer-events: auto; /* 버튼 부분만 다시 클릭되게 활성화 */
 }
 
-/* --- 오른쪽 묶음 --- */
-.info-controls {
-  display: flex;
-  align-items: center;
+.info-desc { display: none; } 
+
+.info-controls { 
+  display: flex; 
+  align-items: center; 
   gap: 20px; 
+  /* 🚀 핵심 2: 왼쪽에 투명한 마진을 꽉 채워서, 버튼 뭉치를 무조건 오른쪽 끝으로 밀어냅니다! */
+  margin-left: auto !important; 
 }
 
-/* 페이지 번호 (예: 1-3) */
-.pagination-fraction {
-  font-size: 15px;
-  font-weight: 600;
-  color: #888888; /* 전체 번호는 회색 */
-  display: flex;
-  align-items: center;
-  gap: 4px;
+.pagination-fraction { font-size: 18px; font-weight: 400; color: rgba(255,255,255,0.8); display: flex; gap: 6px; align-items: center; }
+.pagination-fraction .current { color: #ffffff; font-weight: 800; font-size: 24px; }
+.pagination-fraction .dash { margin: 0 4px; }
+.control-btns { display: flex; gap: 8px; }
+.custom-prev, .custom-next, .play-pause-btn { background-color: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: #fff; width: 40px; height: 40px; border-radius: 50%; font-size: 16px; cursor: pointer; transition: all 0.3s; }
+.custom-prev:hover, .custom-next:hover, .play-pause-btn:hover { background-color: #0ea5e9; border-color: #0ea5e9; }
+
+/* 🚀 모바일 반응형 */
+@media (max-width: 1024px) {
+.slide-text-overlay {
+  bottom: 30px; /* 190px -> 50px로 확 내립니다! */
 }
 
-.pagination-fraction .current {
-  color: #ffffff; /* 현재 페이지 번호는 눈에 띄게 흰색으로 강조 */
+.carousel-info-bar {
+  bottom: 30px; /* 190px -> 50px로 확 내립니다! */
 }
 
-.pagination-fraction .dash {
-  font-weight: 400;
-  color: #555555;
-}
-
-/* --- 조작 버튼 (< || >) 다크 모드 스타일 --- */
-.control-btns {
-  display: flex;
-  align-items: center;
-  gap: 5px; 
-}
-
-.custom-prev,
-.custom-next,
-.play-pause-btn {
-  background-color: #222222; /* 블랙 배경에 묻히지 않는 다크 그레이 버튼 */
-  border: 1px solid #333333; 
-  color: #ffffff; /* 화살표 및 기호는 흰색 */
-  width: 32px;
-  height: 32px;
-  border-radius: 4px; 
-  font-size: 14px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s;
-}
-
-/* 버튼 마우스 호버 시 포인트 색상 (기존 파란색 유지) */
-.custom-prev:hover,
-.custom-next:hover,
-.play-pause-btn:hover {
-  background-color: #003a8c; /* CCCR 메인 블루 */
-  border-color: #003a8c;
-  color: #ffffff;
-}
-
-.play-pause-btn {
-  font-weight: 900;
-  font-size: 12px;
-  letter-spacing: 1px;
-}
-
-
-/* ========================================= */
-/* 3. 모바일 반응형 설정 (768px 이하)          */
-/* ========================================= */
-@media (max-width: 1280px) {
-  .slide-inner, .carousel-info-bar .inner-container {
-    padding: 0 15px; /* 양옆 여백을 줄여서 공간 확보 */
-  }
-
-  /* 👇 하단 바를 모바일에서도 무조건 1줄(가로)로 유지 */
-  .carousel-info-bar .inner-container {
-    flex-direction: row; 
-    align-items: center;
-    gap: 20px; /* 요소 사이 간격 축소 */
-  }
-  
-  /* 왼쪽 소제목: 공간이 부족하면 자동으로 '...' 말줄임 처리 */
-  .info-desc {
-    flex: 1;          /* 남는 공간을 모두 차지 */
-    min-width: 0;     /* 플렉스 박스 안에서 영역이 삐져나가는 것을 방지하는 마법의 속성 */
-    font-size: 15px;
-    line-height: 1.4; /* 줄바꿈 시 글자 위아래 간격 */
-    white-space: normal; /* 한 줄 강제를 풀고 자연스럽게 줄바꿈 허용 */
-    word-break: keep-all; /* 단어 단위로 예쁘게 줄바꿈 (한국어 최적화) */
-  }
-  
-  /* 오른쪽 컨트롤러 묶음 공간 최적화 */
-  .info-controls {
-    flex-shrink: 0;   /* 내 공간은 절대 양보 안 함! */
-    gap: 15px;
-  }
-
-  /* 번호 크기 축소 */
-  .pagination-fraction {
-    font-size: 15px;
-  }
-
-  /* 조작 버튼 크기 축소 */
-  .custom-prev,
-  .custom-next,
-  .play-pause-btn {
-    width: 20px;
-    height: 20px;
-    font-size: 14px;
-    padding: 4px;
-  }
-}
-
-@media (max-width: 1024) {
-  .slide-inner, .carousel-info-bar .inner-container {
-    padding: 0 15px; /* 양옆 여백을 줄여서 공간 확보 */
-  }
-  
-  /* 👇 하단 바를 모바일에서도 무조건 1줄(가로)로 유지 */
-  .carousel-info-bar .inner-container {
-    flex-direction: row; 
-    align-items: center;
-    gap: 15px; /* 요소 사이 간격 축소 */
-  }
-  
-  /* 왼쪽 소제목: 공간이 부족하면 자동으로 '...' 말줄임 처리 */
-  .info-desc {
-    flex: 1;          /* 남는 공간을 모두 차지 */
-    min-width: 0;     /* 플렉스 박스 안에서 영역이 삐져나가는 것을 방지하는 마법의 속성 */
-    font-size: 13px;
-    line-height: 1.4; /* 줄바꿈 시 글자 위아래 간격 */
-    white-space: normal; /* 한 줄 강제를 풀고 자연스럽게 줄바꿈 허용 */
-    word-break: keep-all; /* 단어 단위로 예쁘게 줄바꿈 (한국어 최적화) */
-  }
-  
-  /* 오른쪽 컨트롤러 묶음 공간 최적화 */
-  .info-controls {
-    flex-shrink: 0;   /* 내 공간은 절대 양보 안 함! */
-    gap: 10px;
-  }
-
-  /* 번호 크기 축소 */
-  .pagination-fraction {
-    font-size: 13px;
-  }
-
-  /* 조작 버튼 크기 축소 */
-  .custom-prev,
-  .custom-next,
-  .play-pause-btn {
-    width: 17px;
-    height: 17px;
-    font-size: 13px;
-    padding: 4px;
-  }
+  .text-line-1 { font-size: 34px; }
+  .text-line-2 { font-size: 16px; }
 }
 
 @media (max-width: 812px) {
-
-  .slide-inner, .carousel-info-bar .inner-container {
-    padding: 0 15px; /* 양옆 여백을 줄여서 공간 확보 */
-  }
-
-
-  /* 👇 하단 바를 모바일에서도 무조건 1줄(가로)로 유지 */
-  .carousel-info-bar .inner-container {
-    flex-direction: row; 
-    align-items: center;
-    gap: 15px; /* 요소 사이 간격 축소 */
-  }
-  
-  /* 왼쪽 소제목: 공간이 부족하면 자동으로 '...' 말줄임 처리 */
-  .info-desc {
-    flex: 1;          /* 남는 공간을 모두 차지 */
-    min-width: 0;     /* 플렉스 박스 안에서 영역이 삐져나가는 것을 방지하는 마법의 속성 */
-    font-size: 16px;
-    line-height: 1.4; /* 줄바꿈 시 글자 위아래 간격 */
-    white-space: normal; /* 한 줄 강제를 풀고 자연스럽게 줄바꿈 허용 */
-    word-break: keep-all; /* 단어 단위로 예쁘게 줄바꿈 (한국어 최적화) */
-  }
-  
-  /* 오른쪽 컨트롤러 묶음 공간 최적화 */
-  .info-controls {
-    flex-shrink: 0;   /* 내 공간은 절대 양보 안 함! */
-    gap: 20px;
-  }
-
-  /* 번호 크기 축소 */
-  .pagination-fraction {
-    font-size: 16px;
-  }
-
-  /* 조작 버튼 크기 축소 */
-  .custom-prev,
-  .custom-next,
-  .play-pause-btn {
-    width: 18px;
-    height: 18px;
-    font-size: 20px;
-    padding: 4px;
-  }
+  .text-line-1 { font-size: 30px; }
+  .text-line-2 { font-size: 14px; }
+  .slide-text-overlay { bottom: 30px; left: 5px; transform: none; width: auto; }
+  .carousel-info-bar { bottom: 30px; right: 10px; left: -10px; transform: none; width: auto; justify-content: flex-end; } 
+  .custom-prev, .custom-next, .play-pause-btn { width: 35px; height: 35px; font-size: 14px; }
+  .pagination-fraction { font-size: 18px; }
+  .pagination-fraction .current { font-size: 18px; }
 }
 
-@media (max-width: 600px) {
-  .slide-inner, .carousel-info-bar .inner-container {
-    padding: 0 15px; /* 양옆 여백을 줄여서 공간 확보 */
-  }
-
-  .slide-text-overlay {
-    position: absolute;
-    bottom: 15px; 
-    left: 20px;   
-    z-index: 2;   
-    text-align: left;
-  }
-
-  /* 👇 세로 선을 만들어주는 핵심 컨테이너 */
-  .text-content-wrapper {
-    /* 왼쪽에 4px 두께의 하얀색 실선을 만듭니다. (색상/두께 조절 가능!) */
-    border-left: 3px solid #ffffff; 
-    padding-left: 16px; /* 선과 글자 사이의 간격 */
-    display: flex;
-    flex-direction: column;
-    gap: 10px; /* 1번째 줄과 2번째 줄 사이 간격 */
-  }
-
-  /* 첫 번째 줄: 또렷한 흰색 */
-  .text-line-1 {
-    color: #ffffff;
-    font-size: 20px;
-    font-weight: 600;
-    line-height: 1.2;
-    text-shadow: 1px 1px 4px rgba(0,0,0,0.4); 
-  }
-
-  /* 두 번째 줄: 투명한 회색 계열 */
-  .text-line-2 {
-    color: rgba(255, 255, 255, 0.7); 
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 1.4;
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
-  }
-  
-  /* 👇 하단 바를 모바일에서도 무조건 1줄(가로)로 유지 */
-  .carousel-info-bar .inner-container {
-    flex-direction: row; 
-    align-items: center;
-    gap: 15px; /* 요소 사이 간격 축소 */
-  }
-  
-  /* 왼쪽 소제목: 공간이 부족하면 자동으로 '...' 말줄임 처리 */
-  .info-desc {
-    flex: 1;          /* 남는 공간을 모두 차지 */
-    min-width: 0;     /* 플렉스 박스 안에서 영역이 삐져나가는 것을 방지하는 마법의 속성 */
-    font-size: 14px;
-    line-height: 1.4; /* 줄바꿈 시 글자 위아래 간격 */
-    white-space: normal; /* 한 줄 강제를 풀고 자연스럽게 줄바꿈 허용 */
-    word-break: keep-all; /* 단어 단위로 예쁘게 줄바꿈 (한국어 최적화) */
-  }
-  
-  /* 오른쪽 컨트롤러 묶음 공간 최적화 */
-  .info-controls {
-    flex-shrink: 0;   /* 내 공간은 절대 양보 안 함! */
-    gap: 10px;
-  }
-
-  /* 번호 크기 축소 */
-  .pagination-fraction {
-    font-size: 14px;
-  }
-
-  /* 조작 버튼 크기 축소 */
-  .custom-prev,
-  .custom-next,
-  .play-pause-btn {
-    width: 16px;
-    height: 16px;
-    font-size: 14px;
-    padding: 4px;
-  }
-}
-
-@media (max-width: 480px) {
-  .slide-inner, .carousel-info-bar .inner-container {
-    padding: 0 15px; /* 양옆 여백을 줄여서 공간 확보 */
-  }
-
-  .slide-text-overlay {
-    position: absolute;
-    bottom: 15px; 
-    left: 20px;   
-    z-index: 2;   
-    text-align: left;
-  }
-
-  /* 👇 세로 선을 만들어주는 핵심 컨테이너 */
-  .text-content-wrapper {
-    /* 왼쪽에 4px 두께의 하얀색 실선을 만듭니다. (색상/두께 조절 가능!) */
-    border-left: 3px solid #ffffff; 
-    padding-left: 16px; /* 선과 글자 사이의 간격 */
-    display: flex;
-    flex-direction: column;
-    gap: 10px; /* 1번째 줄과 2번째 줄 사이 간격 */
-  }
-
-  /* 첫 번째 줄: 또렷한 흰색 */
-  .text-line-1 {
-    color: #ffffff;
-    font-size: 18px;
-    font-weight: 600;
-    line-height: 1.2;
-    text-shadow: 1px 1px 4px rgba(0,0,0,0.4); 
-  }
-
-  /* 두 번째 줄: 투명한 회색 계열 */
-  .text-line-2 {
-    color: rgba(255, 255, 255, 0.7); 
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 1.4;
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
-  }
-
-  
-  /* 👇 하단 바를 모바일에서도 무조건 1줄(가로)로 유지 */
-  .carousel-info-bar .inner-container {
-    flex-direction: row; 
-    align-items: center;
-    gap: 15px; /* 요소 사이 간격 축소 */
-  }
-  
-  /* 왼쪽 소제목: 공간이 부족하면 자동으로 '...' 말줄임 처리 */
-  .info-desc {
-    flex: 1;          /* 남는 공간을 모두 차지 */
-    min-width: 0;     /* 플렉스 박스 안에서 영역이 삐져나가는 것을 방지하는 마법의 속성 */
-    font-size: 12px;
-    line-height: 1.4; /* 줄바꿈 시 글자 위아래 간격 */
-    white-space: normal; /* 한 줄 강제를 풀고 자연스럽게 줄바꿈 허용 */
-    word-break: keep-all; /* 단어 단위로 예쁘게 줄바꿈 (한국어 최적화) */
-  }
-  
-  /* 오른쪽 컨트롤러 묶음 공간 최적화 */
-  .info-controls {
-    flex-shrink: 0;   /* 내 공간은 절대 양보 안 함! */
-    gap: 10px;
-  }
-
-  /* 번호 크기 축소 */
-  .pagination-fraction {
-    font-size: 11px;
-  }
-
-  /* 조작 버튼 크기 축소 */
-  .custom-prev,
-  .custom-next,
-  .play-pause-btn {
-    width: 11px;
-    height: 11px;
-    font-size: 11px;
-    padding: 2px;
-  }
-}
-
-@media (max-width: 400px) {
-  .slide-inner, .carousel-info-bar .inner-container {
-    padding: 0 15px; /* 양옆 여백을 줄여서 공간 확보 */
-  }
-  
-  /* 👇 하단 바를 모바일에서도 무조건 1줄(가로)로 유지 */
-  .carousel-info-bar .inner-container {
-    flex-direction: row; 
-    align-items: center;
-    gap: 15px; /* 요소 사이 간격 축소 */
-  }
-  
-  /* 왼쪽 소제목: 공간이 부족하면 자동으로 '...' 말줄임 처리 */
-  .info-desc {
-    flex: 1;          /* 남는 공간을 모두 차지 */
-    min-width: 0;     /* 플렉스 박스 안에서 영역이 삐져나가는 것을 방지하는 마법의 속성 */
-    font-size: 10px;
-    line-height: 1.4; /* 줄바꿈 시 글자 위아래 간격 */
-    white-space: normal; /* 한 줄 강제를 풀고 자연스럽게 줄바꿈 허용 */
-    word-break: keep-all; /* 단어 단위로 예쁘게 줄바꿈 (한국어 최적화) */
-  }
-  
-  /* 오른쪽 컨트롤러 묶음 공간 최적화 */
-  .info-controls {
-    flex-shrink: 0;   /* 내 공간은 절대 양보 안 함! */
-    gap: 10px;
-  }
-
-  /* 번호 크기 축소 */
-  .pagination-fraction {
-    font-size: 9px;
-  }
-
-  /* 조작 버튼 크기 축소 */
-  .custom-prev,
-  .custom-next,
-  .play-pause-btn {
-    width: 10px;
-    height: 10px;
-    font-size: 9px;
-    padding: 2px;
-  }
-
-  .slide-text-overlay {
-  position: absolute;
-  bottom: 12px; 
-  left: 10px;   
-  z-index: 2;   
-  text-align: left;
-}
-/* 👇 세로 선을 만들어주는 핵심 컨테이너 */
-.text-content-wrapper {
-  /* 왼쪽에 4px 두께의 하얀색 실선을 만듭니다. (색상/두께 조절 가능!) */
-  border-left: 3px solid #ffffff; 
-  padding-left: 16px; /* 선과 글자 사이의 간격 */
-  display: flex;
-  flex-direction: column;
-  gap: 8px; /* 1번째 줄과 2번째 줄 사이 간격 */
-}
-
-/* 첫 번째 줄: 또렷한 흰색 */
-.text-line-1 {
-  color: #ffffff;
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 1.4;
-  text-shadow: 1px 1px 4px rgba(0,0,0,0.4); 
-}
-
-/* 두 번째 줄: 투명한 회색 계열 */
-.text-line-2 {
-  color: rgba(255, 255, 255, 0.7); 
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 1.2;
-  text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
-}
+@media (max-width: 620px) {
+  .slide-text-overlay { bottom: 65px; left: 15px; }
+  .carousel-info-bar { bottom: 15px; left: -10px; justify-content: flex-start; }
+  .text-line-1 { font-size: 22px; }
+  .text-line-2 { display: none; } 
+  .text-content-wrapper { margin-left: 5px; }
+  .carousel-info-bar { bottom: 20px; } 
+  .custom-prev, .custom-next, .play-pause-btn { width: 30px; height: 30px; font-size: 12px; }
+  .pagination-fraction { font-size: 16px; }
+  .pagination-fraction .current { font-size: 18px; }
 }

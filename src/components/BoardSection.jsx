@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'; // useRef 추가
+import React, { useState, useRef } from 'react'; 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, A11y } from 'swiper/modules';
 import { Link } from 'react-router-dom';
@@ -9,12 +9,9 @@ import tabaImg from '../assets/TABA_7기.jpg';
 import sassaakImg from '../assets/새싹_3기.png';
 import recruitImg from '../assets/채용_4기.jpg';
 
-
 const BoardSection = () => {
-  // 기본 탭을 '전체(all)'로 설정합니다.
   const [activeTab, setActiveTab] = useState('all');
 
-  // 👇 '보도자료'를 '행사소식(event)'으로 모두 변경했습니다.
   const allBoardData = [
     { id: 1, category: 'notice', categoryLabel: '공지사항', title: '[안내] 2026년 CCCR 상반기 교육 일정 안내', date: '2026-03-03' },
     { id: 2, category: 'event', categoryLabel: '행사소식', title: 'CCCR, 지역 IT 인재 양성을 위한 MOU 체결', date: '2026-03-02' },
@@ -24,44 +21,21 @@ const BoardSection = () => {
     { id: 6, category: 'event', categoryLabel: '행사소식', title: '소프트웨어 산업 동향 세미나 개최 결과', date: '2026-02-10' },
   ];
 
-  
-  // 🚀 날짜를 비교해서 가장 최신 글이 위로 오게(내림차순) 정렬하는 마법의 함수!
   const sortByDateDesc = (a, b) => new Date(b.date) - new Date(a.date);
 
   let filteredData = [];
-
   if (activeTab === 'all') {
-    // 1. 공지사항만 골라냄 -> 최신순 정렬 -> 상위 3개 자름
-    const noticeList = allBoardData
-      .filter(item => item.category === 'notice')
-      .sort(sortByDateDesc)
-      .slice(0, 3);
-      
-    // 2. 행사소식만 골라냄 -> 최신순 정렬 -> 상위 3개 자름
-    const eventList = allBoardData
-      .filter(item => item.category === 'event')
-      .sort(sortByDateDesc)
-      .slice(0, 3);
-    
-    // 3. 최신 공지 3개 + 최신 행사 3개 합체!
+    const noticeList = allBoardData.filter(item => item.category === 'notice').sort(sortByDateDesc).slice(0, 3);
+    const eventList = allBoardData.filter(item => item.category === 'event').sort(sortByDateDesc).slice(0, 3);
     filteredData = [...noticeList, ...eventList]; 
-    
   } else {
-    // 개별 탭을 눌렀을 때도 무조건 '최신순'으로 정렬해서 6개 보여주기!
-    filteredData = allBoardData
-      .filter(item => item.category === activeTab)
-      .sort(sortByDateDesc)
-      .slice(0, 6);
+    filteredData = allBoardData.filter(item => item.category === activeTab).sort(sortByDateDesc).slice(0, 6);
   }
 
- 
-
-  // 👇 --- 알림판(홍보 배너) 슬라이드 로직 --- 👇
   const [isPromoPlaying, setIsPromoPlaying] = useState(true);
   const [activePromoIndex, setActivePromoIndex] = useState(0); 
   const promoSwiperRef = useRef(null);
 
-  // 👇 여기를 실제 이미지 변수로 교체합니다!
   const promoSlides = [
     { id: 1, img: tabaImg },
     { id: 2, img: sassaakImg },
@@ -90,20 +64,19 @@ const BoardSection = () => {
       promoSwiperRef.current.swiper.slideNext();
     }
   };
-  // 👆 --- 알림판 슬라이드 로직 끝 --- 👆
 
   return (
     <div className="board-section-wrapper">
       <div className="board-grid-full">
 
-        {/* 좌측: CCCR 스타일 게시판 영역 */}
+        {/* 좌측: 모던 스타일 게시판 영역 */}
         <div className="board-tabs-area">
           
           <div className="board-header">
-            {/* 👇 '새소식' 글자에만 파란색을 주기 위해 span으로 감쌌습니다! */}
             <h2 className="board-main-title">CCCR <span className="highlight-blue">새소식</span></h2>
             
             <div className="board-controls">
+              {/* 🚀 iOS 스타일의 모던 탭 버튼 컨테이너 */}
               <div className="tab-buttons">
                 <button 
                   className={`tab-btn ${activeTab === 'all' ? 'active' : ''}`}
@@ -114,17 +87,17 @@ const BoardSection = () => {
                   onClick={() => setActiveTab('notice')}
                 >공지사항</button>
                 <button 
-                  className={`tab-btn ${activeTab === 'event' ? 'active' : ''}`} // news -> event로 변경
+                  className={`tab-btn ${activeTab === 'event' ? 'active' : ''}`}
                   onClick={() => setActiveTab('event')}
                 >행사소식</button>
               </div>
-              {/* 👇 더보기 버튼 */}
+
+              {/* 🚀 텍스트 기반의 세련된 더보기 버튼 */}
               <Link 
                 to={activeTab === 'event' ? '/news/event' : '/news/notice'} 
-                className="more-btn" 
-                aria-label="더보기"
+                className="more-btn-modern" 
               >
-                +
+                더보기 <span className="more-arrow">+</span>
               </Link>
             </div>
           </div>
@@ -140,9 +113,12 @@ const BoardSection = () => {
                         {item.categoryLabel}
                       </span>
                       <span className="board-title">{item.title}</span>
-                      
                     </div>
-                    <span className="board-date">{item.date}</span>
+                    {/* 🚀 날짜와 호버용 화살표를 묶어주는 우측 그룹 */}
+                    <div className="board-right-group">
+                      <span className="board-date">{item.date}</span>
+                      <span className="hover-arrow">&rarr;</span>
+                    </div>
                   </a>
                 </li>
               ))}
@@ -152,10 +128,8 @@ const BoardSection = () => {
 
         {/* 우측: 알림판 (미니 슬라이드 배너) */}
         <div className="board-banner-area">
-          
-          {/* 좌측 상단 타이틀 */}
           <div className="promo-header">
-            <h2 className="promo-title">알림판</h2>
+            <h2 className="promo-title">HOT 이슈</h2>
           </div>
 
           <div className="promo-carousel-container">
@@ -171,7 +145,6 @@ const BoardSection = () => {
             >
               {promoSlides.map((slide) => (
                 <SwiperSlide key={slide.id}>
-                  {/* 🚀 원래대로 심플하게 1개의 div로 되돌립니다 */}
                   <div 
                     className="promo-slide-bg" 
                     style={{ backgroundImage: `url("${slide.img}")` }}
@@ -180,16 +153,13 @@ const BoardSection = () => {
               ))}
             </Swiper>
 
-            {/* 우측 하단: 「 1 - 3 < || > 형태의 컨트롤 박스 */}
             <div className="promo-controls-wrapper">
-              
               <span className="promo-pagination">
                 <span className="current">{activePromoIndex + 1}</span>
-                <span className="dash">-</span>
+                <span className="dash">/</span>
                 <span className="total">{promoSlides.length}</span>
               </span>
               
-              {/* 🚀 버튼 3개를 그룹으로 묶어줍니다! */}
               <div className="promo-btn-group">
                 <button className="promo-ctrl-btn" onClick={handlePromoPrev}>&lt;</button>
                 <button className="promo-ctrl-btn play-pause" onClick={togglePromoPlay}>
@@ -197,9 +167,7 @@ const BoardSection = () => {
                 </button>
                 <button className="promo-ctrl-btn" onClick={handlePromoNext}>&gt;</button>
               </div>
-
             </div>
-            
           </div>
         </div>
 

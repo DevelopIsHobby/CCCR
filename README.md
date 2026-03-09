@@ -1,16 +1,79 @@
-# React + Vite
+2026. 03. 09. 16:55
+메인페이지 > Header > '조합소식 받기' 클릭 > 팜업창 및 신청폼 
+메인페이지 > Header > '+채널추가' 클릭 > 카카오톡 친구추가 
+메인페이지 > Header > 단독메뉴로 나오는거 전체 메뉴로 나오도록 변경
+메인페이지 > Header > 회원가입 페이지 추가 구성(개인/회원사 가입)
+메인페이지 > Header 서브메뉴 구성
+    주요사업
+        연구개발
+            유연의료 써드파티 자율행동체 자원풀링 엣지AI 위기대응
+        표준화(삭제)
+        교육
+            전문인력 대학·기업협력형 채용연계형 새싹
+        대외협력
+            포럼 SW진흥정책
+        홍보
+            홍보서비스(이메일, 홈페이지/뉴스레터 배너, 공지사항/행사소식 게시, 스폰서쉽)
+            홍보서비스 이용료
+        회원사 지원
+            회원사소식 회원사특전
+            
+    인재양성 : CCCR아카데미와 링크 연계 + 간단하게 내용 소개
+        교육훈련
+        교육신청
+        교육일정
+        교육문의
+        교육제안
+    
+    알림마당 : + 기호 없애기 
+        공지사항
+        행사소식
+        기술동향 : IITP 기술동향 게시판
+        법령정보 : 클라우드 관련법 게시판
+        뉴스레터
+        최신뉴스
+        자료실(메뉴 추가)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+    회원공간 
+        가입안내
+        회원안내 : 특전 소개
+        회원소식 : 회사 관련 뉴스 게시판
+        회원홍보 : 회사 + 제품 소개
+        회원사 현황(메뉴 추가)
+        온·오프라인 홍보 : "홍보" 탭의 내용 작성
 
-Currently, two official plugins are available:
+    조합안내 : + 기호 없애기
+        인사말 : 기존 CCCR 페이지 내용 작성
+        설립목적 및 연혁 : 기존 CCCR 페이지 내용 작성
+        역대 조합장 : 내용 추가
+        이사 소개 : 현 이사 관련 내용 추가
+        조직도 : 기존 CCCR 페이지 내용 작성
+        오시는길 : 네이버맵
+        CI : 로고
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+메인페이지 > MainCarousel > 배너 클릭 > 해당 페이지로 이동
+메인페이지 > MainCarousel > 공지사항/행사소식 클릭 > 해당 페이지로 이동
+메인페이지 > MainCarousel > Hot 이슈 클릭 > 해당 페이지로 이동
 
-## React Compiler
+메인페이지 > QuickMenu > 연구개발 현황 > 주요사업의 연구개발로 이동
+메인페이지 > QuickMenu > 미취업자 교육 > 인재양성의 교육신청으로 이동
+메인페이지 > QuickMenu > 재직자 교육 > 인재양성의 교육신청으로 이동
+메인페이지 > QuickMenu > 온·오프라인 홍보 > 회원공간 온·오프라인 홍보로 이동
+메인페이지 > QuickMenu > 뉴스레터 신청 > 뉴스레터 신청폼으로 이동
+메인페이지 > QuickMenu > 회원사 가입 안내 > 회원공간의 가입안내로 이동
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+메인페이지 > EduSection > '수강신청 바로가기' 클릭 > 해당 교육 수강신청 페이지(CCCR아카데미)로 이동
 
-## Expanding the ESLint configuration
+메인페이지 > MemberSpace > IITP 기술동향 > 알림마당의 '기술동향'으로 이동
+메인페이지 > MemberSpace > 클라우드 법령정보 > 알림마당의 '법령정보'으로 이동
+메인페이지 > MemberSpace > 뉴스레터 > 알림마당의 '뉴스레터'로 이동
+메인페이지 > MemberSpace > 세미나/자료실 > 알림마당의 '자료실'로 이동
+메인페이지 > MemberSpace > 회원사 소식 > 회원공간의 '회원소식'으로 이동
+메인페이지 > MemberSpace > 흉보 서비스 > 회원공간의 '회원홍보'로 이동
+메인페이지 > MemberSpace > 회원사 가입안내 > 회원공간의 '가입안내'로 이동
+메인페이지 > MemberSpace > 회원사 현황 > 회원공간의 '회원사현황'로 이동
+메인페이지 > MemberSpace > 뉴스 클릭 > 해당 뉴스로 이동
+메인페이지 > MemberSpace > 사전등록 > 해당 행사 사전등록 신청폼으로 이동
+메인페이지 > MemberSpace > 뉴스레터 정기구독 > 뉴스레터 신청폼으로 이동
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+

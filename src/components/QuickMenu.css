@@ -1,266 +1,64 @@
-/* 1. 퀵 메뉴 전체 상자 (푸른빛 둥근 테두리 적용) */
+/* 🚀 가로로 긴 띠 형태의 다크 네이비 유리 상자 */
 .quick-menu-widget {
   width: 100%;
-  height: 100%;
-  background-color: rgba(255, 255, 255, 0.85); /* 🚀 반투명한 흰색 */
-  backdrop-filter: blur(12px); /* 🚀 뒤쪽 배경을 흐리게 블러 처리 (핵심!) */
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.6); /* 테두리도 반투명하게 */
-  border-radius: 24px;
-  padding: 30px 25px; 
-  display: flex;
-  flex-direction: column;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1); /* 묵직하고 부드러운 그림자 */
+  background: rgba(15, 23, 42, 0.65); 
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
+  padding: 25px 40px; 
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
   box-sizing: border-box;
 }
 
-/* 2. 타이틀 좌측 상단 고정 */
-.quick-menu-header {
-  width: 100%;
-}
-
-.quick-menu-header h2 {
-  font-size: 26px;
-  font-weight: 700;
-  color: #222; /* 타이틀도 메인 블루로 변경 */
-  text-align: left; 
-  margin: 0;
-}
-
-.quick-menu-header p {
-  font-size: 12px;
-  color: #666;
-  margin: 5px 0 0 0;
-}
-
-/* 3. 2행 3열 (2x3) 그리드로 변경! (가로 3칸, 세로 2칸) */
 .quick-menu-grid {
   list-style: none;
-  padding: 0;
-  margin: 0;
-  display: grid;
-  
-  /* 1fr 대신 크기를 고정해서 아이콘들이 쫙 퍼지지 않게 방어합니다 */
-  grid-template-columns: repeat(3, 1fr); /* 가로 3칸 (아이콘+글자 너비만큼만 할당) */
-  grid-template-rows: repeat(2, auto);    /* 세로 2칸 (내용물 높이만큼만 할당) */
-  
-  /* 쪼그라든 그리드 덩어리 전체를 상자 정중앙으로 예쁘게 모아줍니다 */
-  justify-content: center; /* 가로 중앙으로 옹기종기 모으기 */
-  align-content: center;   /* 세로 중앙으로 옹기종기 모으기 */
-  
-  /* 이제 진짜 아이콘 사이의 거리는 여기서 마음대로 조절할 수 있습니다! */
-  gap: 30px 15px; /* 앞의 숫자(25px)=위아래 간격 / 뒤의 숫자(20px)=양옆 간격 */
-  
-  flex-grow: 1;
+  padding: 0; margin: 0;
+  display: flex;
+  justify-content: space-between; /* 1줄로 쫙 펼치기 */
+  align-items: center;
+  gap: 15px;
 }
 
-/* 4. 전체 버튼(a 태그) 구조 정렬 */
+.quick-menu-item { flex: 1; }
+
 .quick-menu-item a {
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 12px; 
-  height: 100%;
+  gap: 12px;
   text-decoration: none;
-  background: none; 
-  border: none;     
 }
 
-/* 5. 앱 아이콘 스타일의 둥근 사각형 (푸른색 테마) */
 .icon-box {
-  width: 80px;  /* 가로 3칸에 맞게 크기 최적화 */
-  height: 60px;
-  background-color: white; /* 👈 아주 연하고 부드러운 파란색 배경 */
-  border: 1px solid #cce0f5; /* 👈 배경보다 살짝 진한 파란색 테두리 */
-  border-radius: 16px;       /* 👈 둥근 사각형 (Squircle) 모양 */
-  font-size: 36px;    
-  color: #003a8c;            /* 👈 진한 파란색 아이콘 */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease-in-out;
+  width: 64px; height: 64px;
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 18px; 
+  font-size: 30px; color: #ffffff;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.3s;
 }
 
-/* 6. 바깥으로 빠진 텍스트 */
 .service-title {
-  font-size: 14px; 
-  font-weight: 600;
-  color: #333;
-  word-break: keep-all; 
-  text-align: center;
-  line-height: 1.2;
-  transition: color 0.2s ease-in-out;
+  font-size: 16px; font-weight: 500;
+  color: rgba(255, 255, 255, 0.8);
+  text-align: center; word-break: keep-all; transition: color 0.3s;
 }
 
-/* 7. 마우스 호버(Hover) 효과 */
 .quick-menu-item a:hover .icon-box {
-  background-color: #003a8c; /* 호버 시 쨍한 파란색으로 반전 */
-  color: #ffffff;            /* 아이콘은 흰색으로 */
-  box-shadow: 0 6px 14px rgba(0, 58, 140, 0.2);
-  transform: translateY(-3px); 
+  background-color: #0ea5e9; border-color: #0ea5e9;
+  color: #ffffff; transform: translateY(-6px);
+  box-shadow: 0 10px 20px rgba(14, 165, 233, 0.4);
 }
+.quick-menu-item a:hover .service-title { color: #ffffff; font-weight: 700; }
 
-.quick-menu-item a:hover .service-title {
-  color: #003a8c; 
-}
-
-
-/* ========================================= */
-/* 반응형 미디어 쿼리 (1280px, 1024px, 812px)  */
-/* ========================================= */
-
-/* 1280px 이하: 데스크톱 및 큰 태블릿 */
-@media (max-width: 1280px) {
-  .quick-menu-header h2 {
-    font-size: 24px;
-  }
-
-  .quick-menu-header p {
-    font-size: 11px;
-  }
-
-  /* .quick-menu-widget 기본 padding이 이미 20px이므로 생략 */
-  .quick-menu-grid { 
-    grid-template-columns: repeat(3, 75px); /* 그리드 칸을 살짝 축소 */
-    gap: 35px 15px; /* 간격 축소 */
-  }
-  .icon-box { 
-    width: 65px;   /* 가로 비율 유지하며 축소 */
-    height: 50px; 
-    font-size: 32px; 
-    border-radius: 14px; 
-  }
-  .service-title { font-size: 13px; }
-}
-
-/* 1024px 이하: 일반 태블릿 */
 @media (max-width: 1024px) {
-  .quick-menu-widget { padding: 15px; }
-  .quick-menu-header h2 { font-size: 20px; } /* 헤더 글씨도 살짝 축소 */
-  .quick-menu-header p {
-    font-size: 10px;
-  }
-  .quick-menu-grid {
-    /* 1fr 대신 크기를 고정해서 아이콘들이 쫙 퍼지지 않게 방어합니다 */
-    grid-template-columns: repeat(2, 85px); /* 가로 3칸 (아이콘+글자 너비만큼만 할당) */
-    grid-template-rows: repeat(3, auto);    /* 세로 2칸 (내용물 높이만큼만 할당) */
-    
-    /* 쪼그라든 그리드 덩어리 전체를 상자 정중앙으로 예쁘게 모아줍니다 */
-    justify-content: center; /* 가로 중앙으로 옹기종기 모으기 */
-    align-content: center;   /* 세로 중앙으로 옹기종기 모으기 */
-    
-    /* 이제 진짜 아이콘 사이의 거리는 여기서 마음대로 조절할 수 있습니다! */
-    gap: 20px 15px; /* 앞의 숫자(25px)=위아래 간격 / 뒤의 숫자(20px)=양옆 간격 */
-    
-    flex-grow: 1;
-  }
-  .icon-box { 
-    width: 60px;   /* 가로 비율 유지 */
-    height: 50px; 
-    font-size: 32px; 
-    border-radius: 12px; 
-  }
-  .service-title { font-size: 12px; }
+  .quick-menu-widget { padding: 20px; }
+  .icon-box { width: 50px; height: 50px; font-size: 24px; border-radius: 14px; }
+  .service-title { font-size: 14px; }
 }
-
 @media (max-width: 812px) {
-  .quick-menu-widget {
-    padding: 25px 20px;
-    border-radius: 0;
-    border-left: none;
-    border-right: none;
-    box-shadow: none;
-    background-color: #eef5fb;
-  }
-  .quick-menu-header { 
-    margin-bottom: 20px; 
-  }
-  .quick-menu-header h2 { font-size: 26px; } /* 헤더 글씨도 살짝 축소 */
-  .quick-menu-header p {
-    font-size: 13px;
-  }  
-  .quick-menu-grid {
-    /* 모바일에서도 가로 3칸, 세로 2칸 (2x3) 배열을 사용하여 세로 길이를 최적화합니다 */
-    grid-template-columns: repeat(6, 1fr); 
-    grid-template-rows: repeat(1, auto);
-    gap: 20px 20px; 
-  }
-  
-  .icon-box { 
-    width: 78px; 
-    height: 60px; 
-    font-size: 36px; 
-    border-radius: 16px;
-  }
-  
-  .service-title { 
-    font-size: 14px; 
-  }
+  .quick-menu-widget { border-radius: 16px; padding: 20px 10px; }
+  .quick-menu-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px 5px; }
 }
-
-@media (max-width: 600px) {
-    .quick-menu-grid {
-    /* 모바일에서도 가로 3칸, 세로 2칸 (2x3) 배열을 사용하여 세로 길이를 최적화합니다 */
-    grid-template-columns: repeat(6, 1fr); 
-    grid-template-rows: repeat(1, auto);
-    gap: 10px 0px; 
-  }
-
-  .icon-box { 
-    width: 66px; 
-    height: 60px; 
-    font-size: 32px; 
-    border-radius: 16px;
-  }
-  
-  .service-title { 
-    font-size: 12px; 
-  }
-}
-
-@media (max-width: 570px) {
-    .quick-menu-grid {
-    /* 모바일에서도 가로 3칸, 세로 2칸 (2x3) 배열을 사용하여 세로 길이를 최적화합니다 */
-    grid-template-columns: repeat(3, 1fr); 
-    grid-template-rows: repeat(2, auto);
-    gap: 10px 0px; 
-  }
-
-  .icon-box { 
-    width: 78px; 
-    height: 60px; 
-    font-size: 36px; 
-    border-radius: 16px;
-  }
-  
-  .service-title { 
-    font-size: 14px; 
-  }
-}
-
-@media (max-width: 400px) {
-  .quick-menu-widget { padding-top: 20px;}
-  .quick-menu-header h2 { font-size: 22px; } /* 헤더 글씨도 살짝 축소 */
-  .quick-menu-header p {
-    font-size: 12px;
-  }  
-  .quick-menu-grid {
-    /* 모바일에서도 가로 3칸, 세로 2칸 (2x3) 배열을 사용하여 세로 길이를 최적화합니다 */
-    grid-template-columns: repeat(3, 1fr); 
-    grid-template-rows: repeat(2, auto);
-    gap: 10px 0px; 
-  }
-
-  .icon-box { 
-    width: 68px; 
-    height: 52x; 
-    font-size: 28px; 
-    border-radius: 16px;
-  }
-  
-  .service-title { 
-    font-size: 13px; 
-  }
-}
-

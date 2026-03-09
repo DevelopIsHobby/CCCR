@@ -154,10 +154,6 @@
 /* 🚀 행사소식 전용 스타일 (상태 배지 & 신청 버튼) */
 /* ========================================= */
 
-/* ========================================= */
-/* 🚀 행사소식 전용 스타일 (세련된 색상 & 반응형) */
-/* ========================================= */
-
 /* 행사 상태 배지 (신뢰감 있는 톤앤매너로 변경) */
 .status-badge {
   display: inline-block;
@@ -487,11 +483,134 @@
   }
 }
 
+/* ========================================= */
+/* 🚀 게시판 검색 영역 CSS */
+/* ========================================= */
+.board-search-box {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.board-select {
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  color: #333;
+  outline: none;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.board-search-input {
+  padding: 10px 15px;
+  width: 260px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.board-search-input:focus {
+  border-color: #003a8c;
+}
+
+.board-search-btn {
+  padding: 10px 24px;
+  background-color: #333; /* 묵직한 다크 그레이 */
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.board-search-btn:hover {
+  background-color: #003a8c; /* 호버 시 CCCR 메인 블루로 변경 */
+}
 
 
 /* ========================================= */
-/* 🚀 600px 이하 반응형 (초소형 모바일 통합 최적화) */
+/* 🚀 최신뉴스 분야 탭 메뉴 CSS */
 /* ========================================= */
+.latest-category-menu {
+  display: flex;
+  gap: 8px; 
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+  /* 🚀 기존 center에서 flex-start(왼쪽 정렬)로 변경했습니다! */
+  justify-content: flex-start; 
+}
+
+.latest-cat-btn {
+  padding: 8px 20px;
+  background-color: #ffffff;
+  border: 1px solid #d1d5db; 
+  border-radius: 6px; 
+  font-size: 15px;
+  font-weight: 500;
+  color: #475569; 
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.latest-cat-btn:hover {
+  background-color: #f8fafc; 
+  border-color: #94a3b8; 
+  color: #0f172a;
+}
+
+.latest-cat-btn.active {
+  background-color: #003a8c; 
+  border-color: #003a8c;
+  color: #ffffff;
+  font-weight: 700;
+  box-shadow: 0 4px 10px rgba(0, 58, 140, 0.15); 
+}
+
+.latest-badge {
+  display: inline-block;
+  padding: 4px 8px;
+  background-color: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #475569;
+  white-space: nowrap; 
+}
+
+/* ========================================= */
+/* 🚀 반응형 (초소형 모바일 통합 최적화) */
+/* ========================================= */
+@media (max-width: 812px) {
+  /* 🚀 모바일에서 기사 리스트 폰트 크기 대폭 확대 */
+  .board-table th, .board-table td {
+    padding: 14px 10px; 
+    font-size: 15px; /* 글자 크기 키움 */
+  }
+
+  /* 🚀 기사 제목 폰트 크기 및 두께 강조 */
+  .board-table .title-col a {
+    font-size: 16px; 
+    font-weight: 500;
+    color: #222;
+  }
+  
+  /* 🚀 모바일에서는 '분야' 칸 너비를 고정하여 제목 칸이 널찍하게 남도록 방어 */
+  .board-table th:first-child,
+  .board-table td:first-child {
+    width: 75px !important; 
+    text-align: center;
+  }
+}
+
 @media (max-width: 600px) {
   
   /* 1. [공통] 남은 공간을 '제목'이 100% 흡수하도록 고정 레이아웃 해제 */
@@ -500,14 +619,14 @@
     width: 100%;
   }
 
-  /* 2. [공지사항] 3번째(첨부), 6번째(조회수) 숨기기 
-     (※ 주의: event-table에는 영향이 가지 않도록 :not(.event-table)을 추가해 안전하게 분리했습니다!) */
-  .board-table:not(.event-table) col:nth-child(3),
-  .board-table:not(.event-table) th:nth-child(3),
-  .board-table:not(.event-table) td:nth-child(3), 
-  .board-table:not(.event-table) col:nth-child(6),
-  .board-table:not(.event-table) th:nth-child(6),
-  .board-table:not(.event-table) td:nth-child(6) { 
+  /* 🚀 2. [공지사항] 3번째(첨부), 6번째(조회수) 숨기기 
+     (※ 마법의 방어막: :not(.latest-table)을 추가하여 최신뉴스의 기사제목이 날아가는 것을 막았습니다!) */
+  .board-table:not(.event-table):not(.latest-table) col:nth-child(3),
+  .board-table:not(.event-table):not(.latest-table) th:nth-child(3),
+  .board-table:not(.event-table):not(.latest-table) td:nth-child(3), 
+  .board-table:not(.event-table):not(.latest-table) col:nth-child(6),
+  .board-table:not(.event-table):not(.latest-table) th:nth-child(6),
+  .board-table:not(.event-table):not(.latest-table) td:nth-child(6) { 
     display: none !important;
   }
 
@@ -549,4 +668,42 @@
   .board-detail-info { gap: 10px; font-size: 13px; }
   .board-detail-info span::after { margin-left: 10px; }
   .board-detail-content { font-size: 14px; padding: 30px 15px; }
+
+    /* 🚀 마법의 클래스: 이 클래스가 붙은 칸은 모바일에서 깔끔하게 사라집니다! */
+  .hide-on-mobile {
+    display: none !important;
+  }
+
+  /* 🚀 여백 문제 해결: 카테고리 메뉴 아래쪽, 검색창 위쪽으로 시원하게 공간 확보 */
+  .latest-category-menu {
+    margin-bottom: 25px !important;
+  }
+  
+  .board-search-box {
+    flex-wrap: wrap;
+    margin-top: 20px; /* 검색창 위 여백 추가 */
+    margin-bottom: 25px; /* 검색창 아래 여백 추가 */
+  }
+
+  .board-search-input {
+    flex: 1; 
+    width: auto;
+  }
+  
+  .latest-cat-btn {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+
+  /* 🚀 600px 이하에서 기사 제목이 안 보이거나 잘리는 현상 완벽 방어 */
+  .board-table .title-col {
+    display: table-cell !important; 
+    word-break: keep-all; 
+    white-space: normal; 
+  }
+
+  .board-table .title-col a {
+    display: block; 
+    line-height: 1.4;
+  }
 }

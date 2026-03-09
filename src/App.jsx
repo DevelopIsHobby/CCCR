@@ -28,6 +28,7 @@ import Event from './pages/news/Event';
 import Trend from './pages/news/Trend';
 import Law from './pages/news/Law';
 import Newsletter from './pages/news/Newsletter';
+import Latest from './pages/news/Latest';
 
 // Members
 import Join from './pages/members/Join';
@@ -93,6 +94,7 @@ function App() {
           <Route path="/news/newsletter" element={<Newsletter />} />
           <Route path="/news/event/apply/:id" element={<EventApply />} />
           <Route path="/news/notice/:id" element={<NoticeDetail />} />
+          <Route path="/news/latest" element={<Latest />} />
         
           {/* 👇 회원공간 카테고리 라우트 추가 */}
           <Route path="/members/join" element={<Join />} />

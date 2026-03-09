@@ -1,20 +1,17 @@
 .board-section-wrapper {
-  padding: 40px 0;
+  padding: 60px 0; /* 위아래 여백을 조금 더 시원하게 확보 */
   background-color: #ffffff;
   width: 100%; 
 }
+
 .board-tabs-area {
-  /* 👇 CSS Grid에서 영역이 내용물보다 작게 줄어들 수 있도록 허락하는 마법의 키워드입니다! */
   min-width: 0; 
 }
-/* 와이드형 그리드 설정 */
+
 .board-grid-full {
   display: grid;
-  
-  /* 👇 기존 2.5fr 1fr (약 7:3)에서 KOSA 스타일 비율인 1.5fr 1fr (약 6:4)로 변경합니다! */
   grid-template-columns: 1fr 500px;
-  
-  gap: 40px;
+  gap: 50px; /* 좌우 간격 살짝 넓힘 */
   width: 100%;
   max-width: 1600px;
   margin: 0 auto;

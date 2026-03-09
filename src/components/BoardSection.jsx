@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react'; // useRef 추가
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, A11y } from 'swiper/modules';
+import { Link } from 'react-router-dom';
 import 'swiper/css';
 import './BoardSection.css';
 
@@ -23,20 +24,37 @@ const BoardSection = () => {
     { id: 6, category: 'event', categoryLabel: '행사소식', title: '소프트웨어 산업 동향 세미나 개최 결과', date: '2026-02-10' },
   ];
 
-  // 👇 '전체' 탭일 경우 공지사항(notice)이 먼저, 행사소식(event)이 나중에 오도록 정렬합니다.
-  const groupedData = [...allBoardData].sort((a, b) => {
-    // notice에 1번, event에 2번 순위를 매겨서 줄을 세웁니다.
-    const orderA = a.category === 'notice' ? 1 : 2;
-    const orderB = b.category === 'notice' ? 1 : 2;
-    return orderA - orderB;
-  });
+  
+  // 🚀 날짜를 비교해서 가장 최신 글이 위로 오게(내림차순) 정렬하는 마법의 함수!
+  const sortByDateDesc = (a, b) => new Date(b.date) - new Date(a.date);
 
-  // 활성화된 탭에 따라 정렬된 데이터를 필터링하고 최대 4개를 자릅니다.
-  const filteredData = (activeTab === 'all' 
-    ? groupedData 
-    : allBoardData.filter(item => item.category === activeTab)
-  ).slice(0, 4); // 보여줄 개수를 늘리고 싶다면 이 숫자를 5나 6으로 변경하세요!
+  let filteredData = [];
 
+  if (activeTab === 'all') {
+    // 1. 공지사항만 골라냄 -> 최신순 정렬 -> 상위 3개 자름
+    const noticeList = allBoardData
+      .filter(item => item.category === 'notice')
+      .sort(sortByDateDesc)
+      .slice(0, 3);
+      
+    // 2. 행사소식만 골라냄 -> 최신순 정렬 -> 상위 3개 자름
+    const eventList = allBoardData
+      .filter(item => item.category === 'event')
+      .sort(sortByDateDesc)
+      .slice(0, 3);
+    
+    // 3. 최신 공지 3개 + 최신 행사 3개 합체!
+    filteredData = [...noticeList, ...eventList]; 
+    
+  } else {
+    // 개별 탭을 눌렀을 때도 무조건 '최신순'으로 정렬해서 6개 보여주기!
+    filteredData = allBoardData
+      .filter(item => item.category === activeTab)
+      .sort(sortByDateDesc)
+      .slice(0, 6);
+  }
+
+ 
 
   // 👇 --- 알림판(홍보 배너) 슬라이드 로직 --- 👇
   const [isPromoPlaying, setIsPromoPlaying] = useState(true);
@@ -101,7 +119,13 @@ const BoardSection = () => {
                 >행사소식</button>
               </div>
               {/* 👇 더보기 버튼 */}
-              <a href={`/board/${activeTab}`} className="more-btn" aria-label="더보기">+</a>
+              <Link 
+                to={activeTab === 'event' ? '/news/event' : '/news/notice'} 
+                className="more-btn" 
+                aria-label="더보기"
+              >
+                +
+              </Link>
             </div>
           </div>
 

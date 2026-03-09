@@ -32,7 +32,7 @@ const EduSection = () => {
               "SW인재 양성"을 위해 진행하는 조합의 교육을 안내드립니다.
             </p>
           </div>
-          <a href="#more-edu" className="edu-more-btn">전체보기 +</a>
+          <a href="https://www.cccr-edu.or.kr/course/course_list.jsp?cid=4301&ch=course" className="edu-more-btn" target="_blank" rel="noopener noreferrer">전체보기 +</a>
         </div>
 
         <div className="edu-slider-container">

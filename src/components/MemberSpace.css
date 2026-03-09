@@ -43,7 +43,7 @@
 }
 
 .news-header {
-  border-bottom: 2px solid #2b6cb0; /* 형광 파란색 톤다운 */
+  border-bottom: 2px solid #222; /* 형광 파란색 톤다운 */
   margin-bottom: 5px !important;
 }
 
@@ -55,12 +55,12 @@
 }
 
 .ms-highlight {
-  color: #2b6cb0; /* 형광 파란색 톤다운 */
+  color: #0084ff; /* 형광 파란색 톤다운 */
 }
 
 .ms-more-btn {
   text-decoration: none;
-  color: #888;
+  color: #0084ff;
   font-size: 40px;
   font-weight: 300;
   line-height: 1;
@@ -68,7 +68,7 @@
 }
 
 .ms-more-btn:hover {
-  color: #666;
+  color: #0066cc;
   transform: scale(1.3); 
 }
 

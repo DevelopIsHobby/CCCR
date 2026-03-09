@@ -34,7 +34,8 @@ const menuData = [
       { name: '행사소식', path: '/news/event' }, 
       { name: '기술동향', path: '/news/trend' }, 
       { name: '법령정보', path: '/news/law' }, 
-      { name: '뉴스레터', path: '/news/newsletter' }
+      { name: '뉴스레터', path: '/news/newsletter' },
+      { name: '최신뉴스', path: '/news/latest' }
     ]
   },
   {

@@ -183,7 +183,13 @@
 .kosa-header.scrolled .gnb li a { color: #333; }
 .kosa-header.scrolled .gnb li a:hover { color: #0056b3; }
 .kosa-header.scrolled .icon-btn { color: #333; }
-.kosa-header.scrolled .desktop-search-input { border-bottom-color: #003a8c; }
+.kosa-header.scrolled .desktop-search-input { 
+  border-bottom-color: #003a8c; 
+  color: #333; 
+}
+.kosa-header.scrolled .desktop-search-input::placeholder { 
+  color: #888; 
+}
 
 .kosa-header.scrolled .logo-img { filter: none; }
 
@@ -468,39 +474,41 @@
   display: flex;
   align-items: center;
   justify-content: end;
-  /* position: relative; 삭제 (자연스럽게 영역을 차지하도록 변경) */
 }
 
-/* 기본 상태: 너비 0, 투명하게 숨김 */
+/* 🚀 기본 상태 (투명 헤더): 글씨 흰색, 테두리 흰색, placeholder 밝은 회색 */
 .desktop-search-input {
   width: 0;
   opacity: 0;
   visibility: hidden;
   padding: 0;
   border: none;
-  border-bottom: 2px solid #003a8c;
-  background-color: transparent; /* 하얀 배경색 삭제, 투명하게 복구 */
+  border-bottom: 2px solid rgba(255, 255, 255, 0.7); /* 연한 흰색 밑줄 */
+  background-color: transparent; 
   font-size: 15px;
+  color: #ffffff; /* 입력하는 글자색 흰색 */
   outline: none;
   transition: all 0.3s ease;
-  /* position: absolute와 관련된 코드 모두 삭제하여 둥둥 떠다니지 않게 함 */
+}
+
+/* 기본 상태 placeholder 색상 */
+.desktop-search-input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
 }
 
 /* 활성화 상태: 돋보기 누르면 가로로 길어짐 */
 .desktop-search-wrap.active .desktop-search-input {
-  width: 60%; /* PC/모바일 적절한 너비 */
+  width: 60%; 
   opacity: 1;
   visibility: visible;
   padding: 5px 10px;
-  margin-right: 8px; /* 돋보기 아이콘과의 간격 */
+  margin-right: 8px; 
 }
-
 
 /* 아이콘 토글 로직 (돋보기 <-> X) */
 .icon-close { display: none; }
 .desktop-search-wrap.active .icon-search { display: none; }
 .desktop-search-wrap.active .icon-close { display: inline; font-size: 20px; }
-
 
 /* ========================================= */
 /* 서브 페이지 전용 헤더 스타일 (겹침 방지)    */

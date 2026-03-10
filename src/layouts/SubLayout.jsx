@@ -59,10 +59,10 @@ const menuData = [
     ],
   },
   {
-    title: '멤버십', // 🚀 이 카테고리 이름을 SubLayout의 mainCategory로 쓸 겁니다!
+    title: '멤버십',
     subMenus: [
       { name: '로그인', path: '/auth/login' },
-      { name: '회원가입', path: '/auth/joincccr' },
+      { name: '회원가입', path: '/auth/join' },
       { name: '아이디/비밀번호 찾기', path: '#none' }
     ]
   }
@@ -76,8 +76,17 @@ const categoryDesc = {
   조합안내: "대한민국 클라우드 컴퓨팅 산업의 발전을 이끄는 CCCR을 소개합니다."
 };
 
+const categoryEng = {
+  '주요사업': 'BUSINESS',
+  '인재양성': 'ACADEMY',
+  '알림마당': 'NOTICE',
+  '회원공간': 'MEMBERS',
+  '조합안내': 'ABOUT US',
+  '멤버십': 'MEMBERSHIP'
+};
+
 // ==========================================
-// 🚀 컴포넌트 시작 (Hook은 무조건 이 안쪽에 있어야 합니다!)
+// 🚀 컴포넌트 시작
 // ==========================================
 const SubLayout = ({ mainCategory, subCategory, children }) => {
   
@@ -85,51 +94,16 @@ const SubLayout = ({ mainCategory, subCategory, children }) => {
   const currentMain = menuData.find(menu => menu.title === mainCategory);
   const currentSubMenus = currentMain ? currentMain.subMenus : [];
   const currentDesc = categoryDesc[mainCategory] || "";
+  const currentEng = categoryEng[mainCategory] || "CCCR";
   
-  const mainLink = currentSubMenus.length > 0 ? currentSubMenus[0].path : '/';
   const bgImageUrl = "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1600&auto=format&fit=crop";
 
-  // 🚀 1. 경로바 드롭다운 State
+  // 🚀 경로바 드롭다운 State (3뎁스 삭제로 사이드바 State는 제거됨!)
   const [openDropdown, setOpenDropdown] = useState(null); 
 
   const toggleDropdown = (type) => {
     setOpenDropdown(openDropdown === type ? null : type);
   };
-
-  // 🚀 2. 좌측 사이드바 아코디언(+/-) State
-  const [expandedSidebar, setExpandedSidebar] = useState(null);
-
-  const toggleSidebar = (menuName, e) => {
-    e.preventDefault(); 
-    setExpandedSidebar(expandedSidebar === menuName ? null : menuName);
-  };
-  
-  // 🚀 1. 연구개발의 세부 사업(3뎁스) 데이터 (연구개발 페이지일 때만 나오게 설정)
-  let thirdDepthItems = [];
-  
-  if (subCategory === '연구개발') {
-    thirdDepthItems = [
-      { name: '유연의료', path: '/business/rnd/medical' },
-      { name: '써드파티', path: '/business/rnd/thirdparty' },
-      { name: '자율행동체', path: '/business/rnd/autonomous' },
-      { name: '자원풀링', path: '/business/rnd/pooling' },
-      { name: '엣지 AI', path: '/business/rnd/edgeai' },
-      { name: '위기대응', path: '/business/rnd/crisis' }
-    ];
-  } else if (subCategory === '교육') {
-    // (기존 코드 유지)
-    thirdDepthItems = [
-      { name: '재직자 교육', path: '/business/edu/incumbent' },
-      { name: '미취업자 교육', path: '/business/edu/jobseeker' }
-    ];
-  } else if (subCategory === '홍보') {
-    // (기존 코드 유지)
-    thirdDepthItems = [
-      { name: '정보서비스', path: '/business/pr/info' },
-      { name: '포럼', path: '/business/pr/forum' },
-      { name: '뉴스레터', path: '/business/pr/newsletter' }
-    ];
-  } 
 
   return (
     <div className="sub-layout-wrapper">
@@ -148,19 +122,20 @@ const SubLayout = ({ mainCategory, subCategory, children }) => {
         <div className="breadcrumb-inner">
           <Link to="/" className="home-btn" style={{textDecoration: 'none'}}>🏠</Link>
           
-          {/* --- [1뎁스] 주요사업 --- */}
+          {/* --- [1뎁스] 대분류 카테고리 --- */}
           <div className="breadcrumb-item has-dropdown">
             <button className="breadcrumb-drop-btn" onClick={() => toggleDropdown('main')}>
               <span className="text-truncate">{mainCategory}</span> 
               <span className="drop-icon">☰</span>
             </button>
-            {/* 🚀 1뎁스 클릭 시 -> 2뎁스(연구개발, 표준화 등) 메뉴가 내려옵니다! */}
+            {/* 🚀 1뎁스 클릭 시 -> 다른 대분류(인재양성, 알림마당 등)로 이동 가능 */}
             {openDropdown === 'main' && (
               <ul className="breadcrumb-drop-list">
-                {currentSubMenus.map((item, idx) => (
+                {menuData.map((menu, idx) => (
                   <li key={idx}>
-                    <Link to={item.path} onClick={() => setOpenDropdown(null)}>
-                      {item.name}
+                    {/* 대분류 클릭 시 해당 카테고리의 첫 번째 서브메뉴로 이동 */}
+                    <Link to={menu.subMenus[0].path} onClick={() => setOpenDropdown(null)}>
+                      {menu.title}
                     </Link>
                   </li>
                 ))}
@@ -168,24 +143,20 @@ const SubLayout = ({ mainCategory, subCategory, children }) => {
             )}
           </div>
 
-          {/* --- [2뎁스] 세부 메뉴 --- */}
+          {/* --- [2뎁스] 소분류 세부 메뉴 --- */}
           <div className="breadcrumb-item has-dropdown">
             <button className="breadcrumb-drop-btn" onClick={() => toggleDropdown('sub')}>
               <span className="current-sub text-truncate">{subCategory}</span> 
               <span className="drop-icon">☰</span>
             </button>
-            {/* 🚀 2뎁스 클릭 시 -> 3뎁스(엣지AI/GPU 등) 메뉴가 내려옵니다! */}
+            {/* 🚀 2뎁스 클릭 시 -> 현재 카테고리의 다른 소분류들 표시 */}
             {openDropdown === 'sub' && (
               <ul className="breadcrumb-drop-list">
-                {thirdDepthItems.length > 0 ? (
-                  thirdDepthItems.map((item, idx) => (
-                    <li key={idx}>
-                      <Link to={item.path} onClick={() => setOpenDropdown(null)}>{item.name}</Link>
-                    </li>
-                  ))
-                ) : (
-                  <li className="empty-drop-item">등록된 세부 사업이 없습니다.</li>
-                )}
+                {currentSubMenus.map((item, idx) => (
+                  <li key={idx}>
+                    <Link to={item.path} onClick={() => setOpenDropdown(null)}>{item.name}</Link>
+                  </li>
+                ))}
               </ul>
             )}
           </div>
@@ -198,49 +169,20 @@ const SubLayout = ({ mainCategory, subCategory, children }) => {
           
           {/* --- 좌측 LNB (사이드바) --- */}
           <aside className="sub-sidebar">
-            <h2 className="sidebar-main-title">{mainCategory}</h2>
+            <div className="sidebar-title-wrap">
+              <h2 className="sidebar-eng-title">{currentEng}</h2>
+              <span className="sidebar-kor-title">{mainCategory}</span>
+            </div>
             <ul className="sidebar-menu-list">
               {currentSubMenus.map((menu, index) => (
                 <li key={index} className="sidebar-item-wrap">
-                  
-                  {/* 실제 페이지 이동 링크 (글자) */}
+                  {/* 🚀 3뎁스(+/-)가 깔끔하게 삭제된 직관적인 메뉴 링크 */}
                   <Link 
                     to={menu.path} 
                     className={`sidebar-link ${menu.name === subCategory ? 'active' : ''}`}
                   >
                     {menu.name}
                   </Link>
-
-                  {/* 🚀 '멤버십'과 '인재양성'이 아닐 때만 + 기호와 3뎁스를 보여줍니다! */}
-                  {mainCategory !== '멤버십' && mainCategory !== '인재양성' && (
-                    <>
-                      {/* 독립적으로 작동하는 + / - 아코디언 버튼 */}
-                      <button 
-                        className="sidebar-toggle-btn"
-                        onClick={(e) => toggleSidebar(menu.name, e)}
-                      >
-                        {expandedSidebar === menu.name ? '-' : '+'}
-                      </button>
-
-                      {/* 3뎁스 하위 메뉴 영역 */}
-                      {expandedSidebar === menu.name && (
-                        <ul className="sidebar-depth3">
-                          {/* 🚀 현재 메뉴가 선택된 메뉴이고, thirdDepthItems 데이터가 있다면 진짜 메뉴를 뿌려줌! */}
-                          {menu.name === subCategory && thirdDepthItems.length > 0 ? (
-                            thirdDepthItems.map((item, idx) => (
-                              <li key={idx}><Link to={item.path}>{item.name}</Link></li>
-                            ))
-                          ) : (
-                            <>
-                              {/* 🚀 주석을 반드시 이 빈 태그(Fragment) 안쪽으로 넣어야 에러가 안 납니다! */}
-                              <li><Link to="#none">세부메뉴 준비중</Link></li>
-                            </>
-                          )}
-                        </ul>
-                      )}
-                    </>
-                  )}
-
                 </li>
               ))}
             </ul>

@@ -1,7 +1,7 @@
 // src/pages/news/Law.jsx
 import React from 'react';
 import SubLayout from '../../layouts/SubLayout';
-import './News.css';
+import './Board.css'; 
 
 const Law = () => {
   return (

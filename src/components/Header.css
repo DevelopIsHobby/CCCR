@@ -375,7 +375,7 @@
   opacity: 0;
   visibility: hidden;
   transform: translateY(-5px); 
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
   z-index: 999;
 }
 
@@ -401,44 +401,70 @@
 
 .mega-right { flex: 1; padding: 25px 40px; background-color: transparent; }
 
-/* [타입 A] 3뎁스 있는 메뉴 */
-.mega-list-with-3depth { display: flex; flex-direction: column; gap: 12px; }
-.mega-row { display: flex; align-items: flex-start; padding-bottom: 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
-.mega-row:last-child { border-bottom: none; padding-bottom: 0; }
-
-/* 2뎁스 타이틀 (다크모드 흰 글씨) */
-.gnb li .mega-menu-panel .mega-2depth {
-  width: 130px; font-size: 16px; font-weight: 800;
-  color: #ffffff !important; 
-  text-decoration: none; padding-top: 1px; transition: color 0.2s;
+.mega-inner {
+  display: flex; max-width: 1600px; padding: 0 40px; margin: 0 auto; box-sizing: border-box;
 }
-.gnb li .mega-menu-panel .mega-2depth:hover { color: #0ea5e9 !important; }
 
-.mega-3depth-group { flex: 1; display: flex; flex-wrap: wrap; gap: 8px 20px; }
-
-/* 3뎁스 아이템 (다크모드 밝은 회색 글씨) */
-.gnb li .mega-menu-panel .mega-3depth {
-  font-size: 14px; font-weight: 600;
-  color: #cbd5e1 !important; 
-  text-decoration: none; transition: all 0.2s ease; position: relative; padding-left: 12px;
+/* 왼쪽 타이틀 (퓨어 블랙 기반의 연한 다크 그레이) */
+.mega-left {
+  width: 220px; 
+  background-color: rgba(255, 255, 255, 0.04); 
+  padding: 25px 25px; 
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
 }
-.gnb li .mega-menu-panel .mega-3depth::before {
-  content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 3px; height: 3px; background-color: #64748b; border-radius: 50%; transition: background-color 0.2s;
-}
-.gnb li .mega-menu-panel .mega-3depth:hover { color: #0ea5e9 !important; transform: translateX(3px); }
-.gnb li .mega-menu-panel .mega-3depth:hover::before { background-color: #0ea5e9; }
+.mega-left h2 { font-size: 24px; color: #0ea5e9; font-weight: 800; margin: 0 0 10px 0; letter-spacing: -1px; }
+.mega-left p { font-size: 13px; color: #94a3b8; line-height: 1.5; margin: 0; word-break: keep-all; }
 
-/* [타입 B] 3뎁스 없는 카드 메뉴 (다크모드) */
-.mega-list-only-2depth { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+/* 오른쪽 메뉴 영역 */
+.mega-right { flex: 1; padding: 25px 40px; background-color: transparent; }
+
+/* 🚀 2뎁스 카드 바둑판 (3열) */
+.mega-menu-grid { 
+  display: grid; 
+  grid-template-columns: repeat(3, 1fr); 
+  gap: 12px; 
+}
+
+/* 2뎁스 카드 개별 아이템 (다크모드) */
 .gnb li .mega-menu-panel .mega-2depth-card {
   display: flex; align-items: center; padding: 12px 16px;
-  background-color: rgba(255, 255, 255, 0.08); /* 블랙 위에 올렸을 때 깔끔한 다크 그레이 카드 */
+  background-color: rgba(255, 255, 255, 0.08); 
   border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 10px; font-size: 15px; font-weight: 700;
   color: #ffffff !important; 
   text-decoration: none; transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1); box-shadow: 0 2px 5px rgba(0,0,0,0.3);
 }
+
 .gnb li .mega-menu-panel .mega-2depth-card:hover {
   background-color: rgba(14, 165, 233, 0.2); border-color: #0ea5e9; color: #0ea5e9 !important; transform: translateY(-2px);
+}
+
+/* ========================================= */
+/* 🚀 메가 메뉴 (스크롤 시: 라이트 모드 전환) */
+/* ========================================= */
+.kosa-header.scrolled .mega-menu-panel {
+  background-color: #ffffff; /* 하얀 바탕 */
+  border-top: 1px solid #e2e8f0;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08); 
+  backdrop-filter: none;
+}
+.kosa-header.scrolled .mega-left {
+  background-color: #f8fafc;
+  border-right: 1px solid #e2e8f0;
+}
+.kosa-header.scrolled .mega-left p { color: #64748b; }
+
+/* 🚀 스크롤 후 라이트모드 카드 색상 반전 */
+.kosa-header.scrolled .gnb li .mega-menu-panel .mega-2depth-card {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  color: #1e293b !important;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+}
+.kosa-header.scrolled .gnb li .mega-menu-panel .mega-2depth-card:hover {
+  background-color: #f0f9ff;
+  border-color: #0ea5e9;
+  color: #0ea5e9 !important;
+  box-shadow: 0 6px 15px rgba(14, 165, 233, 0.12);
 }
 
 /* ========================================= */

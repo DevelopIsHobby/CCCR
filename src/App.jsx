@@ -56,6 +56,11 @@ import EventApply from './pages/news/EventApply';
 // 공지사항 상세페이지
 import NoticeDetail from './pages/news/NoticeDetail';
 
+// 회원가입 및 로그인
+import JoinGeneral from './pages/auth/JoinGeneral';
+import JoinCorporate from './pages/auth/JoinCorporate';
+import JoinAssociation from './pages/auth/JoinAssociation';
+
 import './App.css';
 
 function App() {
@@ -115,6 +120,9 @@ function App() {
           {/* 👇 회원가입 및 로그인 */}
           <Route path="/auth/joincccr" element={<JoinCCCR />} />
           <Route path="/auth/login" element={<Login />} />
+          <Route path="/auth/joingeneral" element={<JoinGeneral />} />
+          <Route path="/auth/joincorporate" element={<JoinCorporate />} />
+          <Route path="/auth/joinassociation" element={<JoinAssociation />} />
           
         </Routes>
         

@@ -4,51 +4,23 @@ import cccrLogo from '../assets/cccr-logo.png';
 import kakaoIcon from '../assets/kakao-icon.png';
 import './Header.css';
 
-// 🚀 3뎁스(thirdDepth) 데이터가 추가된 새로운 메뉴 배열
+// 🚀 3뎁스를 모두 제거하고 SubLayout과 동일하게 2뎁스로 통일!
 const menuData = [
   {
     title: '주요사업',
+    desc: <>CCCR이 선도하는 클라우드 및<br/>SW 산업의 핵심 비즈니스입니다.</>,
     subMenus: [
-      { 
-        name: '연구개발', path: '/business/rnd',
-        thirdDepth: [
-          { name: '유연의료', path: '/business/rnd/medical' },
-          { name: '써드파티', path: '/business/rnd/thirdparty' },
-          { name: '자율행동체', path: '/business/rnd/autonomous' },
-          { name: '자원풀링', path: '/business/rnd/pooling' },
-          { name: '엣지AI', path: '/business/rnd/edgeai' },
-          { name: '위기대응', path: '/business/rnd/crisis' }
-        ]
-      }, 
+      { name: '연구개발', path: '/business/rnd' }, 
       { name: '표준화', path: '/business/standard' },
-      { 
-        name: '교육', path: '/business/edu',
-        thirdDepth: [
-          { name: '전문인력', path: '/business/edu/expert' },
-          { name: '대학·기업협력형', path: '/business/edu/univ' },
-          { name: '채용연계형', path: '/business/edu/recruit' },
-          { name: '새싹', path: '/business/edu/sesac' }
-        ]
-      },
-      { name: '대외협력', path: '/business/coop' }, 
-      { 
-        name: '홍보', path: '/business/pr',
-        thirdDepth: [
-          { name: '홍보서비스', path: '/business/pr/service' },
-          { name: '홍보서비스이용료', path: '/business/pr/fee' }
-        ]
-      }, 
-      { 
-        name: '회원사 지원', path: '/business/support',
-        thirdDepth: [
-          { name: '회원사소식', path: '/business/support/news' },
-          { name: '회원사 특전', path: '/business/support/benefits' }
-        ]
-      }
+      { name: '교육', path: '/business/edu' },
+      { name: '대외협력', path: '/business/coop' },
+      { name: '홍보', path: '/business/pr' },
+      { name: '회원사 지원', path: '/business/support' }
     ]
   },
   {
     title: '인재양성',
+    desc: <>미래 SW 산업을 이끌어갈<br/>핵심 인재를 발굴하고 양성합니다.</>,
     subMenus: [
       { name: '교육훈련', path: '/academy/training' }, 
       { name: '교육신청', path: '/academy/apply' }, 
@@ -59,6 +31,7 @@ const menuData = [
   },
   {
     title: '알림마당',
+    desc: <>조합의 다양한 최신 소식과<br/>유용한 산업 동향을 전달합니다.</>,
     subMenus: [
       { name: '공지사항', path: '/news/notice' }, 
       { name: '행사소식', path: '/news/event' }, 
@@ -70,6 +43,7 @@ const menuData = [
   },
   {
     title: '회원공간',
+    desc: <>회원사의 지속적인 성장과<br/>비즈니스 성공을 든든하게 지원합니다.</>,
     subMenus: [
       { name: '가입안내', path: '/members/join' }, 
       { name: '회원안내', path: '/members/info' }, 
@@ -80,6 +54,7 @@ const menuData = [
   },
   {
     title: '조합안내',
+    desc: <>대한민국 클라우드 컴퓨팅<br/>산업의 발전을 이끄는 CCCR입니다.</>,
     subMenus: [
       { name: '인사말', path: '/about/greeting' }, 
       { name: '설립목적 및 연혁', path: '/about/history' }, 
@@ -110,6 +85,8 @@ const Header = () => {
   const toggleMenu = () => { if (isSearchOpen) setIsSearchOpen(false); setIsMenuOpen(!isMenuOpen); };
   const toggleSubMenu = (index) => { setOpenMenuIndex(openMenuIndex === index ? null : index); };
 
+  const [hideMega, setHideMega] = useState(false);
+
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 50) setIsScrolled(true);
@@ -119,9 +96,15 @@ const Header = () => {
     return () => window.removeEventListener('scroll', handleScroll); 
   }, []);
 
+  const handleMegaClick = () => {
+    setHideMega(true);
+    setTimeout(() => {
+      setHideMega(false);
+    }, 150); // 0.15초 뒤에 숨김 해제 (마우스를 떼었을 때 다시 정상 작동하도록)
+  };
+
   return (
     <>
-    {/* 🚀 기존 헤더 스타일 완벽하게 그대로 사용합니다! (건드리지 않음) */}
     <header className={`kosa-header ${isHome ? (isScrolled ? 'scrolled' : '') : 'scrolled subpage-header'}`}> 
       <div className="header-utility">
         <div className="inner-container">
@@ -142,7 +125,7 @@ const Header = () => {
           <ul className="utility-links">
             <li><Link to="/auth/login">로그인</Link></li>
             <li><Link to="/auth/joincccr">회원가입</Link></li>
-            <li><Link to="https://www.cccr-edu.or.kr/main/index.jsp">아카데미</Link></li>
+            <li><Link to="https://www.cccr-edu.or.kr/main/index.jsp" target="_blank" rel="noopener noreferrer">아카데미</Link></li>
           </ul>
         </div>
       </div>
@@ -150,59 +133,44 @@ const Header = () => {
       <div className="header-main">
         <div className="inner-container">
           <h1 className="logo">
-            <a href="/">
+            <Link to="/">
               <img src={cccrLogo} alt="CCCR 로고" className="logo-img" />
-            </a>
+            </Link>
           </h1>
 
-          {/* 🚀 PC 가로형 메인 메뉴 (풀사이즈 드롭다운 2뎁스/3뎁스 구조) */}
+          {/* 🚀 PC 가로형 메인 메뉴 (깔끔한 2뎁스 전용 그리드 구조) */}
           <nav className="gnb">
             <ul>
               {menuData.map((menu, index) => (
                 <li key={index} className="gnb-item">
-                  <Link to={menu.subMenus[0].path} className="gnb-main-link">{menu.title}</Link>
-                  
-                  {/* 각 메뉴 호버 시 떨어지는 풀사이즈 메가메뉴 패널 */}
-                  <div className="mega-menu-panel">
+                  <Link 
+                    to={menu.subMenus[0].path} 
+                    className="gnb-main-link" 
+                    onClick={handleMegaClick}
+                  >
+                    {menu.title}
+                  </Link>
+                  <div className="mega-menu-panel" style={{ display: hideMega ? 'none' : '' }}>
                     <div className="mega-inner">
-                      {/* 왼쪽: 메인 타이틀 */}
                       <div className="mega-left">
                         <h2>{menu.title}</h2>
+                        <p>{menu.desc}</p>
                       </div>
                       
-                      {/* 오른쪽: 2뎁스 + 3뎁스 리스트 */}
                       <div className="mega-right">
-                        {/* 🚀 3뎁스가 하나라도 존재하는 메뉴인지 검사! */}
-                        {menu.subMenus.some(sub => sub.thirdDepth && sub.thirdDepth.length > 0) ? (
-                          
-                          // [타입 A] 3뎁스가 있는 경우: 기존처럼 줄바꿈(Row) 형태 유지
-                          <div className="mega-list-with-3depth">
-                            {menu.subMenus.map((sub, subIdx) => (
-                              <div key={subIdx} className="mega-row">
-                                <Link to={sub.path} className="mega-2depth">{sub.name}</Link>
-                                {sub.thirdDepth && (
-                                  <div className="mega-3depth-group">
-                                    {sub.thirdDepth.map((third, tIdx) => (
-                                      <Link key={tIdx} to={third.path} className="mega-3depth">{third.name}</Link>
-                                    ))}
-                                  </div>
-                                )}
-                              </div>
-                            ))}
-                          </div>
-
-                        ) : (
-                          
-                          // 🚀 [타입 B] 3뎁스가 아예 없는 경우: 2뎁스들을 3열 바둑판으로 예쁘게 쫙 펼침!
-                          <div className="mega-list-only-2depth">
-                            {menu.subMenus.map((sub, subIdx) => (
-                              <Link key={subIdx} to={sub.path} className="mega-2depth-card">
-                                {sub.name}
-                              </Link>
-                            ))}
-                          </div>
-                          
-                        )}
+                        <div className="mega-menu-grid">
+                          {menu.subMenus.map((sub, subIdx) => (
+                            // 🚀 수정 3: 서브 메뉴 클릭 시에도 닫히도록 onClick 추가
+                            <Link 
+                              key={subIdx} 
+                              to={sub.path} 
+                              className="mega-2depth-card"
+                              onClick={handleMegaClick}
+                            >
+                              {sub.name}
+                            </Link>
+                          ))}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -231,7 +199,7 @@ const Header = () => {
         </div>
       </div>
 
-      {/* 오버레이 & 모바일 사이드바 영역 유지 */}
+      {/* 모바일 사이드바 영역 */}
       <div className={`menu-overlay ${isMenuOpen ? 'active' : ''}`} onClick={closeAll} aria-hidden="true"></div>
       <aside className={`sidebar ${isMenuOpen ? 'active' : ''}`}>
         <div className="sidebar-header">
@@ -239,7 +207,7 @@ const Header = () => {
           <div className="sidebar-util">
             <span className="sidebar-cccr">cccrMenu</span>
             <div className="sidebar-auth">
-              <Link to="/auth/joincccr" onClick={closeAll}>회원가입</Link>
+              <Link to="/auth/join" onClick={closeAll}>회원가입</Link>
               <span className="divider">/</span>
               <Link to="/auth/login" onClick={closeAll}>로그인</Link>
             </div>
@@ -249,7 +217,11 @@ const Header = () => {
           {menuData.map((menu, index) => (
             <li key={index} className="sidebar-item">
               <div className="sidebar-title" onClick={() => toggleSubMenu(index)}>
-                <Link to={menu.subMenus[0].path} className="sidebar-title-link">{menu.title}</Link>
+                {/* 👇 이 부분을 아래 코드로 교체합니다! */}
+                <span className="sidebar-title-link">
+                  {menu.title}
+                </span>
+                
                 <span className={`arrow ${openMenuIndex === index ? 'up' : 'down'}`}>▼</span>
               </div>
               <ul className={`sidebar-submenu ${openMenuIndex === index ? 'open' : ''}`}>

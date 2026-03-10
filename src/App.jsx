@@ -29,6 +29,8 @@ import Trend from './pages/news/Trend';
 import Law from './pages/news/Law';
 import Newsletter from './pages/news/Newsletter';
 import Latest from './pages/news/Latest';
+import TrendDetail from './pages/news/TrendDetail';
+import EventDetail from './pages/news/EventDetail';
 
 // Members
 import Join from './pages/members/Join';
@@ -100,6 +102,8 @@ function App() {
           <Route path="/news/event/apply/:id" element={<EventApply />} />
           <Route path="/news/notice/:id" element={<NoticeDetail />} />
           <Route path="/news/latest" element={<Latest />} />
+          <Route path="/news/trend/:id" element={<TrendDetail />} />
+          <Route path="/news/event/:id" element={<EventDetail />} />
         
           {/* 👇 회원공간 카테고리 라우트 추가 */}
           <Route path="/members/join" element={<Join />} />

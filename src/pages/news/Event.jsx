@@ -7,11 +7,12 @@ import './Board.css';
 const Event = () => {
   // 🚀 스프링부트와 연동할 행사소식 가짜(Dummy) 데이터
   const eventData = [
-    { id: 6, status: 'ing', title: '2026 CCCR 클라우드 네트워킹 데이 및 세미나', applyPeriod: '2026.03.01 ~ 04.10', eventDate: '2026.04.15' },
-    { id: 5, status: 'ing', title: '제5회 대한민국 소프트웨어 기술 컨퍼런스', applyPeriod: '2026.03.05 ~ 05.15', eventDate: '2026.05.20 ~ 05.22' },
-    { id: 4, status: 'ready', title: '하반기 클라우드 인프라 구축 실무 교육 (사전안내)', applyPeriod: '2026.07.01 ~ 07.31', eventDate: '2026.08.10 ~ 08.14' },
-    { id: 3, status: 'end', title: '2026년 상반기 클라우드 보안 전문가 세미나', applyPeriod: '2026.01.10 ~ 02.20', eventDate: '2026.02.28' },
-    { id: 2, status: 'end', title: 'CCCR 신년 하례회 및 우수 회원사 시상식', applyPeriod: '2025.12.01 ~ 12.31', eventDate: '2026.01.20' },
+    { id: 99, isNotice: true, status: 'ing', title: '[연례행사] 2026 CCCR 그랜드 클라우드 컨퍼런스', applyPeriod: '2026.03.01 ~ 04.30', eventDate: '2026.05.10' },
+    { id: 6, isNotice: false, status: 'ing', title: '2026 CCCR 클라우드 네트워킹 데이 및 세미나', applyPeriod: '2026.03.01 ~ 04.10', eventDate: '2026.04.15' },
+    { id: 5, isNotice: false, status: 'ing', title: '제5회 대한민국 소프트웨어 기술 컨퍼런스', applyPeriod: '2026.03.05 ~ 05.15', eventDate: '2026.05.20 ~ 05.22' },
+    { id: 4, isNotice: false, status: 'ready', title: '하반기 클라우드 인프라 구축 실무 교육 (사전안내)', applyPeriod: '2026.07.01 ~ 07.31', eventDate: '2026.08.10 ~ 08.14' },
+    { id: 3, isNotice: false, status: 'end', title: '2026년 상반기 클라우드 보안 전문가 세미나', applyPeriod: '2026.01.10 ~ 02.20', eventDate: '2026.02.28' },
+    { id: 2, isNotice: false, status: 'end', title: 'CCCR 신년 하례회 및 우수 회원사 시상식', applyPeriod: '2025.12.01 ~ 12.31', eventDate: '2026.01.20' },
   ];
 
   const getStatusInfo = (status) => {
@@ -60,9 +61,10 @@ const Event = () => {
               {eventData.map((item) => {
                 const statusInfo = getStatusInfo(item.status);
                 
+                // 🚀 isNotice가 true면 'notice-row' 클래스를 부여해서 배경색을 다르게 줍니다
                 return (
-                  <tr key={item.id}>
-                    {/* 1. 상태 배지 */}
+                  <tr key={item.id} className={item.isNotice ? 'notice-row' : ''}>
+                    {/* 1. 상태 배지 (공지여도 행사 상태는 유지하는 게 좋습니다) */}
                     <td>
                       <span className={`status-badge ${statusInfo.className}`}>
                         {statusInfo.text}
@@ -71,7 +73,11 @@ const Event = () => {
                     
                     {/* 2. 행사명 (제목) */}
                     <td className="title-col">
-                      <Link to={`/news/event/${item.id}`}>{item.title}</Link>
+                      <Link to={`/news/event/${item.id}`}>
+                        {item.title}
+                        {/* 🚀 공지 뱃지를 제목 뒤로 옮기고, marginLeft 적용 */}
+                        {item.isNotice && <span className="event-notice-badge" style={{ marginLeft: '8px' }}>공지</span>}
+                      </Link>
                     </td>
                     
                     {/* 3. 신청기간 */}

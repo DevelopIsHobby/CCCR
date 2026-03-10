@@ -127,6 +127,24 @@
 }
 
 /* ========================================= */
+/* 🚀 중요 공지글 (Notice Row) 스타일 */
+/* ========================================= */
+.board-table tr.notice-row td {
+  background-color: #f8fafc; /* 아주 연한 슬레이트 배경 */
+}
+
+/* 공지글의 제목은 폰트를 조금 더 굵고 진하게 강조 */
+.board-table tr.notice-row td.title-col a {
+  font-weight: 700;
+  color: #0f172a;
+}
+
+/* 마우스 올렸을 때의 호버 색상 */
+.board-table tr.notice-row:hover td {
+  background-color: #f0f9ff;
+}
+
+/* ========================================= */
 /* 🚀 뱃지 & 아이콘 스타일 모던화 */
 /* ========================================= */
 .notice-badge {
@@ -134,6 +152,22 @@
   background-color: #e0f2fe; color: #0284c7; /* 스카이블루 파스텔 톤 */
   padding: 4px 8px; border-radius: 8px;
   font-size: 12px; font-weight: 800; text-align: center;
+}
+
+/* 👇 새로 추가된 N(최신글) 뱃지 스타일 */
+.new-badge, .event-notice-badge {
+  /* 기존 설정 유지 */
+  display: inline-block; 
+  padding: 3px 6px; 
+  border-radius: 6px;
+  font-size: 11px; 
+  font-weight: 800; 
+  text-align: center;
+  vertical-align: text-top;
+
+  /* 🎨 색상 변경 */
+  background-color: #ffedd5; /* 부드러운 살구색 배경 */
+  color: #ea580c; /* 따뜻하고 차분한 오렌지 텍스트 */
 }
 
 .file-icon { font-size: 16px; color: #94a3b8; }
@@ -208,7 +242,7 @@
 .board-detail-file a { color: #0ea5e9; text-decoration: none; font-weight: 600; }
 .board-detail-file a:hover { text-decoration: underline; }
 
-.board-detail-content { padding: 50px 40px; min-height: 400px; font-size: 16px; color: #334155; line-height: 1.8; }
+.board-detail-content { padding: 50px 40px; font-size: 16px; color: #334155; line-height: 1.8; }
 
 .board-detail-btns { display: flex; justify-content: center; margin-top: 40px; margin-bottom: 40px;}
 .btn-list {
@@ -287,6 +321,31 @@
 /* ========================================= */
 /* 🚀 반응형 처리 */
 /* ========================================= */
+
+@media (max-width: 1024px) {
+  /* 1️⃣ 모바일에서 덜 중요한 'NO(1번째)'와 '조회수(6번째)' 숨기기 */
+  .law-table col:nth-child(1), .law-table th:nth-child(1), .law-table td:nth-child(1),
+  .law-table col:nth-child(6), .law-table th:nth-child(6), .law-table td:nth-child(6) { 
+    display: none !important; 
+  }
+  /* 2️⃣ '분류(2번째)' 칸이 제목을 침범하지 않도록 좁게 고정하고 줄바꿈 방지 */
+  .law-table col:nth-child(2),
+  .law-table th:nth-child(2),
+  .law-table td:nth-child(2) {
+    width: 65px !important;     /* 너비를 최소한으로 고정 */
+    font-size: 13px;            /* 모바일에선 글씨를 살짝 작게 */
+    white-space: nowrap;        /* 글자가 밑으로 떨어지지 않게 */
+    padding-left: 5px !important; 
+    padding-right: 5px !important;
+  }
+
+  /* 3️⃣ 제목 칸에 남은 공간 몰아주기 */
+  .law-table .title-col {
+    width: auto !important;
+    word-break: break-all;      /* 제목이 길면 알아서 줄바꿈 되도록 처리 */
+  }
+}
+
 @media (max-width: 812px) {
   .board-search-wrap, .board-search-box { gap: 8px; }
   .board-select, .board-input, .board-search-input, .board-search-btn { font-size: 13px; padding: 10px 12px; }
@@ -300,16 +359,26 @@
 @media (max-width: 600px) {
   .board-table { table-layout: auto !important; width: 100%; }
   
-  .board-table:not(.event-table):not(.latest-table) col:nth-child(3),
-  .board-table:not(.event-table):not(.latest-table) th:nth-child(3),
-  .board-table:not(.event-table):not(.latest-table) td:nth-child(3), 
-  .board-table:not(.event-table):not(.latest-table) col:nth-child(6),
-  .board-table:not(.event-table):not(.latest-table) th:nth-child(6),
-  .board-table:not(.event-table):not(.latest-table) td:nth-child(6) { display: none !important; }
+  /* 1️⃣ 기존 규칙에 :not(.law-table)을 추가해서 제목(3번째)이 사라지는 걸 막습니다 */
+  .board-table:not(.event-table):not(.latest-table):not(.law-table) col:nth-child(3),
+  .board-table:not(.event-table):not(.latest-table):not(.law-table) th:nth-child(3),
+  .board-table:not(.event-table):not(.latest-table):not(.law-table) td:nth-child(3), 
+  .board-table:not(.event-table):not(.latest-table):not(.law-table) col:nth-child(6),
+  .board-table:not(.event-table):not(.latest-table):not(.law-table) th:nth-child(6),
+  .board-table:not(.event-table):not(.latest-table):not(.law-table) td:nth-child(6) { display: none !important; }
 
+  /* 행사소식 전용 숨김 규칙 (그대로 유지) */
   .event-table col:nth-child(3), .event-table th:nth-child(3), .event-table td:nth-child(3),
   .event-table col:nth-child(4), .event-table th:nth-child(4), .event-table td:nth-child(4) { display: none !important; }
 
+  /* 2️⃣ 🚀 법령정보(law-table) 전용: 모바일에서 5번째 열(등록일) 숨기기 추가 */
+  .law-table col:nth-child(5),
+  .law-table th:nth-child(5),
+  .law-table td:nth-child(5) {
+    display: none !important;
+  }
+
+  /* ... 아래 기존 내용(apply-section 등)은 그대로 유지 ... */
   .apply-section { padding: 30px 20px; }
   .apply-table th, .apply-table td { display: block; width: 100%; box-sizing: border-box; border-bottom: none; }
   .apply-table th { padding: 15px 10px 5px 10px; }

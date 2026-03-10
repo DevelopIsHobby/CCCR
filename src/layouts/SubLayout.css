@@ -103,7 +103,13 @@
 .sub-content-area { padding: 60px 0 100px 0; }
 .sub-layout-split {
   max-width: 1600px; 
-  padding: 0 40px; margin: 0 auto; display: flex; gap: 60px; align-items: flex-start; box-sizing: border-box;
+  padding: 0 40px; 
+  margin: 0 auto; 
+  display: flex; 
+  /* 🚀 기존 gap: 60px; 에서 40px로 수정! (더 줄이고 싶다면 30px도 좋습니다) */
+  gap: 40px; 
+  align-items: flex-start; 
+  box-sizing: border-box;
 }
 
 /* --- 🚀 좌측 LNB (플로팅 카드 스타일 사이드바) --- */

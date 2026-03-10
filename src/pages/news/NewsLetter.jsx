@@ -4,11 +4,11 @@ import SubLayout from '../../layouts/SubLayout';
 import './Board.css'; 
 
 const Newsletter = () => {
-  // 뉴스레터 임시 데이터
   const newsletterData = [
-    { id: 3, title: '[CCCR 뉴스레터] 2026년 3월호 (Vol.34)', date: '2026-03-01', views: 145 },
-    { id: 2, title: '[CCCR 뉴스레터] 2026년 2월호 (Vol.33)', date: '2026-02-01', views: 210 },
-    { id: 1, title: '[CCCR 뉴스레터] 2026년 1월호 (Vol.32)', date: '2026-01-01', views: 330 },
+    // 🚀 가장 최신호에 isNew: true 추가
+    { id: 3, isNew: true, title: '[CCCR 뉴스레터] 2026년 3월호 (Vol.34)', date: '2026-03-01', views: 145 },
+    { id: 2, isNew: false, title: '[CCCR 뉴스레터] 2026년 2월호 (Vol.33)', date: '2026-02-01', views: 210 },
+    { id: 1, isNew: false, title: '[CCCR 뉴스레터] 2026년 1월호 (Vol.32)', date: '2026-01-01', views: 330 },
   ];
 
   return (
@@ -26,28 +26,40 @@ const Newsletter = () => {
         </div>
 
         {/* 게시판 리스트 영역 */}
-        <table className="board-table">
-          <thead>
-            <tr>
-              <th style={{ width: '10%' }}>번호</th>
-              <th style={{ width: 'auto' }}>제목</th>
-              <th style={{ width: '15%' }}>등록일</th>
-              <th style={{ width: '10%' }}>조회수</th>
-            </tr>
-          </thead>
-          <tbody>
-            {newsletterData.map((item) => (
-              <tr key={item.id}>
-                <td>{item.id}</td>
-                <td className="title-col" style={{ textAlign: 'left' }}>
-                  <a href={`/news/newsletter/${item.id}`}>{item.title}</a>
-                </td>
-                <td>{item.date}</td>
-                <td>{item.views}</td>
+        <div className="board-table-wrap">
+          <table className="board-table">
+            <colgroup>
+              <col style={{ width: '10%' }} />
+              <col style={{ width: 'auto' }} />
+              <col style={{ width: '15%' }} />
+              <col style={{ width: '10%' }} className="hide-on-mobile" />
+            </colgroup>
+            <thead>
+              <tr>
+                <th>번호</th>
+                <th>제목</th>
+                <th>등록일</th>
+                <th className="hide-on-mobile">조회수</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {newsletterData.map((item) => (
+                <tr key={item.id}>
+                  <td>{item.id}</td>
+                  <td className="title-col" style={{ textAlign: 'left' }}>
+                    <a href={`/news/newsletter/${item.id}`}>
+                      {item.title}
+                      {/* 🚀 N 뱃지 렌더링 */}
+                      {item.isNew && <span className="new-badge" style={{ marginLeft: '8px' }}>N</span>}
+                    </a>
+                  </td>
+                  <td>{item.date}</td>
+                  <td className="hide-on-mobile">{item.views}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
 
         {/* 페이지네이션 영역 */}
         <div className="pagination">

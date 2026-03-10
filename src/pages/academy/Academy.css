@@ -149,12 +149,11 @@
 
 
 /* ========================================= */
-/* 🚀 5. 교육일정 (달력 모던화) */
+/* 🚀 5. 교육일정 달력 (기간 연속 바 디자인) */
 /* ========================================= */
-.calendar-header { display: flex; justify-content: center; align-items: center; gap: 24px; margin-bottom: 30px; }
-.calendar-header h3 { font-size: 28px; font-weight: 800; color: #0f172a; margin: 0; letter-spacing: -1px; }
+.calendar-header { display: flex; justify-content: center; align-items: center; }
+.calendar-header h3 { font-size: 32px; font-weight: 800; color: #0f172a; margin: 0; letter-spacing: -1px; }
 
-/* 달력 좌우 이동 버튼 */
 .calendar-nav-btn { 
   background: #ffffff; border: 1px solid #e2e8f0; border-radius: 50%; 
   width: 44px; height: 44px; cursor: pointer; font-size: 18px; color: #64748b; 
@@ -162,11 +161,11 @@
 }
 .calendar-nav-btn:hover { background-color: #f0f9ff; color: #0ea5e9; border-color: #0ea5e9; transform: scale(1.05); }
 
-/* 달력 그리드 (투박한 검은선 지우고 연한 톤으로) */
+/* 달력 7열 그리드 */
 .calendar-grid { 
   display: grid; grid-template-columns: repeat(7, 1fr); 
-  border: 1px solid #f1f5f9; border-radius: 16px; overflow: hidden; 
-  background-color: #f1f5f9; gap: 1px; /* 1px 갭을 줘서 자연스러운 내부 선 연출 */
+  border: 1px solid #e2e8f0; border-radius: 16px; overflow: hidden; 
+  background-color: #e2e8f0; gap: 1px; /* 1px 갭으로 엑셀 표 같은 경계선 연출 */
   box-shadow: 0 10px 30px rgba(0,0,0,0.02);
 }
 
@@ -174,34 +173,223 @@
 .calendar-day-header:nth-child(1) { color: #ef4444; } /* 일요일 */
 .calendar-day-header:nth-child(7) { color: #0ea5e9; } /* 토요일 */
 
-.calendar-cell { background-color: #ffffff; min-height: 140px; padding: 12px; transition: background-color 0.2s; }
-.calendar-cell:hover { background-color: #f8fafc; } /* 셀 호버 시 살짝 어두워짐 */
+/* 달력 셀 하나하나 */
+.calendar-cell { 
+  background-color: #ffffff; min-height: 140px; padding: 10px; 
+  display: flex; flex-direction: column; transition: background-color 0.2s; 
+}
+.calendar-cell:hover { background-color: #f8fafc; }
 
-.date-num { font-size: 15px; font-weight: 700; margin-bottom: 10px; display: block; color: #1e293b; }
+.date-header { display: flex; align-items: baseline; margin-bottom: 8px; }
+.date-num { font-size: 15px; font-weight: 700; color: #1e293b; }
 .calendar-cell:nth-child(7n+1) .date-num { color: #ef4444; }
 .calendar-cell:nth-child(7n) .date-num { color: #0ea5e9; }
 
-/* 🚀 일정 이벤트 칩 디자인 */
-.calendar-event { 
-  font-size: 12px; padding: 6px 8px; margin-bottom: 6px; border-radius: 6px; 
-  font-weight: 600; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; 
-  box-shadow: 0 2px 4px rgba(0,0,0,0.03); transition: transform 0.2s;
-}
-.calendar-event:hover { transform: scale(1.02); }
+/* 🚀 이벤트 블록 (막대기 형태) */
+.event-list { display: flex; flex-direction: column; gap: 4px; }
 
-.calendar-event.incumbent { background-color: #e0f2fe; color: #0284c7; border-left: 3px solid #0ea5e9; }
-.calendar-event.jobseeker { background-color: #ecfdf5; color: #059669; border-left: 3px solid #10b981; }
+.calendar-event { 
+  font-size: 11px; padding: 5px 8px; 
+  font-weight: 600; cursor: pointer; 
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; 
+  transition: opacity 0.2s;
+  
+  /* 🚀 핵심: 셀을 넘어가는 연속된 막대기처럼 보이게 하기 위해 좌우 여백 조절 */
+  margin-left: -10px;
+  margin-right: -10px;
+  border-radius: 0; /* 기본적으로 네모반듯하게 */
+}
+
+.calendar-event:hover { opacity: 0.8; }
+
+/* 이벤트의 시작일과 종료일에는 모서리를 둥글게 깎아서 예쁘게 마감! */
+.calendar-event.is-start { margin-left: 0; border-top-left-radius: 6px; border-bottom-left-radius: 6px; }
+.calendar-event.is-end { margin-right: 0; border-top-right-radius: 6px; border-bottom-right-radius: 6px; }
+
+/* 직군별 컬러 테마 (투명도가 살짝 들어간 파스텔톤 배경) */
+.calendar-event.incumbent { background-color: rgba(14, 165, 233, 0.15); color: #0284c7; border-left: 3px solid #0ea5e9; }
+.calendar-event.jobseeker { background-color: rgba(16, 185, 129, 0.15); color: #059669; border-left: 3px solid #10b981; }
 
 .calendar-cell.fade .date-num { color: #cbd5e1 !important; }
+
+
+/* ========================================= */
+/* 🚀 리치 리스트 (썸네일 + 교육장소 포함된 모던 리스트) */
+/* ========================================= */
+.academy-rich-list-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.rich-list-item {
+  display: flex;
+  align-items: center;
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+  transition: all 0.3s ease;
+  gap: 24px;
+}
+
+.rich-list-item:hover {
+  box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+  border-color: #cbd5e1;
+  transform: translateY(-2px);
+}
+
+/* 썸네일 영역 */
+.item-thumb {
+  position: relative;
+  width: 220px;
+  height: 140px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: #f1f5f9;
+}
+
+.item-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.rich-list-item:hover .item-thumb img {
+  transform: scale(1.05); /* 호버 시 사진이 살짝 커짐 */
+}
+
+.thumb-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 800;
+  color: #fff;
+  z-index: 2;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+.thumb-badge.ing { background-color: #0ea5e9; }
+.thumb-badge.ready { background-color: #10b981; }
+.thumb-badge.end { background-color: #64748b; }
+
+/* 중앙 정보 영역 */
+.item-body {
+  flex: 1;
+  min-width: 0; /* 텍스트 말줄임표 보장 */
+}
+
+.item-program-tag {
+  display: inline-block;
+  padding: 4px 10px;
+  background-color: #f1f5f9;
+  color: #475569;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 6px;
+  margin-bottom: 10px;
+}
+
+.item-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0 0 15px 0;
+  line-height: 1.4;
+  word-break: keep-all;
+}
+
+.item-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.meta-info {
+  font-size: 14px;
+  color: #475569;
+}
+
+/* 우측 액션 영역 */
+.item-action {
+  width: 200px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-left: 1px dashed #e2e8f0;
+  padding-left: 24px;
+  text-align: center;
+}
+
+.action-reg-period {
+  background-color: #f8fafc;
+  padding: 10px;
+  border-radius: 8px;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 15px;
+}
+
+.item-action .academy-btn {
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+}
 
 
 /* ========================================= */
 /* 🚀 모바일 반응형 처리 */
 /* ========================================= */
 @media (max-width: 1024px) {
+  @media (max-width: 1024px) {
   .academy-form-table th { width: 140px; }
   .calendar-cell { min-height: 100px; padding: 8px; }
   .calendar-event { font-size: 11px; padding: 4px; }
+  
+  /* 🚀 교육신청 리치 리스트 (태블릿 구간 텍스트 깨짐 완벽 방어) */
+  .rich-list-item { 
+    gap: 16px; 
+    padding: 16px; 
+  }
+  .item-thumb { 
+    width: 160px; /* 220px -> 160px로 다이어트 */
+    height: 110px; 
+  } 
+  .thumb-badge { 
+    padding: 4px 8px; 
+    font-size: 12px; 
+    top: 8px; left: 8px;
+  }
+  .item-title { 
+    font-size: 17px; /* 20px -> 17px로 축소 */
+    margin-bottom: 8px; 
+  } 
+  .item-program-tag {
+    font-size: 11px;
+    padding: 3px 8px;
+    margin-bottom: 6px;
+  }
+  .item-meta { gap: 4px; }
+  .meta-info { font-size: 13px; } /* 14px -> 13px로 축소 */
+  
+  .item-action { 
+    width: 150px; /* 200px -> 150px로 다이어트 */
+    padding-left: 16px; 
+  }
+  .action-reg-period {
+    padding: 8px;
+    margin-bottom: 10px;
+  }
+  .action-reg-period strong { font-size: 13px !important; }
+}
+  .desktop-spacer { display: block !important; }
 }
 
 @media (max-width: 812px) {
@@ -215,6 +403,31 @@
   /* 모바일 달력 스크롤 */
   .calendar-wrap { width: 100%; overflow-x: auto; padding-bottom: 10px; }
   .calendar-grid { min-width: 700px; } 
+
+  .rich-list-item {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 15px;
+    gap: 15px;
+  }
+  
+  .item-thumb {
+    width: 100%;
+    height: 180px;
+  }
+
+  .item-action {
+    width: 100%;
+    border-left: none;
+    border-top: 1px dashed #e2e8f0;
+    padding-left: 0;
+    padding-top: 15px;
+  }
+
+  .calendar-cell { min-height: 100px; padding: 6px; }
+  .calendar-event { font-size: 10px; padding: 3px 4px; }
+  .calendar-grid { min-width: 800px; /* 모바일에서 가로 스크롤 허용 */ }
+  .academy-content { overflow-x: auto; }
 }
 
 @media (max-width: 600px) {
@@ -222,3 +435,4 @@
   .academy-tab-item { border: 1px solid #f1f5f9; background-color: #f8fafc; padding: 12px 0; font-size: 14px;}
   .academy-tab-item.active { border-color: #0ea5e9; }
 }
+

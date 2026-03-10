@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+// src/layouts/SubLayout.jsx
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import './SubLayout.css';
 
-// 1. 메뉴 데이터 세팅
+// ==========================================
+// 1. 메뉴 데이터 세팅 (이 부분이 날아가서 에러가 났었습니다!)
+// ==========================================
 const menuData = [
   {
     title: '주요사업',
@@ -98,17 +101,35 @@ const SubLayout = ({ mainCategory, subCategory, children }) => {
   
   const bgImageUrl = "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1600&auto=format&fit=crop";
 
-  // 🚀 경로바 드롭다운 State (3뎁스 삭제로 사이드바 State는 제거됨!)
+  // 경로바 드롭다운 State
   const [openDropdown, setOpenDropdown] = useState(null); 
+  
+  // 🚀 경로바 영역을 감지하기 위한 Ref 생성
+  const navRef = useRef(null);
 
   const toggleDropdown = (type) => {
     setOpenDropdown(openDropdown === type ? null : type);
   };
 
+  // 🚀 외부 클릭 감지 로직 (드롭다운 바깥 클릭 시 닫힘)
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      // navRef(경로바)가 존재하고, 클릭한 요소가 navRef 안에 없으면 닫기
+      if (navRef.current && !navRef.current.contains(event.target)) {
+        setOpenDropdown(null); 
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
     <div className="sub-layout-wrapper">
       
-      {/* 서브 비주얼 배너 */}
+      {/* 1. 서브 비주얼 배너 */}
       <section className="sub-visual" style={{ backgroundImage: `url(${bgImageUrl})` }}>
         <div className="sub-visual-overlay"></div>
         <div className="sub-visual-content">
@@ -118,7 +139,7 @@ const SubLayout = ({ mainCategory, subCategory, children }) => {
       </section>
 
       {/* 2. 가로형 경로 네비게이션 */}
-      <nav className="sub-breadcrumb">
+      <nav className="sub-breadcrumb" ref={navRef}>
         <div className="breadcrumb-inner">
           <Link to="/" className="home-btn" style={{textDecoration: 'none'}}>🏠</Link>
           
@@ -128,12 +149,10 @@ const SubLayout = ({ mainCategory, subCategory, children }) => {
               <span className="text-truncate">{mainCategory}</span> 
               <span className="drop-icon">☰</span>
             </button>
-            {/* 🚀 1뎁스 클릭 시 -> 다른 대분류(인재양성, 알림마당 등)로 이동 가능 */}
             {openDropdown === 'main' && (
               <ul className="breadcrumb-drop-list">
                 {menuData.map((menu, idx) => (
                   <li key={idx}>
-                    {/* 대분류 클릭 시 해당 카테고리의 첫 번째 서브메뉴로 이동 */}
                     <Link to={menu.subMenus[0].path} onClick={() => setOpenDropdown(null)}>
                       {menu.title}
                     </Link>
@@ -149,7 +168,6 @@ const SubLayout = ({ mainCategory, subCategory, children }) => {
               <span className="current-sub text-truncate">{subCategory}</span> 
               <span className="drop-icon">☰</span>
             </button>
-            {/* 🚀 2뎁스 클릭 시 -> 현재 카테고리의 다른 소분류들 표시 */}
             {openDropdown === 'sub' && (
               <ul className="breadcrumb-drop-list">
                 {currentSubMenus.map((item, idx) => (
@@ -176,7 +194,6 @@ const SubLayout = ({ mainCategory, subCategory, children }) => {
             <ul className="sidebar-menu-list">
               {currentSubMenus.map((menu, index) => (
                 <li key={index} className="sidebar-item-wrap">
-                  {/* 🚀 3뎁스(+/-)가 깔끔하게 삭제된 직관적인 메뉴 링크 */}
                   <Link 
                     to={menu.path} 
                     className={`sidebar-link ${menu.name === subCategory ? 'active' : ''}`}

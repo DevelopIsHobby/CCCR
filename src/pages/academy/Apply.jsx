@@ -4,6 +4,11 @@ import { useParams, Navigate, Link } from 'react-router-dom';
 import SubLayout from '../../layouts/SubLayout';
 import './Academy.css';
 
+// 🚀 로컬 이미지 임포트
+import tabaImg from '../../assets/TABA_7기.jpg'; // 경로 주의 (assets 폴더 위치에 맞게 ../ 개수 조절 필요할 수 있음)
+import sassaakImg from '../../assets/새싹_3기.png';
+import recruitImg from '../../assets/채용_4기.jpg';
+
 const Apply = () => {
   const { type } = useParams();
 
@@ -11,41 +16,35 @@ const Apply = () => {
     return <Navigate to="/academy/apply/incumbent" replace />;
   }
 
-  // 🚀 데이터에 thumbnail과 location 추가!
+  // 🚀 실제 진행 중인 4가지 교육 과정으로 데이터 개편!
   const applyList = [
     { 
-      id: 5, category: 'incumbent', program: '전문인력 양성', status: 'ing', 
-      title: '쿠버네티스(K8s) 기반 컨테이너 오케스트레이션 심화', 
-      location: '오프라인 (서울 구로디지털단지)', // 📍 추가
-      thumbnail: 'https://images.unsplash.com/photo-1667372393119-3d4c48d07fc9?q=80&w=400&auto=format&fit=crop', // 🖼️ 추가
+      id: 4, category: 'incumbent', program: '전문인력 양성', status: 'ing', 
+      title: '클라우드컴퓨팅 전문인력 양성 과정', 
+      location: '오프라인 (서울 구로디지털단지)', 
+      // 전문인력 양성은 외부 IT/코딩 이미지 사용
+      thumbnail: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=400&auto=format&fit=crop', 
       eduPeriod: '2026.04.10 ~ 04.12', regPeriod: '2026.03.01 ~ 03.31', time: '18:00~21:00' 
     },
     { 
-      id: 4, category: 'incumbent', program: '전문인력 양성', status: 'ready', 
-      title: 'AWS 공인 솔루션스 아키텍트(SAA) 자격 취득 과정', 
-      location: '실시간 온라인 (Zoom)', 
-      thumbnail: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=400&auto=format&fit=crop',
-      eduPeriod: '2026.06.05 ~ 06.07', regPeriod: '2026.05.01 ~ 05.30', time: '10:00~17:00' 
-    },
-    { 
       id: 3, category: 'jobseeker', program: '채용연계형', status: 'ing', 
-      title: 'DevOps & SRE 엔지니어 부트캠프 8기', 
+      title: 'SW전문인재양성 (채용연계 부트캠프 4기)', 
       location: '오프라인 (서울 서초구)', 
-      thumbnail: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=400&auto=format&fit=crop',
+      thumbnail: recruitImg, // 🖼️ 로컬 이미지 연결
       eduPeriod: '2026.05.01 ~ 10.31', regPeriod: '2026.03.15 ~ 04.20', time: '09:00~18:00' 
     },
     { 
-      id: 2, category: 'jobseeker', program: 'TABA', status: 'ing', 
-      title: '빅데이터 및 AI SW융합개발자 양성 과정', 
+      id: 2, category: 'jobseeker', program: '대학기업협력형', status: 'ready', 
+      title: 'TABA 아카데미 7기', 
       location: '오프라인 (단국대학교 죽전캠퍼스)', 
-      thumbnail: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=400&auto=format&fit=crop',
+      thumbnail: tabaImg, // 🖼️ 로컬 이미지 연결
       eduPeriod: '2026.07.01 ~ 12.31', regPeriod: '2026.05.01 ~ 06.15', time: '09:00~18:00' 
     },
     { 
-      id: 1, category: 'jobseeker', program: 'SeSAC', status: 'end', 
-      title: '클라우드 기반 인공지능(AI) 핵심 기술 구현', 
+      id: 1, category: 'jobseeker', program: '새싹(SeSAC)', status: 'end', 
+      title: '청년취업사관학교 새싹(SeSAC) 3기', 
       location: '오프라인 (청년취업사관학교)', 
-      thumbnail: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=400&auto=format&fit=crop',
+      thumbnail: sassaakImg, // 🖼️ 로컬 이미지 연결
       eduPeriod: '2026.01.10 ~ 06.30', regPeriod: '2025.12.01 ~ 12.20', time: '09:00~18:00' 
     },
   ];
@@ -72,7 +71,7 @@ const Apply = () => {
             <Link to="/academy/apply/jobseeker" className={`academy-tab-item ${type === 'jobseeker' ? 'active' : ''}`}>미취업자 교육</Link>
           </div>
 
-          {/* 타겟별 맞춤형 사업 안내 박스 (기존과 동일하게 유지) */}
+          {/* 타겟별 맞춤형 사업 안내 박스 */}
           {type === 'incumbent' ? (
             <div className="academy-form-section" style={{ padding: '30px', marginBottom: '40px', backgroundColor: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '16px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '15px' }}>
@@ -91,19 +90,19 @@ const Apply = () => {
                 <p style={{ margin: 0, color: '#64748b', fontSize: '14px', lineHeight: '1.6' }}>기업 컨소시엄 기반의 특화 실무 교육 진행 후, 수료 시 멤버십 기업으로 즉시 채용을 연계합니다.</p>
               </div>
               <div style={{ padding: '25px', backgroundColor: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '16px', boxShadow: '0 4px 10px rgba(0,0,0,0.02)' }}>
-                <span className="academy-badge" style={{ backgroundColor: '#ecfdf5', color: '#059669', marginBottom: '10px' }}>산학협력형</span>
+                <span className="academy-badge" style={{ backgroundColor: '#ecfdf5', color: '#059669', marginBottom: '10px' }}>대학기업협력형</span>
                 <h5 style={{ fontSize: '18px', fontWeight: '800', color: '#0f172a', margin: '0 0 10px 0' }}>TABA 아카데미</h5>
                 <p style={{ margin: 0, color: '#64748b', fontSize: '14px', lineHeight: '1.6' }}>단국대-오케스트로 연계를 통해 재학생 학점 인정 및 현직자 밀착 멘토링을 제공합니다.</p>
               </div>
               <div style={{ padding: '25px', backgroundColor: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '16px', boxShadow: '0 4px 10px rgba(0,0,0,0.02)' }}>
                 <span className="academy-badge" style={{ backgroundColor: '#f3e8ff', color: '#7e22ce', marginBottom: '10px' }}>서울시 지원</span>
-                <h5 style={{ fontSize: '18px', fontWeight: '800', color: '#0f172a', margin: '0 0 10px 0' }}>청년취업사관학교 SeSAC</h5>
+                <h5 style={{ fontSize: '18px', fontWeight: '800', color: '#0f172a', margin: '0 0 10px 0' }}>새싹(SeSAC)</h5>
                 <p style={{ margin: 0, color: '#64748b', fontSize: '14px', lineHeight: '1.6' }}>개발자를 꿈꾸는 청년들의 현업 데뷔를 돕기 위한 서울시 특화 실무 교육 프로그램입니다.</p>
               </div>
             </div>
           )}
 
-          {/* 🚀 <table> 대신 모던한 Rich List UI 적용 */}
+          {/* 모던한 Rich List UI 적용 */}
           <div className="academy-rich-list-wrap">
             {filteredList.length > 0 ? (
               filteredList.map((item) => {

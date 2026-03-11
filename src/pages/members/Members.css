@@ -610,53 +610,60 @@
 }
 
 /* ========================================= */
-/* 🚀 회원소식: 뉴스가 없을 때 보여줄 회사 소개 카드 */
+/* 🚀 상단 탭 메뉴 (교육훈련 페이지의 알약/토글 스타일 적용!) */
 /* ========================================= */
-.company-intro-fallback {
-  background-color: #f8fafc;
-  border: 1px dashed #cbd5e1;
-  border-radius: 20px;
-  padding: 60px 40px;
-  text-align: center;
-  margin-top: 20px;
-  margin-bottom: 40px;
-  transition: transform 0.3s ease;
+.members-tab-menu {
+  display: flex;
+  background-color: #f8fafc; /* 연한 회색 배경 껍데기 */
+  padding: 6px;
+  border-radius: 16px;
+  gap: 6px;
+  
+  /* 🚀 탭이 화면 전체로 늘어나지 않게 크기 고정 & 가운데 정렬 */
+  width: 100%;
+  max-width: 300px; 
+  margin: 0 auto 40px auto; 
 }
 
-.company-intro-fallback:hover {
-  background-color: #ffffff;
-  border: 1px solid #bae6fd;
-  box-shadow: 0 10px 30px rgba(14, 165, 233, 0.05);
-  transform: translateY(-5px);
-}
-
-.fallback-icon {
-  font-size: 48px;
-  margin-bottom: 15px;
-}
-
-.fallback-title {
-  font-size: 22px;
-  font-weight: 800;
-  color: #0f172a;
-  margin: 0 0 15px 0;
-}
-
-.fallback-desc {
+.members-tab-item {
+  flex: 1; /* 두 탭이 반반씩 나눠 가짐 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 10px;
   font-size: 16px;
-  line-height: 1.6;
-  color: #475569;
-  max-width: 700px;
-  margin: 0 auto 30px auto;
-  word-break: keep-all;
+  font-weight: 600;
+  color: #64748b;
+  background-color: transparent;
+  border: none;
+  border-radius: 12px; /* 둥근 버튼 모양 */
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
-.fallback-notice {
-  display: inline-block;
+.members-tab-item:hover {
+  color: #0ea5e9;
+}
+
+/* 🚀 선택된 탭 (하얀색 배경에 그림자 쏙!) */
+.members-tab-item.active {
   background-color: #ffffff;
-  padding: 10px 20px;
-  border-radius: 30px;
-  border: 1px solid #e2e8f0;
+  color: #0ea5e9;
+  font-weight: 700;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+/* ========================================= */
+/* 🚀 회사 로고 이미지 스타일 */
+/* ========================================= */
+.company-logo-img {
+  max-width: 100%;
+  height: 40px; /* 로고 높이를 일정하게 맞춤 */
+  object-fit: contain; /* 비율 유지하며 쏙 들어가게 */
+  display: block;
+  margin: 0 auto;
+  padding: 4px;
+  background-color: #ffffff;
 }
 
 .show-on-mobile { display: none; }
@@ -665,6 +672,17 @@
 /* ========================================= */
 /* 🚀 모바일 반응형 처리 */
 /* ========================================= */
+@media (max-width: 1024px) {
+.members-tab-menu {
+  max-width: 200px; 
+  margin-bottom: 30px; 
+}
+
+.members-tab-item {
+  font-size: 14px;
+}
+
+}
 @media (max-width: 812px) {
   .members-title {
     font-size: 22px;
@@ -700,6 +718,15 @@
   .comp-name { font-size: 14px; }
   .comp-link { display: none; /* 모바일에서는 깔끔하게 링크 글자 숨김 */ }
 
+  .members-tab-menu {
+    max-width: 180px; 
+    margin-bottom: 25px; 
+  }
+
+  .members-tab-item {
+    font-size: 13px;
+  }
+
 }
 
 @media (max-width: 600px) {
@@ -708,8 +735,37 @@
   .welcome-main-text { font-size: 22px; }
   .welcome-sub-text { font-size: 14px; }
 
-  .company-intro-fallback { padding: 40px 20px; }
-  .fallback-title { font-size: 20px; }
-  .fallback-desc { font-size: 15px; }
+  .members-tab-menu {
+    width: 100%; 
+  }
+  .members-tab-item {
+    font-size: 14px;
+    padding: 10px 0;
+  }
   .show-on-mobile { display: block; }
+
+  /* ========================================= */
+  /* 🚀 [모바일] 테이블 찌그러짐 완벽 방어 코드 */
+  /* ========================================= */
+  
+  /* 1. 확실하게 숨기기 (Board.css에 있어도 여기서 한 번 더 강력하게 덮어씌움) */
+  .hide-on-mobile {
+    display: none !important;
+  }
+
+  /* 2. 브라우저의 맘대로 찌그러트리기 방지 (고정 레이아웃) */
+  .board-table {
+    table-layout: fixed !important;
+    width: 100% !important;
+  }
+
+  /* 3. 살아남은 '회사명' 칸은 35%로 고정 */
+  .mobile-company-col {
+    width: 35% !important;
+  }
+
+  /* 4. 제목 / 소개내용 등 남은 칸의 글자가 길면 예쁘게 말줄임표(...) 처리 */
+  .board-table td {
+    word-break: break-all;
+  }
 }

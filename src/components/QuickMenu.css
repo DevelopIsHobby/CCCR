@@ -1,5 +1,7 @@
+/* src/components/QuickMenu/QuickMenu.css */
+
 /* 🚀 가로로 긴 띠 형태의 다크 네이비 유리 상자 */
-.quick-menu-widget {
+.qm-widget {
   width: 100%;
   background: rgba(15, 23, 42, 0.65); 
   backdrop-filter: blur(16px);
@@ -11,18 +13,22 @@
   box-sizing: border-box;
 }
 
-.quick-menu-grid {
+.qm-grid {
   list-style: none;
-  padding: 0; margin: 0;
+  padding: 0 !important; /* 기존 About.css 영향 차단 */
+  margin: 0 !important;
   display: flex;
-  justify-content: space-between; /* 1줄로 쫙 펼치기 */
+  justify-content: space-between;
   align-items: center;
   gap: 15px;
 }
 
-.quick-menu-item { flex: 1; }
+.qm-item { 
+  flex: 1; 
+  list-style: none !important;
+}
 
-.quick-menu-item a {
+.qm-item a {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -30,7 +36,8 @@
   text-decoration: none;
 }
 
-.icon-box {
+/* 🚀 아이콘 박스 고유화 */
+.qm-icon-box {
   width: 64px; height: 64px;
   background-color: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -40,25 +47,50 @@
   transition: all 0.3s;
 }
 
-.service-title {
-  font-size: 16px; font-weight: 500;
-  color: rgba(255, 255, 255, 0.8);
-  text-align: center; word-break: keep-all; transition: color 0.3s;
+/* 🚀 텍스트 스타일 (About.css의 34px 스타일 완전 차단) */
+.qm-text {
+  /* 강제 초기화 */
+  font-size: 16px !important; 
+  font-weight: 500 !important;
+  color: rgba(255, 255, 255, 0.8) !important;
+  margin: 0 !important;
+  line-height: 1.2 !important;
+  letter-spacing: 0 !important;
+  
+  text-align: center; 
+  word-break: keep-all; 
+  transition: color 0.3s;
 }
 
-.quick-menu-item a:hover .icon-box {
-  background-color: #0ea5e9; border-color: #0ea5e9;
-  color: #ffffff; transform: translateY(-6px);
+/* 호버 효과 */
+.qm-item a:hover .qm-icon-box {
+  background-color: #0ea5e9; 
+  border-color: #0ea5e9;
+  color: #ffffff; 
+  transform: translateY(-6px);
   box-shadow: 0 10px 20px rgba(14, 165, 233, 0.4);
 }
-.quick-menu-item a:hover .service-title { color: #ffffff; font-weight: 700; }
+
+.qm-item a:hover .qm-text { 
+  color: #ffffff !important; 
+  font-weight: 700 !important; 
+}
+
+/* ========================================= */
+/* 📱 반응형 최적화 */
+/* ========================================= */
 
 @media (max-width: 1024px) {
-  .quick-menu-widget { padding: 20px; }
-  .icon-box { width: 50px; height: 50px; font-size: 24px; border-radius: 14px; }
-  .service-title { font-size: 14px; }
+  .qm-widget { padding: 20px; }
+  .qm-icon-box { width: 50px; height: 50px; font-size: 24px; border-radius: 14px; }
+  .qm-text { font-size: 14px !important; }
 }
+
 @media (max-width: 812px) {
-  .quick-menu-widget { border-radius: 16px; padding: 20px 10px; }
-  .quick-menu-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px 5px; }
+  .qm-widget { border-radius: 16px; padding: 20px 10px; }
+  .qm-grid { 
+    display: grid !important; 
+    grid-template-columns: repeat(3, 1fr) !important; 
+    gap: 20px 5px !important; 
+  }
 }

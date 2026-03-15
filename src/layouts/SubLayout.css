@@ -103,7 +103,7 @@
 .sub-content-area { padding: 60px 0 100px 0; }
 .sub-layout-split {
   max-width: 1600px; 
-  padding: 0 40px; 
+  padding: 0 24; 
   margin: 0 auto; 
   display: flex; 
   /* 🚀 기존 gap: 60px; 에서 40px로 수정! (더 줄이고 싶다면 30px도 좋습니다) */
@@ -177,7 +177,7 @@
 /* --- 🚀 우측 본문 영역 --- */
 .sub-content-right { flex: 1; min-width: 0; }
 
-.content-header { margin-bottom: 30px; border-bottom: 2px solid #f1f5f9; padding-bottom: 20px; }
+.content-header { margin-bottom: 20px; border-bottom: 2px solid #f1f5f9; padding-bottom: 12x; }
 .content-title { font-size: 34px; font-weight: 800; color: #0f172a; margin: 0; letter-spacing: -1px; }
 
 /* ===================================== */

@@ -1,11 +1,226 @@
 /* src/pages/about/About.css */
 
-/* ========================================= */
-/* 🚀 1. 공통 레이아웃 & 애니메이션 */
-/* ========================================= */
-.about-container {
+/* 🚀 0. 전체 배경 패턴 적용 (미니멀 서킷/그물망 패턴) */
+.vision-wrapper {
+  position: relative;
   width: 100%;
-  animation: fadeIn 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+  padding-bottom: 20px;
+  background-color: #ffffff; /* 깨끗한 기본 하얀 배경 */
+  overflow: hidden; /* 배경 도형이 화면 밖으로 삐져나가지 않게 자름 */
+  z-index: 1; /* 도형들이 본문을 가리지 않도록 층(Layer) 분리 */
+  animation: fadeIn 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* 🎨 [도형 1] 우측 상단: 큼직하고 둥글게 기울어진 사각형 (연한 슬레이트 톤) */
+.vision-wrapper::before {
+  content: '';
+  position: absolute;
+  top: -150px;
+  right: -100px;
+  width: 600px;
+  height: 600px;
+  background-color: #f8fafc;
+  border-radius: 100px;
+  transform: rotate(35deg);
+  z-index: -1; /* 글자 뒤로 은은하게 깔림 */
+}
+
+/* 🎨 [도형 2] 좌측 하단: 거대한 원형 도형 (아주 연한 스카이블루 톤) */
+.vision-wrapper::after {
+  content: '';
+  position: absolute;
+  bottom: 50px;
+  left: -200px;
+  width: 600px;
+  height: 600px;
+  background-color: rgba(14, 165, 233, 0.03); /* CCCR 블루 컬러를 아주 투명하게 */
+  border-radius: 50%;
+  z-index: -1;
+}
+
+/* ========================================= */
+/* 🚀 1. 웅장한 타이포그래피 헤더 */
+/* ========================================= */
+.vision-hero {
+  text-align: center;
+  padding: 40px 0 80px 0;
+  /* 선은 유지하고, 도형이 투영되도록 배경은 투명하게 */
+  border-bottom: 1px solid rgba(226, 232, 240, 0.6); 
+  background-color: transparent; 
+}
+.vision-kicker {
+  font-size: 16px; 
+  font-weight: 700;
+  color: #0ea5e9;
+  letter-spacing: 1px; 
+  margin-bottom: 24px;
+  word-break: keep-all;
+}
+
+.vision-slogan {
+  font-size: 38px;
+  font-weight: 300;
+  color: #0f172a;
+  line-height: 1.5;
+  margin: 0;
+  letter-spacing: -1px;
+  word-break: keep-all;
+}
+
+.vision-slogan strong {
+  font-weight: 800;
+  color: #0f172a;
+}
+
+/* ========================================= */
+/* 🚀 2. 중앙 정렬형 본문 */
+/* ========================================= */
+.vision-message-body {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 80px 20px;
+  /* 본문 영역은 깨끗하게 패턴 없이 처리 (가독성!) */
+  background-color: transparent; 
+}
+
+.vision-lead {
+  font-size: 24px;
+  font-weight: 700;
+  color: #0f172a;
+  line-height: 1.6;
+  margin-bottom: 40px !important;
+  word-break: keep-all;
+}
+
+.vision-message-body p {
+  font-size: 18px;
+  color: #334155;
+  line-height: 1.9;
+  margin-bottom: 30px;
+  word-break: keep-all;
+}
+
+.vision-message-body p strong {
+  color: #0f172a;
+  background-color: rgba(14, 165, 233, 0.1);
+  padding: 0 4px;
+}
+
+.vision-signature {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f172a;
+  margin-top: 50px;
+  text-align: right;
+}
+
+/* ========================================= */
+/* 🚀 3. 하단 분리형 프로필 카드 */
+/* ========================================= */
+.vision-profile-card {
+  max-width: 900px;
+  margin: 0 auto 80px auto;
+  /* 카드는 꽉 찬 하얀색/회색으로 배경 패턴 위로 도드라지게 처리 */
+  background-color: #f8fafc;
+  border-radius: 24px;
+  display: flex;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.03);
+  border: 1px solid #e2e8f0; /* 배경 무늬와 경계를 짓기 위해 테두리 추가 */
+}
+
+.profile-image-wrap {
+  width: 300px;
+  flex-shrink: 0;
+}
+
+.profile-image-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.profile-info-wrap {
+  flex: 1;
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.profile-label {
+  font-size: 14px;
+  color: #64748b;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.profile-name {
+  font-size: 32px;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0 0 30px 0;
+  letter-spacing: 8px;
+}
+
+.profile-resume {
+  display: flex;
+  gap: 40px;
+  border-top: 1px solid #e2e8f0;
+  padding-top: 30px;
+}
+
+.resume-section {
+  flex: 1;
+}
+
+.resume-section h4 {
+  font-size: 15px;
+  font-weight: 800;
+  color: #0ea5e9;
+  margin: 0 0 16px 0;
+}
+
+.resume-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.resume-section li {
+  font-size: 14px;
+  color: #475569;
+  margin-bottom: 10px;
+  line-height: 1.5;
+  position: relative;
+  padding-left: 12px;
+}
+
+.resume-section li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 8px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: #94a3b8;
+}
+/* ========================================= */
+/* 🚀 4. 하이엔드 에디토리얼 스타일 (설립목적 & 연혁) */
+/* ========================================= */
+
+.premium-history-wrapper {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  animation: fadeIn 0.6s ease-out;
 }
 
 @keyframes fadeIn {
@@ -13,76 +228,1287 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* ========================================= */
-/* 🚀 2. 모던 섹션 타이틀 (영문 Kicker) */
-/* ========================================= */
-.about-title {
-  font-size: 26px;
-  font-weight: 800;
-  color: #0f172a; /* 시크한 다크 네이비 */
-  margin-bottom: 30px;
-  border-bottom: none; /* 투박한 밑줄 제거 */
-  padding-bottom: 0;
-  display: block;
+/* 🎯 1. 설립 목적 (정제된 그리드 레이아웃) */
+.premium-vision-section {
+  padding: 40px 0 60px 0;
 }
 
-/* 제목 위의 영문 강조 라벨 */
-.about-title::before {
-  content: 'ABOUT US';
-  display: block;
-  font-size: 13px;
-  color: #0ea5e9; /* 스카이 블루 */
+.vision-intro-center {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.premium-title {
+  font-size: 32px;
+  font-weight: 800;
+  color: #0f172a; 
+  margin: 0 0 20px 0;
+  letter-spacing: -1px;
+}
+
+.premium-lead {
+  font-size: 18px;
+  color: #475569;
+  line-height: 1.7;
+  margin: 0;
+  word-break: keep-all;
+}
+
+.premium-grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.premium-grid-box {
+  padding: 40px;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+}
+
+/* 좌측 다크 박스 (VISION) */
+.premium-grid-box.dark {
+  background-color: #0f172a;
+  color: #ffffff;
+}
+
+/* 우측 스카이블루 박스 (MISSION) */
+.premium-grid-box.light {
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  border: 1px solid #bae6fd;
+}
+
+/* 하단 5대 사업분야 박스 (쿨그레이) */
+.premium-grid-box.full-width {
+  grid-column: 1 / -1;
+  align-items: center;
+  text-align: center;
+  padding: 35px 30px;
+  background-color: #f8fafc; /* 마음에 들어 하셨던 차분한 쿨그레이 배경 */
+  border: 1px solid #e2e8f0;
+}
+
+.full-width .grid-label {
+  color: #38bdf8; 
+}
+
+.grid-label {
+  font-size: 14px;
+  font-weight: 800;
   letter-spacing: 2px;
+  margin: 0 0 16px 0;
+  color: #38bdf8;
+}
+
+.full-width .grid-label {
+  color: #38bdf8; /* 라벨 색상도 원래대로 복구 */
+}
+
+.dark .grid-label {
+  color: #38bdf8;
+}
+
+.grid-text {
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.4;
+  margin: 0;
+  word-break: keep-all;
+  color : #0ea5e9;
+}
+
+.grid-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 19px;
+  font-weight: 700;
+  color: #1e293b;
+  line-height: 2;
+}
+
+.premium-tags {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+  font-size: 19px;
+  font-weight: 800;
+  
+  color: #0ea5e9; /* 🚀 가독성 100%! 묵직하고 세련된 딥 블루로 변경 */
+  text-shadow: none; /* 지저분한 그림자 싹 제거 */
+}
+
+.premium-tags span:not(.divider) {
+  background-color: transparent;
+  padding: 0;
+  box-shadow: none;
+  border-radius: 0;
+}
+
+.premium-tags .divider {
+  display: block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: #94a3b8; /* 점 색상도 차분한 회색으로 */
+}
+/* 섹션 구분선 */
+.premium-divider {
+  width: 100%;
+  height: 1px;
+  background-color: #e2e8f0;
+  margin: 20px 0 60px 0;
+}
+
+/* ⏳ 2. 연혁 (에디토리얼 리스트 스타일) */
+.history-header-center {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+/* 탭 메뉴 */
+.premium-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 60px;
+  background-color: #f1f5f9;
+  padding: 6px;
+  border-radius: 12px;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.tab-item {
+  background: transparent;
+  border: none;
+  padding: 10px 24px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #64748b;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.tab-item.active {
+  background-color: #ffffff;
+  color: #0f172a;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+/* 미니멀 연혁 리스트 */
+.premium-timeline {
+  display: flex;
+  flex-direction: column;
+}
+
+.timeline-row {
+  display: flex;
+  border-top: 1px solid #f1f5f9;
+  padding: 40px 0;
+}
+
+.timeline-row:first-child {
+  border-top: 2px solid #0f172a;
+}
+
+.timeline-year {
+  width: 140px;
+  flex-shrink: 0;
+}
+
+.timeline-year span {
+  display: block;
+  position: sticky;
+  top: 100px; 
+  font-size: 32px;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -1px;
+}
+
+.timeline-events {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.event-line {
+  display: flex;
+  align-items: baseline;
+  gap: 20px;
+}
+
+.event-mm {
+  font-size: 16px;
+  font-weight: 800;
+  color: #0ea5e9;
+  width: 30px;
+  flex-shrink: 0;
+}
+
+.event-txt {
+  font-size: 16px;
+  color: #475569;
+  line-height: 1.6;
+  margin: 0;
+  word-break: keep-all;
+}
+
+/* ========================================= */
+/* 🚀 5. 역대 조합장 (명예의 전당 갤러리 스타일) */
+/* ========================================= */
+
+.presidents-gallery {
+  display: grid;
+  /* PC에서는 3열 배치, 깔끔한 여백 */
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px 30px;
+  padding-bottom: 80px;
+}
+
+/* 개별 인물 카드 */
+.president-card {
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* 마우스 올렸을 때 살짝 떠오르는 부드러운 효과 */
+.president-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.06);
+}
+
+/* 현재 이사장님(첫 번째 카드) 특별 스타일링 */
+.current-president {
+  border: 2px solid #0f172a;
+}
+
+/* 사진 영역 */
+.president-photo-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4; /* 증명사진/초상화 최적 비율 */
+  overflow: hidden;
+  background-color: #f8fafc;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.president-photo-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+  /* 역대 이사장님들은 기본적으로 약간의 흑백(그레이스케일) 처리로 클래식함 부여 */
+  filter: grayscale(80%); 
+}
+
+/* 마우스를 올리면 컬러로 싹 돌아오는 고급스러운 효과! */
+.president-card:hover .president-photo-wrap img {
+  transform: scale(1.05);
+  filter: grayscale(0%);
+}
+
+.current-president .president-photo-wrap img {
+  filter: grayscale(0%); /* 현재 이사장님은 항상 컬러 유지 */
+}
+
+/* '현재' 뱃지 */
+.current-badge {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background-color: #0ea5e9;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 800;
+  padding: 6px 12px;
+  border-radius: 50px;
+  letter-spacing: 1px;
+}
+
+/* 인물 텍스트 정보 */
+.president-info {
+  padding: 24px;
+  text-align: center;
+}
+
+.p-generation {
+  display: block;
+  font-size: 14px;
+  font-weight: 800;
+  color: #0ea5e9;
   margin-bottom: 8px;
+}
+
+.p-name {
+  font-size: 24px;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0 0 8px 0;
+  letter-spacing: 2px;
+}
+
+.p-title {
+  font-size: 15px;
+  color: #475569;
+  margin: 0 0 16px 0;
+}
+
+.p-period {
+  display: inline-block;
+  background-color: #f1f5f9;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #334155;
+  font-weight: 600;
+}
+
+.period-label {
+  color: #94a3b8;
+  margin-right: 8px;
   font-weight: 700;
 }
 
-
-/* ========================================= */
-/* 🚀 3. 플로팅 카드 디자인 */
-/* ========================================= */
-.about-card {
-  background-color: #ffffff;
-  border: 1px solid #f1f5f9;
-  border-radius: 24px; /* 모서리를 둥글게 */
-  padding: 50px 40px;
-  margin-top: 20px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03); /* 은은한 기본 그림자 */
-  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+/* 🚀 명예의 전당 전용 웅장한 다크 배너 */
+.hall-of-fame-hero {
+  background: linear-gradient(135deg, #0c1626 0%, #1e293b 100%);
+  border-radius: 20px;
+  padding: 60px 40px;
+  margin-bottom: 60px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 15px 35px rgba(12, 22, 38, 0.08);
 }
 
-/* 마우스를 올렸을 때의 3D 부양 효과 */
-.about-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 20px 40px rgba(14, 165, 233, 0.1); /* 파란빛 그림자 퍼짐 */
-  border-color: #0ea5e9;
+/* 배너 양옆에 은은하게 퍼지는 푸른빛 조명 효과 (CSS만으로 구현) */
+.hall-of-fame-hero::before {
+  content: '';
+  position: absolute;
+  top: -50px;
+  left: -50px;
+  width: 250px;
+  height: 250px;
+  background: radial-gradient(circle, rgba(14, 165, 233, 0.08) 0%, transparent 70%);
+  border-radius: 50%;
 }
 
+.hall-of-fame-hero::after {
+  content: '';
+  position: absolute;
+  bottom: -100px;
+  right: -50px;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.05) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2; /* 조명 효과 위로 글씨가 올라오도록 */
+}
+
+.hero-kicker {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 800;
+  color: #38bdf8;
+  letter-spacing: 4px;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(56, 189, 248, 0.3);
+}
+
+.hero-title {
+  font-size: 38px;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0 0 20px 0;
+  letter-spacing: -1px;
+}
+
+.hero-desc {
+  font-size: 18px;
+  color: #cbd5e1;
+  line-height: 1.7;
+  margin: 0;
+  word-break: keep-all;
+}
 
 /* ========================================= */
-/* 🚀 4. 본문 텍스트 타이포그래피 */
+/* 🚀 6. 이사 소개 (통합 미니멀 그리드) */
 /* ========================================= */
-.about-content {
+
+.directors-premium-wrapper {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding-bottom: 80px;
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* 🎯 1. 상단 이사진 공동 다짐(Quote) 메시지 */
+.board-quote-section {
+  text-align: center;
+  padding: 40px 20px 80px 20px;
+  position: relative;
+}
+
+.quote-mark {
+  font-size: 80px;
+  color: #e0f2fe; 
+  font-family: serif;
+  line-height: 0;
+  position: absolute;
+  top: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: -1;
+}
+
+.board-quote-text {
+  font-size: 24px;
+  font-weight: 400;
+  color: #334155;
+  line-height: 1.6;
+  margin: 0 0 16px 0;
+  letter-spacing: -0.5px;
+}
+
+.board-quote-text strong {
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.board-quote-sub {
   font-size: 16px;
-  line-height: 1.8;
-  color: #475569; /* 세련된 슬레이트 그레이 */
-  word-break: keep-all; /* 단어 단위로 끊어지게 하여 가독성 향상 */
+  font-weight: 700;
+  color: #0ea5e9;
+  margin: 0;
 }
 
+/* 🎯 2. 초경량 미니멀 명함 카드 그리드 */
+.directors-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.director-mini-card {
+  display: flex;
+  align-items: center;
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 16px 20px;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.01);
+}
+
+.director-mini-card:hover {
+  border-color: #0ea5e9;
+  box-shadow: 0 8px 20px rgba(14, 165, 233, 0.08);
+  transform: translateY(-2px);
+}
+
+.dir-initial {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  color: #0ea5e9;
+  font-size: 18px;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-right: 16px;
+  border: 1px solid #bae6fd;
+}
+
+.director-mini-card:hover .dir-initial {
+  background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+  color: #ffffff;
+  border-color: #0ea5e9;
+  transition: 0.3s;
+}
+
+.dir-info {
+  flex: 1;
+  overflow: hidden;
+}
+
+.dir-company {
+  display: block;
+  font-size: 12px;
+  font-weight: 800;
+  color: #0ea5e9;
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dir-name {
+  font-size: 18px;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0 0 2px 0;
+  letter-spacing: 1px;
+}
+
+.dir-role {
+  font-size: 13px;
+  color: #64748b;
+  margin: 0;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
 /* ========================================= */
-/* 🚀 모바일 반응형 처리 */
+/* 🚀 7. 조직도 (프리미엄 트리 & 연락처 카드) */
+/* ========================================= */
+
+.premium-org-wrapper {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding-bottom: 80px;
+  animation: fadeIn 0.5s ease-out;
+}
+
+.org-header-section {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.org-header-section .text-blue {
+  color: #0ea5e9;
+  font-weight: 800;
+}
+
+/* 🎯 CSS 트리(Tree) 다이어그램 레이아웃 */
+.org-tree-section {
+  width: 100%;
+  overflow-x: auto; /* 모바일에서 표가 잘리지 않도록 스크롤 허용 */
+  padding-bottom: 40px;
+}
+
+.org-tree {
+  display: flex;
+  justify-content: center;
+  min-width: 600px; /* 모바일에서도 트리가 찌그러지지 않게 방어 */
+}
+
+.org-tree ul {
+  padding-top: 24px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  padding-left: 0;
+  margin: 0;
+}
+
+.org-tree li {
+  text-align: center;
+  list-style-type: none;
+  position: relative;
+  padding: 24px 10px 0 10px;
+}
+
+/* 연결선 그리기 (Before, After 활용) */
+.org-tree li::before, 
+.org-tree li::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 50%;
+  border-top: 2px solid #cbd5e1;
+  width: 50%;
+  height: 24px;
+}
+
+.org-tree li::after {
+  right: auto;
+  left: 50%;
+  border-left: 2px solid #cbd5e1;
+}
+
+/* 외동 노드(자식이 하나인 경우)는 가로선 숨김 */
+.org-tree li:only-child::after, 
+.org-tree li:only-child::before {
+  display: none;
+}
+
+.org-tree li:only-child {
+  padding-top: 0;
+}
+
+/* 첫 번째, 마지막 노드의 선 둥글게 처리 */
+.org-tree li:first-child::before, 
+.org-tree li:last-child::after {
+  border: 0 none;
+}
+
+.org-tree li:last-child::before {
+  border-right: 2px solid #cbd5e1;
+  border-radius: 0 6px 0 0;
+}
+
+.org-tree li:first-child::after {
+  border-radius: 6px 0 0 0;
+}
+
+/* 부모에서 자식으로 내려오는 수직선 */
+.org-tree ul ul::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  border-left: 2px solid #cbd5e1;
+  width: 0;
+  height: 24px;
+  transform: translateX(-1px);
+}
+
+/* 🎯 트리 내부 박스(Node) 디자인 */
+.org-tree span {
+  display: inline-block;
+  padding: 14px 30px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+  transition: transform 0.2s;
+}
+
+.org-tree span:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+.node-basic {
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  color: #334155;
+}
+
+.node-primary {
+  background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+  color: #ffffff;
+  border: none;
+}
+
+.node-dark {
+  background-color: #0f172a;
+  color: #ffffff;
+  border: none;
+}
+
+.node-team {
+  background-color: #ffffff;
+  border: 2px solid #bae6fd;
+  color: #0284c7;
+}
+
+/* 🎯 부서별 연락처 카드 그리드 */
+.org-contact-section {
+  margin-top: 40px;
+}
+
+.contact-main-title {
+  font-size: 24px;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0 0 30px 0;
+  text-align: center;
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.contact-card {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 24px;
+  transition: all 0.2s;
+}
+
+.contact-card:hover {
+  border-color: #0ea5e9;
+  box-shadow: 0 10px 25px rgba(14, 165, 233, 0.08);
+  transform: translateY(-3px);
+}
+
+.contact-header {
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px dashed #e2e8f0;
+}
+
+.contact-name {
+  font-size: 20px;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0 0 8px 0;
+}
+
+.contact-desc {
+  font-size: 14px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.info-line {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.info-line:last-child {
+  margin-bottom: 0;
+}
+
+.info-icon {
+  font-size: 16px;
+  margin-right: 12px;
+  opacity: 0.8;
+}
+
+.info-text {
+  font-size: 15px;
+  color: #334155;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.info-text.link {
+  color: #0ea5e9;
+  text-decoration: none;
+}
+
+.info-text.link:hover {
+  text-decoration: underline;
+}
+
+/* ========================================= */
+/* 🚀 8. 오시는 길 (탭 UI & 교통편 카드) */
+/* ========================================= */
+
+.premium-location-wrapper {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding-top: 20px; /* 🚀 SubLayout 타이틀과 본문 사이의 여백 추가 */
+  padding-bottom: 80px;
+  animation: fadeIn 0.5s ease-out;
+}
+
+.fade-in-keyframe {
+  animation: fadeIn 0.4s ease-out;
+}
+
+/* 🎯 1. 탭 메뉴 (토글 스타일) */
+.location-header-section {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.location-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 30px; /* 🚀 안내 문구와 탭 버튼 사이의 여백 */
+}
+
+.loc-tab-btn {
+  background-color: #f1f5f9;
+  border: 2px solid transparent;
+  color: #475569;
+  font-size: 16px;
+  font-weight: 700;
+  padding: 14px 30px;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.loc-tab-btn:hover {
+  background-color: #e2e8f0;
+}
+
+.loc-tab-btn.active {
+  background-color: #ffffff;
+  border-color: #0f172a;
+  color: #0f172a;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+/* 🎯 2. 지도 및 주소 바 영역 */
+.map-info-section {
+  margin-bottom: 50px;
+}
+
+/* 🎯 지도 이미지 컨테이너 */
+.map-image-container {
+  width: 100%;
+  height: 400px;
+  border-radius: 20px 20px 0 0;
+  overflow: hidden;
+  position: relative;
+  background-color: #f1f5f9;
+}
+
+.map-link-wrapper {
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  cursor: pointer;
+}
+
+/* 지도 캡처 이미지 */
+.static-map-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.map-link-wrapper:hover .static-map-image {
+  transform: scale(1.03); /* 마우스 올리면 지도가 살짝 확대됨 */
+}
+
+/* 마우스 올렸을 때 나타나는 반투명 오버레이와 버튼 */
+.map-overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(15, 23, 42, 0.4); /* 다크 네이비 반투명 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.map-link-wrapper:hover .map-overlay {
+  opacity: 1; /* 마우스 올리면 나타남 */
+}
+
+.overlay-btn {
+  background-color: #03c75a; /* 네이버 브랜드 컬러 */
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 800;
+  padding: 14px 30px;
+  border-radius: 50px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  transform: translateY(10px);
+  transition: transform 0.3s ease;
+}
+
+.map-link-wrapper:hover .overlay-btn {
+  transform: translateY(0); /* 버튼이 아래에서 살짝 올라오는 효과 */
+}
+
+.address-bar {
+  background-color: #0f172a;
+  color: #ffffff;
+  padding: 30px 40px;
+  border-radius: 0 0 20px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.1);
+}
+
+.badge-loc {
+  display: inline-block;
+  background-color: #0ea5e9;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 800;
+  padding: 4px 12px;
+  border-radius: 6px;
+  margin-bottom: 12px;
+}
+
+.address-text {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.postcode {
+  font-size: 16px;
+  color: #94a3b8;
+  font-weight: 400;
+  margin-left: 8px;
+}
+
+.contact-details {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 16px;
+  color: #cbd5e1;
+}
+
+.contact-details strong {
+  color: #38bdf8;
+}
+
+.contact-details .divider {
+  color: #475569;
+}
+
+/* 🎯 3. 대중교통 카드 레이아웃 */
+.transport-title {
+  font-size: 24px;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0 0 20px 0;
+}
+
+.transport-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.trans-card {
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 30px;
+}
+
+.trans-icon {
+  font-size: 18px;
+  font-weight: 800;
+  margin-bottom: 20px;
+  display: inline-block;
+}
+
+.subway-icon { color: #0f172a; }
+.bus-icon { color: #0f172a; }
+
+.trans-content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.trans-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+/* 지하철 노선 색상 뱃지 */
+.line-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 28px;
+  border-radius: 50px;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+.line-2 { background-color: #00A84D; } /* 2호선 초록 */
+.line-7 { background-color: #747F00; } /* 7호선 올리브 */
+
+/* 버스 색상 뱃지 */
+.bus-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 10px;
+  border-radius: 6px;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+.bus-badge.blue { background-color: #3b82f6; }
+.bus-badge.green { background-color: #10b981; }
+
+.trans-text strong {
+  display: block;
+  font-size: 18px;
+  color: #0f172a;
+  margin-bottom: 4px;
+}
+
+.trans-text p {
+  font-size: 15px;
+  color: #64748b;
+  margin: 0;
+  line-height: 1.5;
+  word-break: keep-all;
+}
+/* ========================================= */
+/* 🚀 9. CI (컴팩트 가이드라인 스타일) */
+/* ========================================= */
+
+.premium-ci-wrapper {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding-bottom: 80px;
+  animation: fadeIn 0.5s ease-out;
+}
+
+.ci-header-section {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+/* 🎯 1. 로고 쇼케이스 영역 (높이 대폭 축소) */
+.ci-showcase-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 60px;
+}
+
+/* 🚀 높이를 200px로 줄여 컴팩트하고 엣지있게 변경 */
+.ci-showcase-box {
+  width: 100%;
+  height: 200px; /* 기존 350px에서 대폭 축소 */
+  background-color: #f8fafc;
+  background-image: 
+    linear-gradient(45deg, #e2e8f0 25%, transparent 25%, transparent 75%, #e2e8f0 75%, #e2e8f0), 
+    linear-gradient(45deg, #e2e8f0 25%, transparent 25%, transparent 75%, #e2e8f0 75%, #e2e8f0);
+  background-size: 20px 20px;
+  background-position: 0 0, 10px 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-shadow: inset 0 0 20px rgba(0,0,0,0.02);
+  margin-bottom: 40px;
+}
+
+.ci-main-image {
+  max-width: 70%;
+  max-height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.08));
+}
+
+/* 🎯 다운로드 버튼 영역 */
+.ci-download-area {
+  width: 100%;
+  text-align: center;
+}
+
+.download-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0 0 20px 0;
+}
+
+.download-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.btn-download {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 24px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 700;
+  width: 220px;
+  transition: all 0.2s ease;
+}
+
+.btn-download.png {
+  background-color: #ffffff;
+  color: #0ea5e9;
+  border: 2px solid #0ea5e9;
+}
+
+.btn-download.png:hover {
+  background-color: #f0f9ff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 15px rgba(14, 165, 233, 0.1);
+}
+
+.btn-download.ai {
+  background-color: #0f172a;
+  color: #ffffff;
+  border: 2px solid #0f172a;
+}
+
+.btn-download.ai:hover {
+  background-color: #1e293b;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 15px rgba(15, 23, 42, 0.15);
+}
+
+.icon-download {
+  font-style: normal;
+  font-size: 18px;
+  font-weight: 900;
+}
+
+/* 🎯 2. 심볼 마크 의미 (중앙 정렬된 박스) */
+.ci-system-section {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.ci-meaning-box {
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 40px;
+  max-width: 700px;
+  text-align: center;
+}
+
+.system-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0 0 20px 0;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #0ea5e9; /* 파란색 포인트 밑줄 */
+  display: inline-block;
+}
+
+.system-desc {
+  font-size: 16px;
+  color: #475569;
+  line-height: 1.8;
+  margin: 0;
+  word-break: keep-all;
+}
+
+.system-desc strong {
+  color: #0ea5e9;
+  font-weight: 800;
+}
+
+/* ========================================= */
+/* 📱 모바일 반응형 */
 /* ========================================= */
 @media (max-width: 812px) {
-  .about-title {
-    font-size: 22px;
-  }
-  .about-card {
-    padding: 30px 20px;
-    border-radius: 20px;
-  }
-  .about-content {
-    font-size: 15px;
-    line-height: 1.6;
-  }
+  .ci-showcase-box { height: 160px; padding: 16px; }
+  .download-buttons { flex-direction: column; align-items: center; }
+  .btn-download { width: 100%; max-width: 300px; justify-content: center; gap: 10px; }
+  .ci-meaning-box { padding: 30px 20px; }
+}
+
+/* ========================================= */
+/* 📱 반응형 최적화 */
+/* ========================================= */
+@media (max-width: 1024px) {
+  .vision-slogan { font-size: 36px; }
+  .vision-profile-card { flex-direction: column; max-width: 600px; }
+  .profile-image-wrap { width: 100%; height: 350px; }
+}
+
+@media (max-width: 812px) {
+  .vision-hero { padding: 20px 0 60px 0; }
+  .vision-slogan { font-size: 28px; }
+  
+  .vision-message-body { padding: 60px 20px; }
+  .vision-lead { font-size: 20px; }
+  .vision-message-body p { font-size: 16px; }
+  
+  .profile-info-wrap { padding: 40px 30px; }
+  .profile-resume { flex-direction: column; gap: 30px; }
+
+  .premium-grid-container { grid-template-columns: 1fr; }
+  .premium-grid-box { padding: 30px; }
+  .grid-text { font-size: 20px; }
+  
+  .premium-tabs { width: 100%; flex-wrap: wrap; justify-content: stretch; }
+  .tab-item { flex: 1; text-align: center; padding: 10px; }
+
+  .timeline-row { flex-direction: column; padding: 30px 0; }
+  .timeline-year { width: 100%; margin-bottom: 20px; }
+  .timeline-year span { position: static; font-size: 28px; }
+  
+  .event-line { flex-direction: column; gap: 8px; }
+  .event-mm { width: auto; font-size: 15px; background-color: #f0f9ff; padding: 4px 10px; border-radius: 6px; }
+
+  /* 태블릿에서는 2열 배치 */
+  .presidents-gallery { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+  .p-name { font-size: 20px; }
+
+  .hall-of-fame-hero { padding: 40px 20px; border-radius: 16px; margin-bottom: 40px; }
+  .hero-title { font-size: 28px; margin-bottom: 16px; }
+  .hero-desc { font-size: 15px; }
+
+  .location-tabs { flex-direction: column; }
+  .loc-tab-btn { width: 100%; text-align: center; }
+  
+  .map-container { height: 300px; }
+  .address-bar { flex-direction: column; align-items: flex-start; gap: 20px; padding: 24px; }
+  
+  .transport-grid { grid-template-columns: 1fr; }
+  .trans-card { padding: 24px; }
+}
+
+@media (max-width: 600px) {
+  .vision-slogan { font-size: 24px; letter-spacing: -0.5px; }
+  .vision-message-body { padding: 40px 10px; }
+  .vision-lead { font-size: 18px; }
+  
+  .profile-image-wrap { height: 280px; }
+  .profile-name { font-size: 26px; letter-spacing: 4px; }
+
+  /* 모바일에서는 1열 배치 */
+  .presidents-gallery { grid-template-columns: 1fr; gap: 30px; }
+  .board-quote-text { font-size: 20px; }
+  .board-quote-section { padding-bottom: 40px; }
+  
+  .directors-grid { grid-template-columns: repeat(auto-fill, minmax(100%, 1fr)); gap: 12px; }
+  .director-mini-card { padding: 14px 16px; }
+  .dir-initial { width: 44px; height: 44px; font-size: 16px; margin-right: 14px; }
+  .dir-name { font-size: 16px; }
+
+  .org-tree-section { padding-bottom: 20px; }
+  /* 트리는 모바일에서 스크롤을 통해 좌우로 넘겨보게 됩니다. */
+  .contact-grid { grid-template-columns: 1fr; }
 }

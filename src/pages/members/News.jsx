@@ -2,15 +2,11 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import SubLayout from '../../layouts/SubLayout';
-import '../news/Board.css'; 
 import './Members.css';
 
 const News = () => {
-  // 🚀 1. 탭 상태 관리 ('news' 또는 'intro')
   const [activeTab, setActiveTab] = useState('news');
 
-  // 🚀 2. 데이터 세팅
-  // [회사소개 데이터]
   const companyList = [
     { id: 5, name: '메가존클라우드(주)', logo: 'https://placehold.co/120x60/f8fafc/64748b?text=MEGAZONE', intro: '아시아 최대 규모의 클라우드 관리 서비스 제공사(MSP)입니다. 클라우드 도입부터 운영까지 엔드투엔드 서비스를 제공합니다.' },
     { id: 4, name: '오케스트로(주)', logo: 'https://placehold.co/120x60/f8fafc/64748b?text=OKESTRO', intro: '지능형 클라우드 오케스트레이션 플랫폼을 제공하는 기업으로, 프라이빗부터 멀티 하이브리드 클라우드 환경을 통합 관리합니다.' },
@@ -19,7 +15,6 @@ const News = () => {
     { id: 1, name: '(주)소프트웍스', logo: 'https://placehold.co/120x60/f8fafc/64748b?text=SOFTWORKS', intro: '인공지능 기반 데이터 분석 및 클라우드 인프라 구축 전문 기업입니다. 공공 및 금융 분야에서 다수의 성공 사례를 보유하고 있습니다.' }
   ];
 
-  // [회사뉴스 데이터]
   const newsList = [
     { id: 10, company: '메가존클라우드(주)', title: '2026년 신규 클라우드 보안 솔루션 전격 출시', date: '2026-03-08', views: 342, isNew: true },
     { id: 9, company: '오케스트로(주)', title: '멀티 하이브리드 클라우드 플랫폼 3.0 업데이트 완료', date: '2026-03-05', views: 120, isNew: true },
@@ -29,7 +24,6 @@ const News = () => {
     { id: 5, company: '메가존클라우드(주)', title: '클라우드 네이티브 세미나 성황리 종료', date: '2026-01-20', views: 180, isNew: false },
   ];
 
-  // 🚀 3. 검색 상태 관리
   const [searchType, setSearchType] = useState('company'); 
   const [searchInput, setSearchInput] = useState('');
   const [appliedSearch, setAppliedSearch] = useState({ type: 'all', keyword: '' });
@@ -49,7 +43,6 @@ const News = () => {
     if (e.key === 'Enter') handleSearch();
   };
 
-  // 🚀 4. 검색 필터링 로직 적용
   let filteredNews = newsList;
   let filteredCompanies = companyList;
 
@@ -71,7 +64,7 @@ const News = () => {
 
   return (
     <SubLayout mainCategory="회원공간" subCategory="회원소식">
-      <div className="board-container">
+      <div className="news-container">
         
         <div className="members-tab-menu">
           <button 
@@ -88,9 +81,9 @@ const News = () => {
           </button>
         </div>
 
-        <div className="board-search-wrap">
+        <div className="news-search-wrap">
           <select 
-            className="board-select" 
+            className="news-select" 
             value={searchType} 
             onChange={(e) => setSearchType(e.target.value)}
           >
@@ -103,51 +96,50 @@ const News = () => {
           </select>
           <input 
             type="text" 
-            className="board-search-input" 
+            className="news-search-input" 
             placeholder="검색어를 입력하세요" 
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
             onKeyDown={handleKeyDown}
           />
-          <button className="board-search-btn" onClick={handleSearch}>검색</button>
+          <button className="news-search-btn" onClick={handleSearch}>검색</button>
         </div>
 
-        {/* 🚀 5. 결과 테이블 렌더링 */}
-        <div className="board-table-wrap">
+        <div className="news-table-wrap">
             
             {/* --- [A] 회사뉴스 탭 --- */}
             {activeTab === 'news' && (
-              <table className="board-table news-tab-table">
+              <table className="news-table news-tab-table">
                 <colgroup>
-                  <col style={{ width: '8%' }} className="hide-on-mobile" /> 
-                  <col style={{ width: '18%' }} className="mobile-company-col" /> 
-                  <col style={{ width: 'auto' }} className="mobile-company-col" /> 
-                  <col style={{ width: '12%' }} className="hide-on-mobile" /> 
-                  <col style={{ width: '10%' }} className="hide-on-mobile" /> 
+                  <col style={{ width: '8%' }} className="news-hide-mobile" /> 
+                  <col style={{ width: '18%' }} className="news-company-col" /> 
+                  <col style={{ width: 'auto' }} /> 
+                  <col style={{ width: '12%' }} className="news-hide-mobile" /> 
+                  <col style={{ width: '10%' }} className="news-hide-mobile" /> 
                 </colgroup>
                 <thead>
                   <tr>
-                    <th className="hide-on-mobile">NO</th>
+                    <th className="news-hide-mobile">NO</th>
                     <th>회사명</th>
                     <th>제목</th>
-                    <th className="hide-on-mobile">등록일</th>
-                    <th className="hide-on-mobile">조회수</th>
+                    <th className="news-hide-mobile">등록일</th>
+                    <th className="news-hide-mobile">조회수</th>
                   </tr>
                 </thead>
                 <tbody>
                   {filteredNews.length > 0 ? (
                     filteredNews.map((item) => (
                       <tr key={item.id}>
-                        <td className="hide-on-mobile">{item.id}</td>
+                        <td className="news-hide-mobile">{item.id}</td>
                         <td style={{ color: '#475569', fontWeight: '500' }}>{item.company}</td>
-                        <td className="title-col">
+                        <td className="news-title-col">
                           <Link to={`/members/news/${item.id}`}>
                             {item.title}
-                            {item.isNew && <span className="new-badge" style={{ marginLeft: '8px' }}>N</span>}
+                            {item.isNew && <span className="news-new-badge" style={{ marginLeft: '8px' }}>N</span>}
                           </Link>
                         </td>
-                        <td className="hide-on-mobile">{item.date}</td>
-                        <td className="hide-on-mobile">{item.views}</td>
+                        <td className="news-hide-mobile">{item.date}</td>
+                        <td className="news-hide-mobile">{item.views}</td>
                       </tr>
                     ))
                   ) : (
@@ -163,18 +155,18 @@ const News = () => {
 
             {/* --- [B] 회사소개 탭 --- */}
             {activeTab === 'intro' && (
-              <table className="board-table intro-tab-table">
+              <table className="news-table news-intro-table">
                 <colgroup>
-                  <col style={{ width: '6%' }} className="hide-on-mobile" /> 
-                  <col style={{ width: '15%' }} className="hide-on-mobile" /> 
-                  <col style={{ width: '20%' }} className="mobile-company-col" /> 
+                  <col style={{ width: '6%' }} className="news-hide-mobile" /> 
+                  <col style={{ width: '15%' }} className="news-logo-col" /> 
+                  <col style={{ width: '20%' }} className="news-hide-mobile" /> 
                   <col style={{ width: 'auto' }} /> 
                 </colgroup>
                 <thead>
                   <tr>
-                    <th className="hide-on-mobile">NO</th>
-                    <th className="hide-on-mobile">로고</th>
-                    <th>회사명</th>
+                    <th className="news-hide-mobile">NO</th>
+                    <th>로고</th>
+                    <th className="news-hide-mobile">회사명</th>
                     <th>기업 소개</th>
                   </tr>
                 </thead>
@@ -182,12 +174,15 @@ const News = () => {
                   {filteredCompanies.length > 0 ? (
                     filteredCompanies.map((comp) => (
                       <tr key={comp.id}>
-                        <td className="hide-on-mobile">{comp.id}</td>
-                        <td className="hide-on-mobile">
-                          <img src={comp.logo} alt={`${comp.name} 로고`} className="company-logo-img" />
+                        <td className="news-hide-mobile">{comp.id}</td>
+                        <td>
+                          <img src={comp.logo} alt={`${comp.name} 로고`} className="news-logo-img" />
                         </td>
-                        <td style={{ color: '#0f172a', fontWeight: '700' }}>{comp.name}</td>
+                        <td className="news-hide-mobile" style={{ color: '#0f172a', fontWeight: '700' }}>{comp.name}</td>
                         <td style={{ textAlign: 'left', padding: '20px', lineHeight: '1.6', color: '#475569', wordBreak: 'keep-all' }}>
+                          <strong className="news-show-mobile" style={{ display: 'none', color: '#0f172a', marginBottom: '8px', fontSize: '15px' }}>
+                            {comp.name}
+                          </strong>
                           {comp.intro}
                         </td>
                       </tr>
@@ -205,8 +200,8 @@ const News = () => {
 
         </div>
 
-        <div className="pagination">
-          <button className="page-btn active">1</button>
+        <div className="news-pagination">
+          <button className="news-page-btn active">1</button>
         </div>
 
       </div>

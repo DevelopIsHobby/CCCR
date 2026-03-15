@@ -38,6 +38,7 @@ import Info from './pages/members/Info';
 import MembersNews from './pages/members/News'; // 혹시 news 폴더의 News와 겹칠 수 있으니 이름을 살짝 바꿨습니다!
 import MembersPr from './pages/members/Pr';     // business 폴더의 Pr과 겹칠 수 있으니 이름을 살짝 바꿨습니다!
 import Service from './pages/members/Service';
+import PrDetail from './pages/members/PrDetail';
 
 // About
 import Greeting from './pages/about/Greeting';
@@ -111,6 +112,7 @@ function App() {
           <Route path="/members/news" element={<MembersNews />} />
           <Route path="/members/pr" element={<MembersPr />} />
           <Route path="/members/service" element={<Service />} />
+          <Route path="/members/Pr/:id" element={<PrDetail />} />
 
           {/* 👇 조합안내 카테고리 라우트 추가 */}
           <Route path="/about/greeting" element={<Greeting />} />

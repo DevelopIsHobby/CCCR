@@ -1,3 +1,4 @@
+// src/components/QuickMenu/QuickMenu.jsx
 import React from 'react';
 import { FiBriefcase, FiCheckSquare, FiBookOpen, FiAward, FiHeadphones, FiFolder } from 'react-icons/fi';
 import './QuickMenu.css';
@@ -13,13 +14,15 @@ const QuickMenu = () => {
   ];
 
   return (
-    <div className="quick-menu-widget">
-      <ul className="quick-menu-grid">
+    <div className="qm-widget">
+      <ul className="qm-grid">
         {quickServices.map((service) => (
-          <li key={service.id} className="quick-menu-item">
+          <li key={service.id} className="qm-item">
             <a href={service.link}>
-              <div className="icon-box">{service.icon}</div>
-              <span className="service-title">{service.title}</span>
+              {/* .icon-box 대신 .qm-icon-box 사용 */}
+              <div className="qm-icon-box">{service.icon}</div>
+              {/* .service-title 대신 .qm-text 사용 */}
+              <span className="qm-text">{service.title}</span>
             </a>
           </li>
         ))}

@@ -24,10 +24,11 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-end; 
-  padding-bottom: 15px; /* 타이틀이 커졌으므로 여백 살짝 늘림 */
+  padding-bottom: 20px; 
+  margin-bottom: 25px;
   width: 100%;
+  border-bottom: 2px solid #0f172a; /* 🚀 전체를 아우르는 단단한 다크 네이비 선 */
 }
-
 /* 🚀 타이틀 디자인: 옆에 '그라데이션 세로 바'를 추가하여 대시보드 느낌 강조! */
 .board-main-title {
   font-size: 38px; 
@@ -172,77 +173,101 @@
 .board-item a:hover .hover-arrow { opacity: 1; transform: translateX(0); }
 
 /* ========================================= */
-/* 🚀 3. 우측 알림판 (타이틀 디자인 통일) */
+/* 🚀 3. 우측 행사 달력 (기존 알림판 대체) */
 /* ========================================= */
-.board-banner-area { display: flex; flex-direction: column; height: 100%; }
+.board-calendar-area { display: flex; flex-direction: column; height: 100%; }
 
-.promo-header { padding-bottom: 25px; margin-bottom: 10px; }
+.calendar-header-title { padding-bottom: 25px; margin-bottom: 10px; }
 
-/* 🚀 좌측 '새소식'과 동일하게 세로 바 추가! */
+/* 🚀 새소식 타이틀과 통일감을 주기 위한 영문 라벨 설정 */
 .promo-title { 
-  font-size: 32px; 
-  font-weight: 800; 
-  color: #111; 
-  margin: 0; 
-  letter-spacing: -1.5px; 
-  display: block;
+  font-size: 32px; font-weight: 800; color: #111; margin: 0; letter-spacing: -1.5px; display: block;
 }
-
 .promo-title::before {
   content: 'PROMOTION';
-  display: block;
-  font-size: 13px;
+  display: block; font-size: 13px; font-weight: 700; color: #64748b; letter-spacing: 2px; margin-bottom: 8px;
+}
+.calendar-title::before {
+  content: 'CALENDAR'; /* 텍스트만 캘린더로 변경 */
+}
+
+/* 🚀 달력 위젯 본체 */
+.calendar-widget {
+  background-color: #ffffff;
+  border-radius: 24px;
+  padding: 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+  border: 1px solid #f1f5f9;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.cal-top {
+  display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;
+}
+.cal-month { font-size: 22px; font-weight: 800; color: #0f172a; margin: 0; }
+.cal-nav-btn {
+  background: transparent; border: none; font-size: 18px; font-weight: 700; color: #64748b; cursor: pointer;
+  width: 32px; height: 32px; border-radius: 50%; transition: background-color 0.2s;
+  display: flex; align-items: center; justify-content: center;
+}
+.cal-nav-btn:hover { background-color: #f1f5f9; color: #0f172a; }
+
+/* 요일 표시 영역 */
+.cal-weekdays {
+  display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; margin-bottom: 15px;
+}
+.weekday { font-size: 14px; font-weight: 700; color: #64748b; }
+.weekday.sun { color: #ef4444; } /* 일요일 빨간색 */
+.weekday.sat { color: #3b82f6; } /* 토요일 파란색 */
+
+/* 날짜 표시 그리드 */
+.cal-days {
+  display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px 0; text-align: center; margin-bottom: 25px;
+}
+.cal-day {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  height: 44px; cursor: pointer; position: relative; border-radius: 12px; transition: all 0.2s ease;
+}
+.cal-day:hover { background-color: #f8fafc; }
+.cal-day.empty { cursor: default; }
+.cal-day.empty:hover { background-color: transparent; }
+.day-num { font-size: 15px; font-weight: 500; color: #334155; z-index: 2; }
+
+/* 🚀 오늘 날짜 강조 (다크 네이비 원형) */
+.cal-day.today .day-num {
+  background-color: #0f172a; color: #ffffff; 
+  width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 50%;
   font-weight: 700;
-  color: #64748b; /* 차분하고 시크한 슬레이트 그레이 */
-  letter-spacing: 2px;
-  margin-bottom: 8px;
-  background: none;
-  width: auto;
-  height: auto;
 }
 
-.promo-carousel-container {
-  position: relative; width: 100%; flex: 1; 
-  border-radius: 24px; 
-  overflow: hidden;
-  min-height: 280px; 
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); 
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+/* 🚀 일정이 있는 날짜 (파란색 점 및 글씨 강조) */
+.cal-day.has-event .day-num { color: #0ea5e9; font-weight: 800; }
+.event-dot {
+  width: 5px; height: 5px; background-color: #0ea5e9; border-radius: 50%; 
+  position: absolute; bottom: 4px;
 }
 
-.promo-carousel-container:hover { transform: translateY(-4px); box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12); }
-.promo-swiper { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-.promo-swiper .swiper-slide { height: 100%; }
-.promo-slide-bg { width: 100%; height: 100%; background-size: cover; background-position: center; background-repeat: no-repeat; }
-
-/* 🚀 알림판 컨트롤러 */
-.promo-controls-wrapper {
-  position: absolute; bottom: 15px; right: 15px;
-  background-color: rgba(15, 23, 42, 0.7); 
-  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-  color: #ffffff;
-  display: flex; align-items: center; gap: 16px; 
-  padding: 10px 20px; /* 살짝 키움 */
-  border-radius: 30px; 
-  z-index: 10;
+/* 다가오는 행사 리스트 */
+.cal-upcoming {
+  border-top: 1px dashed #e2e8f0; padding-top: 25px; margin-top: auto;
+}
+.upcoming-title { font-size: 15px; font-weight: 700; color: #0f172a; margin: 0 0 16px 0; }
+.upcoming-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 14px; }
+.upcoming-list li { display: flex; align-items: center; gap: 12px; }
+.up-date { 
+  font-size: 13px; font-weight: 800; color: #0ea5e9; background-color: #f0f9ff; 
+  padding: 6px 10px; border-radius: 6px; flex-shrink: 0;
+}
+.up-desc { 
+  font-size: 15px; color: #475569; font-weight: 500; 
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 
-.promo-pagination { font-size: 14px; font-weight: 500; letter-spacing: 1px; display: flex; align-items: center; gap: 4px; }
-.promo-pagination .current { color: #ffffff; font-weight: 700; }
-.promo-pagination .dash, .promo-pagination .total { color: rgba(255, 255, 255, 0.6); }
-
-.promo-btn-group { display: flex; align-items: center; gap: 8px; }
-.promo-ctrl-btn {
-  background: transparent; border: none; color: #ffffff;
-  width: 26px; height: 26px; border-radius: 50%; 
-  font-size: 15px; cursor: pointer; display: flex; align-items: center; justify-content: center;
-  transition: all 0.2s ease; opacity: 0.8;
-}
-.promo-ctrl-btn:hover { background-color: rgba(255, 255, 255, 0.2); opacity: 1; }
-.promo-ctrl-btn.play-pause { font-size: 11px; font-weight: 900; }
 
 /* ========================================= */
-/* 4. 모바일 반응형 처리 (자연스럽게 축소) */
+/* 📱 4. 모바일 반응형 처리 */
 /* ========================================= */
 @media (max-width: 1280px) {
   .board-grid-full { grid-template-columns: 1fr 450px; gap: 40px; }
@@ -258,7 +283,7 @@
   .more-btn-modern { font-size: 16px; }
   .category-tag { font-size: 14px; padding: 6px 12px; }
   .board-title { font-size: 18px; } 
-  .promo-carousel-container { min-height: 400px; }
+  .calendar-widget { padding: 20px; }
 }
 
 @media (max-width: 812px) {
@@ -266,21 +291,14 @@
   .board-grid-full { grid-template-columns: 1fr; padding: 0 15px; gap: 40px; }
   .board-header { flex-wrap: nowrap; padding-bottom: 15px; border-bottom: 1px solid #f1f5f9; }
   .board-main-title { font-size: 26px; width: auto; padding-bottom: 0; margin-right: 20px; flex-shrink: 0; display: block; }
-  
-  /* 🚀 1. 억지로 부여된 크기(width, height) 제거! 글씨가 자유롭게 렌더링되게 합니다 */
   .board-main-title::before { height: auto; width: auto; margin-right: 0; margin-bottom: 6px; }
-  
   .board-controls { width: auto; margin-top: 0; flex: 1; min-width: 0; justify-content: flex-end; gap: 15px; }
-  
   .tab-buttons { overflow-x: auto; white-space: nowrap; padding: 4px; scrollbar-width: none; }
   .tab-buttons::-webkit-scrollbar { display: none; }
   .tab-btn { padding: 6px 16px; font-size: 15px; flex-shrink: 0; }
   
   .promo-title { font-size: 26px; }
-  
-  /* 🚀 2. 알림판 타이틀 영문 라벨도 동일하게 방어 */
   .promo-title::before { height: auto; width: auto; margin-right: 0; margin-bottom: 6px; }
-  .promo-carousel-container { min-height: 300px; }
   
   .board-item a { padding: 16px 10px; }
   .board-title { font-size: 16px; } 
@@ -297,13 +315,9 @@
   .board-section-wrapper { padding-top: 20px; padding-bottom: 30px; }
   .board-header { display: block; border-bottom: none; position: relative; padding-bottom: 0; }
   .board-grid-full { gap : 30px; }
-  .promo-header { margin-bottom: 0; }
-  
-  /* 🚀 3. display: flex를 제거하고 block으로 변경하여 무조건 위아래로 배치되도록 강제! */
+  .calendar-header-title { margin-bottom: 0; }
   .board-main-title { display: block; width: 100%; font-size: 24px; border-bottom: 2px solid #111; padding-bottom: 10px; }
-  
   .board-controls { display: flex; width: 100%; margin-top: 15px; justify-content: space-between; align-items: center; gap: 10px; }
-  
   .more-btn-modern { position: static; font-size: 14px; }
   .tab-btn { padding: 6px 12px; font-size: 14px; }
   .category-tag { min-width: 60px; font-size: 13px; padding: 4px 8px; }

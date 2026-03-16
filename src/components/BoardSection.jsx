@@ -1,13 +1,6 @@
-import React, { useState, useRef } from 'react'; 
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, A11y } from 'swiper/modules';
+import React, { useState } from 'react'; 
 import { Link } from 'react-router-dom';
-import 'swiper/css';
 import './BoardSection.css';
-
-import tabaImg from '../assets/TABA_7기.jpg';
-import sassaakImg from '../assets/새싹_3기.png';
-import recruitImg from '../assets/채용_4기.jpg';
 
 const BoardSection = () => {
   const [activeTab, setActiveTab] = useState('all');
@@ -32,38 +25,37 @@ const BoardSection = () => {
     filteredData = allBoardData.filter(item => item.category === activeTab).sort(sortByDateDesc).slice(0, 6);
   }
 
-  const [isPromoPlaying, setIsPromoPlaying] = useState(true);
-  const [activePromoIndex, setActivePromoIndex] = useState(0); 
-  const promoSwiperRef = useRef(null);
+  // =========================================
+  // 🚀 달력 엔진 로직 추가
+  // =========================================
+  const [currentDate, setCurrentDate] = useState(new Date()); // 현재 화면에 보이는 달력 기준일
 
-  const promoSlides = [
-    { id: 1, img: tabaImg },
-    { id: 2, img: sassaakImg },
-    { id: 3, img: recruitImg }
-  ];
+  const currentYear = currentDate.getFullYear();
+  const currentMonth = currentDate.getMonth(); // 0부터 시작 (0 = 1월, 2 = 3월)
 
-  const togglePromoPlay = () => {
-      if (promoSwiperRef.current && promoSwiperRef.current.swiper) {
-        if (isPromoPlaying) {
-          promoSwiperRef.current.swiper.autoplay.stop();
-        } else {
-          promoSwiperRef.current.swiper.autoplay.start();
-        }
-        setIsPromoPlaying(!isPromoPlaying);
-      }
-    };
-
-  const handlePromoPrev = () => {
-    if (promoSwiperRef.current && promoSwiperRef.current.swiper) {
-      promoSwiperRef.current.swiper.slidePrev();
-    }
+  // 1. 이전 달 / 다음 달 이동 함수
+  const prevMonth = () => {
+    setCurrentDate(new Date(currentYear, currentMonth - 1, 1));
+  };
+  const nextMonth = () => {
+    setCurrentDate(new Date(currentYear, currentMonth + 1, 1));
   };
 
-  const handlePromoNext = () => {
-    if (promoSwiperRef.current && promoSwiperRef.current.swiper) {
-      promoSwiperRef.current.swiper.slideNext();
-    }
-  };
+  // 2. 현재 달력에 그릴 날짜 계산
+  const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate(); // 이번 달 총 일수
+  const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay(); // 1일의 요일 (0:일 ~ 6:토)
+
+  // 3. 오늘 날짜 하이라이트 계산
+  const realToday = new Date();
+  const isThisMonth = realToday.getFullYear() === currentYear && realToday.getMonth() === currentMonth;
+  const todayDateNum = realToday.getDate();
+
+  const weekDays = ['일', '월', '화', '수', '목', '금', '토'];
+  const emptyDays = Array.from({ length: firstDayOfMonth }, (_, i) => i); // 1일 전까지의 빈 칸
+  const days = Array.from({ length: daysInMonth }, (_, i) => i + 1); // 실제 날짜 1, 2, 3...
+
+  // 임시 행사 데이터 (UI 테스트를 위해 달이 바뀌어도 고정으로 띄워둠)
+  const eventDays = [2, 10, 20]; 
 
   return (
     <div className="board-section-wrapper">
@@ -71,50 +63,29 @@ const BoardSection = () => {
 
         {/* 좌측: 모던 스타일 게시판 영역 */}
         <div className="board-tabs-area">
-          
           <div className="board-header">
             <h2 className="board-main-title">CCCR <span className="highlight-blue">새소식</span></h2>
-            
             <div className="board-controls">
-              {/* 🚀 iOS 스타일의 모던 탭 버튼 컨테이너 */}
               <div className="tab-buttons">
-                <button 
-                  className={`tab-btn ${activeTab === 'all' ? 'active' : ''}`}
-                  onClick={() => setActiveTab('all')}
-                >전체</button>
-                <button 
-                  className={`tab-btn ${activeTab === 'notice' ? 'active' : ''}`}
-                  onClick={() => setActiveTab('notice')}
-                >공지사항</button>
-                <button 
-                  className={`tab-btn ${activeTab === 'event' ? 'active' : ''}`}
-                  onClick={() => setActiveTab('event')}
-                >행사소식</button>
+                <button className={`tab-btn ${activeTab === 'all' ? 'active' : ''}`} onClick={() => setActiveTab('all')}>전체</button>
+                <button className={`tab-btn ${activeTab === 'notice' ? 'active' : ''}`} onClick={() => setActiveTab('notice')}>공지사항</button>
+                <button className={`tab-btn ${activeTab === 'event' ? 'active' : ''}`} onClick={() => setActiveTab('event')}>행사소식</button>
               </div>
-
-              {/* 🚀 텍스트 기반의 세련된 더보기 버튼 */}
-              <Link 
-                to={activeTab === 'event' ? '/news/event' : '/news/notice'} 
-                className="more-btn-modern" 
-              >
+              <Link to={activeTab === 'event' ? '/news/event' : '/news/notice'} className="more-btn-modern">
                 더보기 <span className="more-arrow">+</span>
               </Link>
             </div>
           </div>
 
-          {/* 게시물 리스트 영역 */}
           <div className="tab-content">
             <ul className="board-list">
               {filteredData.map((item) => (
                 <li key={item.id} className="board-item">
                   <a href={`/board/${item.category}/${item.id}`}>
                     <div className="board-title-group">
-                      <span className={`category-tag ${item.category}`}>
-                        {item.categoryLabel}
-                      </span>
+                      <span className={`category-tag ${item.category}`}>{item.categoryLabel}</span>
                       <span className="board-title">{item.title}</span>
                     </div>
-                    {/* 🚀 날짜와 호버용 화살표를 묶어주는 우측 그룹 */}
                     <div className="board-right-group">
                       <span className="board-date">{item.date}</span>
                       <span className="hover-arrow">&rarr;</span>
@@ -126,47 +97,63 @@ const BoardSection = () => {
           </div>
         </div>
 
-        {/* 우측: 알림판 (미니 슬라이드 배너) */}
-        <div className="board-banner-area">
-          <div className="promo-header">
-            <h2 className="promo-title">HOT 이슈</h2>
+        {/* 🚀 우측: 행사 달력 (엔진 탑재 완료) */}
+        <div className="board-calendar-area">
+          <div className="calendar-header-title">
+            <h2 className="promo-title calendar-title">행사 일정</h2>
           </div>
 
-          <div className="promo-carousel-container">
-            <Swiper
-              ref={promoSwiperRef}
-              modules={[Autoplay, A11y]}
-              spaceBetween={0}
-              slidesPerView={1}
-              autoplay={{ delay: 3000, disableOnInteraction: false }}
-              loop={true}
-              onSlideChange={(swiper) => setActivePromoIndex(swiper.realIndex)}
-              className="promo-swiper"
-            >
-              {promoSlides.map((slide) => (
-                <SwiperSlide key={slide.id}>
-                  <div 
-                    className="promo-slide-bg" 
-                    style={{ backgroundImage: `url("${slide.img}")` }}
-                  />
-                </SwiperSlide>
+          <div className="calendar-widget">
+            {/* 달력 상단 월/버튼 */}
+            <div className="cal-top">
+              <button className="cal-nav-btn" onClick={prevMonth}>&lt;</button>
+              <h3 className="cal-month">
+                {currentYear}. {(currentMonth + 1).toString().padStart(2, '0')}
+              </h3>
+              <button className="cal-nav-btn" onClick={nextMonth}>&gt;</button>
+            </div>
+            
+            {/* 요일 */}
+            <div className="cal-weekdays">
+              {weekDays.map((day, idx) => (
+                <span key={idx} className={`weekday ${idx === 0 ? 'sun' : idx === 6 ? 'sat' : ''}`}>{day}</span>
               ))}
-            </Swiper>
+            </div>
 
-            <div className="promo-controls-wrapper">
-              <span className="promo-pagination">
-                <span className="current">{activePromoIndex + 1}</span>
-                <span className="dash">/</span>
-                <span className="total">{promoSlides.length}</span>
-              </span>
+            {/* 날짜 그리드 */}
+            <div className="cal-days">
+              {/* 1일 이전의 빈 칸 렌더링 */}
+              {emptyDays.map(empty => (
+                <div key={`empty-${empty}`} className="cal-day empty"></div>
+              ))}
               
-              <div className="promo-btn-group">
-                <button className="promo-ctrl-btn" onClick={handlePromoPrev}>&lt;</button>
-                <button className="promo-ctrl-btn play-pause" onClick={togglePromoPlay}>
-                  {isPromoPlaying ? '||' : '▶'}
-                </button>
-                <button className="promo-ctrl-btn" onClick={handlePromoNext}>&gt;</button>
-              </div>
+              {/* 실제 날짜 렌더링 */}
+              {days.map(day => {
+                const isToday = isThisMonth && day === todayDateNum;
+                const hasEvent = eventDays.includes(day);
+
+                return (
+                  <div key={day} className={`cal-day ${isToday ? 'today' : ''} ${hasEvent ? 'has-event' : ''}`}>
+                    <span className="day-num">{day}</span>
+                    {hasEvent && <span className="event-dot"></span>}
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* 다가오는 행사 리스트 (임시) */}
+            <div className="cal-upcoming">
+              <h4 className="upcoming-title">다가오는 행사</h4>
+              <ul className="upcoming-list">
+                <li>
+                  <span className="up-date">{(currentMonth + 1).toString().padStart(2, '0')}.02</span>
+                  <span className="up-desc">지역 IT 인재 양성 MOU 체결</span>
+                </li>
+                <li>
+                  <span className="up-date">{(currentMonth + 1).toString().padStart(2, '0')}.10</span>
+                  <span className="up-desc">월간 클라우드 산업 세미나</span>
+                </li>
+              </ul>
             </div>
           </div>
         </div>

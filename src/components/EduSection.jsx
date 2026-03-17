@@ -19,6 +19,10 @@ const EduSection = () => {
     { id: 6, status: '모집예정', title: '실무 데이터베이스 아키텍처 설계', applyDate: '2026.08.01 ~ 08.15', date: '2026.09.01 ~ 09.30', target: 'DBA 희망자', isRecruiting: false, imgUrl: recruitImg }
   ];
 
+  const handleApplyClick = () => {
+    window.open('https://www.cccr-edu.or.kr/course/course_list.jsp?cid=4301&ch=course', '_blank');
+  };
+
   return (
     <div className="edu-section-wrapper">
       <div className="edu-grid-full">
@@ -92,6 +96,7 @@ const EduSection = () => {
                     <button 
                       className={`edu-apply-btn ${!edu.isRecruiting ? 'disabled' : ''}`}
                       disabled={!edu.isRecruiting}
+                      onClick={handleApplyClick}
                     >
                       {edu.isRecruiting ? '수강신청 바로가기' : '모집이 마감되었습니다'}
                     </button>

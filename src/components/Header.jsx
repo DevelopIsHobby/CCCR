@@ -49,7 +49,7 @@ const menuData = [
       { name: '회원안내', path: '/members/info' }, 
       { name: '회원소식', path: '/members/news' }, 
       { name: '회원홍보', path: '/members/pr' }, 
-      { name: '온·오프라인', path: '/members/service' }
+      { name: '온·오프라인 홍보', path: '/members/service' }
     ]
   },
   {
@@ -94,6 +94,16 @@ const Header = () => {
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll); 
+  }, []);
+
+  useEffect(() => {
+    const handleOpenNewsletterEvent = () => {
+      setIsNewsletterOpen(true);
+    };
+    window.addEventListener('openNewsletter', handleOpenNewsletterEvent);
+    return () => {
+      window.removeEventListener('openNewsletter', handleOpenNewsletterEvent);
+    };
   }, []);
 
   const handleMegaClick = () => {

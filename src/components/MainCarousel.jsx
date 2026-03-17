@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { useNavigate } from 'react-router-dom';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
@@ -42,26 +43,38 @@ const MainCarousel = () => {
     }
   };
 
+  const navigate = useNavigate();
+
   const slides = [
-{
+    {
       id: 1,
       title: "TABA 7기 교육생 모집",
       desc: "클라우드 전문가로 거듭나는 지름길, TABA 7기 교육이 시작됩니다.",
-      img: tabaImg
+      img: tabaImg,
+      link: "/academy/apply" // 임시 링크 (나중에 수정하세요)
     },
     {
       id: 2,
       title: "새싹(SeSAC) 3기 과정 안내",
       desc: "실무 중심의 SW 인재 양성 프로젝트, 새싹 3기에 도전하세요.",
-      img: sassaakImg
+      img: sassaakImg,
+      link: "/academy/apply" // 임시 링크
     },
     {
       id: 3,
       title: "2026 하반기 신입/경력 채용",
       desc: "CCCR과 함께 클라우드 미래를 선도할 역량 있는 인재를 찾습니다.",
-      img: recruitImg
+      img: recruitImg,
+      link: "/academy/apply" // 임시 링크
     }
   ];
+
+  const handleBannerClick = (link) => {
+    if(link) {
+      navigate(link);
+      window.scrollTo(0, 0); // 새 페이지로 가면 스크롤 맨 위로 올려주기
+    }
+  };
 
   return (
     <div className="main-carousel-wrapper">
@@ -86,22 +99,22 @@ const MainCarousel = () => {
       >
         {slides.map((slide) => (
           <SwiperSlide key={slide.id}>
-            {/* 부모 상자에서는 style을 뺍니다! */}
-            <div className="slide-content">
+            {/* 🚀 5. 여기에 onClick과 cursor:pointer 스타일을 추가합니다 */}
+            <div 
+              className="slide-content" 
+              onClick={() => handleBannerClick(slide.link)}
+              style={{ cursor: 'pointer' }}
+            >
               
-              {/* 🚀 1. 흐린 배경을 담당할 레이어 */}
               <div 
                 className="slide-bg-blur" 
                 style={{ backgroundImage: `url(${slide.img})` }} 
               />
-              
-              {/* 🚀 2. 선명한 원본 이미지를 담당할 레이어 */}
               <div 
                 className="slide-bg-clear" 
                 style={{ backgroundImage: `url(${slide.img})` }} 
               />
 
-              {/* 텍스트 영역은 그대로 유지 */}
               <div className="slide-text-overlay">
                 <div className="text-content-wrapper">
                   <div className="text-line-1">{slide.title}</div>

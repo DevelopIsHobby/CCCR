@@ -1,9 +1,11 @@
 import React, { useState } from 'react'; 
-import { Link } from 'react-router-dom';
+// 🚀 1. useNavigate 훅을 추가로 불러옵니다.
+import { Link, useNavigate } from 'react-router-dom';
 import './BoardSection.css';
 
 const BoardSection = () => {
   const [activeTab, setActiveTab] = useState('all');
+  const navigate = useNavigate(); // 🚀 2. 이동 함수 활성화
 
   const allBoardData = [
     { id: 1, category: 'notice', categoryLabel: '공지사항', title: '[안내] 2026년 CCCR 상반기 교육 일정 안내', date: '2026-03-03' },
@@ -26,36 +28,39 @@ const BoardSection = () => {
   }
 
   // =========================================
-  // 🚀 달력 엔진 로직 추가
+  // 🚀 달력 엔진 로직 
   // =========================================
-  const [currentDate, setCurrentDate] = useState(new Date()); // 현재 화면에 보이는 달력 기준일
+  const [currentDate, setCurrentDate] = useState(new Date()); 
 
   const currentYear = currentDate.getFullYear();
-  const currentMonth = currentDate.getMonth(); // 0부터 시작 (0 = 1월, 2 = 3월)
+  const currentMonth = currentDate.getMonth(); 
 
-  // 1. 이전 달 / 다음 달 이동 함수
-  const prevMonth = () => {
-    setCurrentDate(new Date(currentYear, currentMonth - 1, 1));
-  };
-  const nextMonth = () => {
-    setCurrentDate(new Date(currentYear, currentMonth + 1, 1));
-  };
+  const prevMonth = () => setCurrentDate(new Date(currentYear, currentMonth - 1, 1));
+  const nextMonth = () => setCurrentDate(new Date(currentYear, currentMonth + 1, 1));
 
-  // 2. 현재 달력에 그릴 날짜 계산
-  const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate(); // 이번 달 총 일수
-  const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay(); // 1일의 요일 (0:일 ~ 6:토)
+  const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate(); 
+  const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay(); 
 
-  // 3. 오늘 날짜 하이라이트 계산
   const realToday = new Date();
   const isThisMonth = realToday.getFullYear() === currentYear && realToday.getMonth() === currentMonth;
   const todayDateNum = realToday.getDate();
 
   const weekDays = ['일', '월', '화', '수', '목', '금', '토'];
-  const emptyDays = Array.from({ length: firstDayOfMonth }, (_, i) => i); // 1일 전까지의 빈 칸
-  const days = Array.from({ length: daysInMonth }, (_, i) => i + 1); // 실제 날짜 1, 2, 3...
+  const emptyDays = Array.from({ length: firstDayOfMonth }, (_, i) => i); 
+  const days = Array.from({ length: daysInMonth }, (_, i) => i + 1); 
 
-  // 임시 행사 데이터 (UI 테스트를 위해 달이 바뀌어도 고정으로 띄워둠)
-  const eventDays = [2, 10, 20]; 
+  // 🚀 3. 달력에 표시할 행사 데이터 배열 (ID와 날짜를 연결)
+  const calendarEvents = [
+    { id: 2, day: 2, title: '지역 IT 인재 양성 MOU 체결' },
+    { id: 6, day: 10, title: '월간 클라우드 산업 세미나' },
+    { id: 5, day: 20, title: '2025년 최우수 인증 기업 시상식' }
+  ];
+  const eventDays = calendarEvents.map(event => event.day); 
+
+  // 🚀 4. 행사 상세 페이지로 이동하는 함수
+  const handleEventClick = (eventId) => {
+    navigate(`/news/event/${eventId}`);
+  };
 
   return (
     <div className="board-section-wrapper">
@@ -81,7 +86,7 @@ const BoardSection = () => {
             <ul className="board-list">
               {filteredData.map((item) => (
                 <li key={item.id} className="board-item">
-                  <a href={`/board/${item.category}/${item.id}`}>
+                  <Link to={`/news/${item.category === 'notice' ? 'notice' : 'event'}/${item.id}`}>
                     <div className="board-title-group">
                       <span className={`category-tag ${item.category}`}>{item.categoryLabel}</span>
                       <span className="board-title">{item.title}</span>
@@ -90,21 +95,20 @@ const BoardSection = () => {
                       <span className="board-date">{item.date}</span>
                       <span className="hover-arrow">&rarr;</span>
                     </div>
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
           </div>
         </div>
 
-        {/* 🚀 우측: 행사 달력 (엔진 탑재 완료) */}
+        {/* 🚀 우측: 행사 달력 */}
         <div className="board-calendar-area">
           <div className="calendar-header-title">
             <h2 className="promo-title calendar-title">행사 일정</h2>
           </div>
 
           <div className="calendar-widget">
-            {/* 달력 상단 월/버튼 */}
             <div className="cal-top">
               <button className="cal-nav-btn" onClick={prevMonth}>&lt;</button>
               <h3 className="cal-month">
@@ -113,27 +117,31 @@ const BoardSection = () => {
               <button className="cal-nav-btn" onClick={nextMonth}>&gt;</button>
             </div>
             
-            {/* 요일 */}
             <div className="cal-weekdays">
               {weekDays.map((day, idx) => (
                 <span key={idx} className={`weekday ${idx === 0 ? 'sun' : idx === 6 ? 'sat' : ''}`}>{day}</span>
               ))}
             </div>
 
-            {/* 날짜 그리드 */}
             <div className="cal-days">
-              {/* 1일 이전의 빈 칸 렌더링 */}
               {emptyDays.map(empty => (
                 <div key={`empty-${empty}`} className="cal-day empty"></div>
               ))}
               
-              {/* 실제 날짜 렌더링 */}
               {days.map(day => {
                 const isToday = isThisMonth && day === todayDateNum;
-                const hasEvent = eventDays.includes(day);
+                // 현재 날짜에 해당하는 행사가 있는지 찾습니다.
+                const eventInfo = calendarEvents.find(e => e.day === day);
+                const hasEvent = !!eventInfo;
 
                 return (
-                  <div key={day} className={`cal-day ${isToday ? 'today' : ''} ${hasEvent ? 'has-event' : ''}`}>
+                  <div 
+                    key={day} 
+                    className={`cal-day ${isToday ? 'today' : ''} ${hasEvent ? 'has-event' : ''}`}
+                    // 🚀 5. 행사가 있는 날짜를 클릭하면 해당 행사 ID로 이동
+                    onClick={() => { if (hasEvent) handleEventClick(eventInfo.id); }}
+                    style={{ cursor: hasEvent ? 'pointer' : 'default' }} 
+                  >
                     <span className="day-num">{day}</span>
                     {hasEvent && <span className="event-dot"></span>}
                   </div>
@@ -141,18 +149,23 @@ const BoardSection = () => {
               })}
             </div>
 
-            {/* 다가오는 행사 리스트 (임시) */}
+            {/* 🚀 6. 다가오는 행사 리스트도 동적으로 연결 */}
             <div className="cal-upcoming">
               <h4 className="upcoming-title">다가오는 행사</h4>
               <ul className="upcoming-list">
-                <li>
-                  <span className="up-date">{(currentMonth + 1).toString().padStart(2, '0')}.02</span>
-                  <span className="up-desc">지역 IT 인재 양성 MOU 체결</span>
-                </li>
-                <li>
-                  <span className="up-date">{(currentMonth + 1).toString().padStart(2, '0')}.10</span>
-                  <span className="up-desc">월간 클라우드 산업 세미나</span>
-                </li>
+                {/* 최대 2개만 보여주도록 설정 */}
+                {calendarEvents.slice(0, 2).map((ev) => (
+                  <li 
+                    key={ev.id} 
+                    onClick={() => handleEventClick(ev.id)}
+                    style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '12px', transition: 'opacity 0.2s' }}
+                    onMouseOver={(e) => e.currentTarget.style.opacity = 0.7}
+                    onMouseOut={(e) => e.currentTarget.style.opacity = 1}
+                  >
+                    <span className="up-date">{(currentMonth + 1).toString().padStart(2, '0')}.{ev.day.toString().padStart(2, '0')}</span>
+                    <span className="up-desc">{ev.title}</span>
+                  </li>
+                ))}
               </ul>
             </div>
           </div>

@@ -107,7 +107,7 @@
   width: auto;
   object-fit: contain;
   /* 🚀 핵심! 어두운 배경일 땐 로고를 강제로 하얗게 만듭니다 */
-  filter: brightness(0) invert(0.7); 
+  /* filter: brightness(0) invert(0.7);  */
   transition: filter 0.3s ease;
 }
 

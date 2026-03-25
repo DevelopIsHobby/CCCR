@@ -30,13 +30,16 @@ const menuData = [
   },
   {
     title: '알림마당',
+    desc: <>조합의 다양한 최신 소식과<br/>유용한 산업 동향을 전달합니다.</>,
     subMenus: [
       { name: '공지사항', path: '/news/notice' }, 
       { name: '행사소식', path: '/news/event' }, 
-      { name: '기술동향', path: '/news/trend' }, 
-      { name: '법령정보', path: '/news/law' }, 
+      { name: '정책지원사업', path: '/news/policy' }, 
+      { name: 'TabIR', path: '/news/ir' },          
       { name: '뉴스레터', path: '/news/newsletter' },
-      { name: '최신뉴스', path: '/news/latest' }
+      { name: '최신뉴스', path: '/news/latest' },
+      { name: '기술동향', path: '/news/trend' },    
+      { name: '법령정보', path: '/news/law' }     
     ]
   },
   {

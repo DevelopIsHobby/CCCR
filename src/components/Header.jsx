@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import cccrLogo from '../assets/cccr-logo.png'; 
+import cccrLogoWhite from '../assets/cccr-logo-white.png'; 
 import kakaoIcon from '../assets/kakao-icon.png';
 import './Header.css';
 
@@ -35,10 +36,12 @@ const menuData = [
     subMenus: [
       { name: '공지사항', path: '/news/notice' }, 
       { name: '행사소식', path: '/news/event' }, 
-      { name: '기술동향', path: '/news/trend' }, 
-      { name: '법령정보', path: '/news/law' }, 
+      { name: '정책지원사업', path: '/news/policy' }, 
+      { name: 'TabIR', path: '/news/ir' },          
       { name: '뉴스레터', path: '/news/newsletter' },
-      { name: '최신뉴스', path: '/news/latest' }
+      { name: '최신뉴스', path: '/news/latest' },
+      { name: '기술동향', path: '/news/trend' },    
+      { name: '법령정보', path: '/news/law' }     
     ]
   },
   {
@@ -128,7 +131,7 @@ const Header = () => {
             <li>
                 <a href="#news" className="highlight-btn news-btn" onClick={openNewsletter}>
                   <span className="icon" aria-hidden="true">📰</span> 
-                  <span className="btn-text">조합 소식 받기</span>
+                  <span className="btn-text">뉴스레터 받기</span>
                 </a>
             </li>
           </ul>
@@ -144,7 +147,11 @@ const Header = () => {
         <div className="inner-container">
           <h1 className="logo">
             <Link to="/">
-              <img src={cccrLogo} alt="CCCR 로고" className="logo-img" />
+              <img 
+                  src={(isHome && !isScrolled) ? cccrLogoWhite : cccrLogo} 
+                  alt="CCCR 로고" 
+                  className="logo-img" 
+                />
             </Link>
           </h1>
 

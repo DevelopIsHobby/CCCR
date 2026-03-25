@@ -967,12 +967,32 @@
   }
 }
 
-  /* 3️⃣ PC용 너비 설정 (PC 화면에서 예쁘게 보이도록 추가!) */
-  @media (min-width: 601px) {
-    .board-table.policy-table th.col-num { width: 8%; }
-    .board-table.policy-table th.col-status { width: 10%; }
-    .board-table.policy-table th.col-title { width: auto; }
-    .board-table.policy-table th.col-period { width: 20%; }
-    .board-table.policy-table th.col-author { width: 10%; }
-    .board-table.policy-table th.col-date { width: 12%; }
-  }
+/* ========================================================= */
+/* 🚀 정책지원사업 테이블 여백 극강 축소 및 제목 영역 최대화 */
+/* ========================================================= */
+
+/* 1. 테이블 전체 상하좌우 여백(Padding) 대폭 축소 */
+.board-table.policy-table th,
+.board-table.policy-table td {
+  padding: 12px 8px !important; 
+}
+
+/* 2. 제목 외의 다른 열 너비를 숨막히게 줄임 (PC 화면 기준) */
+@media (min-width: 601px) {
+  .board-table.policy-table th.col-num { width: 5% !important; }      /* 번호 최소화 */
+  .board-table.policy-table th.col-status { width: 8% !important; }   /* 상태 최소화 */
+  .board-table.policy-table th.col-period { width: 17% !important; }  /* 기간 압축 */
+  .board-table.policy-table th.col-author { width: 8% !important; }   /* 작성자 최소화 */
+  .board-table.policy-table th.col-date { width: 10% !important; }    /* 작성일 최소화 */
+  
+  /* 3. 남는 모든 우주를 제목에 몰아주기 */
+  .board-table.policy-table th.col-title { width: auto !important; } 
+}
+
+/* 4. 제목 열 디테일 처리 (가독성 유지) */
+.board-table.policy-table td.col-title {
+  white-space: normal !important; 
+  word-break: keep-all !important; 
+  padding-left: 15px !important; /* 너무 벽에 붙지 않게 제목만 왼쪽 여백 */
+  line-height: 1.4;
+}

@@ -6,7 +6,6 @@ import './Board.css';
 
 const TabIR = () => {
   const boardData = [
-    // 🚀 공지와 작성자를 제거했습니다.
     { id: 5, isNew: true, title: '2026년 CCCR 1분기 결산 및 사업 보고서', date: '2026-04-10', views: 125, hasFile: true },
     { id: 4, isNew: true, title: 'CCCR 중장기 발전 전략 및 로드맵 안내', date: '2026-03-15', views: 342, hasFile: true },
     { id: 3, isNew: false, title: '2025년도 정기 총회 회의록', date: '2026-02-20', views: 210, hasFile: true },
@@ -50,10 +49,10 @@ const TabIR = () => {
             <tbody>
               {boardData.map((item, index) => (
                 <tr key={index}>
-                  {/* 🚀 공지가 없으므로 그냥 번호 출력 */}
                   <td>{item.id}</td>
                   <td className="title-col">
-                    <Link to="#none">
+                    {/* 🚀 상세 페이지로 연결하도록 수정 */}
+                    <Link to={`/news/ir/${item.id}`}>
                       {item.title}
                       {item.isNew && <span className="new-badge" style={{ marginLeft: '8px' }}>N</span>}
                     </Link>

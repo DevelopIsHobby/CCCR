@@ -1,10 +1,16 @@
 // src/pages/news/Policy.jsx
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import SubLayout from '../../layouts/SubLayout';
 import './Board.css';
 
 const Policy = () => {
+  const navigate = useNavigate();
   const [selectedPost, setSelectedPost] = useState(null);
+
+  const handleDetail = (id) => {
+    navigate(`/news/policy/${id}`);
+  };
   
   const [activeCategory, setActiveCategory] = useState('전체');
   const categories = ['전체', '과학기술정보통신부', '산업통상부', '중소벤처기업부', '기타 정부 부처', 'NIPA', 'NIA'];
@@ -134,7 +140,7 @@ const Policy = () => {
                             {item.dDay}
                           </span>
                         </td>
-                        <td className="title-col col-title">
+                        <td className="title-col col-title" onClick={() => handleDetail(item.id)}>
                           <span style={{cursor: 'pointer', display: 'block'}} onClick={() => setSelectedPost(item)}>
                             <span style={{ fontWeight: 600, color: item.isClosed ? '#94a3b8' : '#1e293b' }}>
                               <span style={{ color: '#0ea5e9', marginRight: '6px' }}>[{item.category}]</span> 

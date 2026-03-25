@@ -16,7 +16,7 @@ const MemberSpace = () => {
     { id: 1, title: 'IITP 기술동향', desc: '최신 ICT 및 클라우드 동향', path: '/news/trend' },
     { id: 2, title: '클라우드 법령정보', desc: '관련 법률 및 보안 규제 안내', path: '/news/law' },
     { id: 3, title: '뉴스레터', desc: 'CCCR 월간 핵심 이슈 구독', path: '/news/newsletter' },
-    { id: 4, title: '세미나/자료실', desc: '전문가 발표 자료 다시보기', path: '/news/event' }
+    { id: 4, title: '자료실', desc: '전문가 발표 자료 다시보기', path: '/news/event' } // 🚀 '자료실'로 변경됨
   ];
 
   const memberInfo = [
@@ -25,12 +25,6 @@ const MemberSpace = () => {
     { id: 3, title: '회원사 가입안내', desc: 'CCCR 조합원 신규 가입 절차', path: '/members/join' },
     { id: 4, title: '회원사 현황', desc: '든든한 CCCR 파트너스 목록', path: '/members/info' }
   ];
-
-  // 🚀 Header에 있는 팝업을 열라고 찌르는(Dispatch) 함수!
-  const handleOpenNewsletter = (e) => {
-    e.preventDefault(); // 페이지 이동을 막음
-    window.dispatchEvent(new Event('openNewsletter')); // 팝업 오픈 신호 발사
-  };
 
   return (
     <div className="member-space-wrapper">
@@ -94,27 +88,43 @@ const MemberSpace = () => {
               ))}
             </ul>
 
-            <div className="ms-banner-group">
-              <Link to="/news/event" className="ms-event-banner primary-banner">
+            {/* 🚀 새로운 4분할 배너 영역 */}
+            <div className="ms-banner-grid">
+              {/* 1. CodeNest 1 */}
+              <a href="https://github.com/" target="_blank" rel="noopener noreferrer" className="ms-action-banner banner-github1">
                 <div className="banner-content">
-                  <span className="banner-subtitle">선착순 100명 얼리버드 혜택</span>
-                  <h4 className="banner-title">2026 CCCR 클라우드 컨퍼런스 사전등록</h4>
+                  <span className="banner-subtitle">팀 프로젝트 레포지토리</span>
+                  <h4 className="banner-title">CodeNest 1</h4>
                 </div>
-                <div className="banner-btn">
-                  참가 신청하기 &rarr;
+                <div className="banner-link">GitHub 방문 &rarr;</div>
+              </a>
+
+              {/* 2. CodeNest 2 */}
+              <a href="https://github.com/" target="_blank" rel="noopener noreferrer" className="ms-action-banner banner-github2">
+                <div className="banner-content">
+                  <span className="banner-subtitle">팀 프로젝트 레포지토리</span>
+                  <h4 className="banner-title">CodeNest 2</h4>
                 </div>
+                <div className="banner-link">GitHub 방문 &rarr;</div>
+              </a>
+
+              {/* 3. TabIR 배너 */}
+              <Link to="/news/ir" className="ms-action-banner banner-ir">
+                <div className="banner-content">
+                  <span className="banner-subtitle">조합 투명성 및 경영 공시</span>
+                  <h4 className="banner-title">TabIR 자료실</h4>
+                </div>
+                <div className="banner-link">자세히 보기 &rarr;</div>
               </Link>
 
-              {/* 🚀 Link를 a 태그로 바꾸고 팝업 호출 이벤트를 달아줍니다! */}
-              <a href="#newsletter" className="ms-event-banner secondary-banner" onClick={handleOpenNewsletter}>
+              {/* 4. 사업공고 배너 */}
+              <Link to="/news/policy" className="ms-action-banner banner-policy">
                 <div className="banner-content">
-                  <span className="banner-subtitle">매월 첫째 주 수요일 발행</span>
-                  <h4 className="banner-title">CCCR 공식 뉴스레터 정기구독</h4>
+                  <span className="banner-subtitle">클라우드 산업 육성 지원</span>
+                  <h4 className="banner-title">정책지원 사업공고</h4>
                 </div>
-                <div className="banner-btn">
-                  구독 신청하기 &rarr;
-                </div>
-              </a>
+                <div className="banner-link">공고 확인 &rarr;</div>
+              </Link>
             </div>
 
           </div>

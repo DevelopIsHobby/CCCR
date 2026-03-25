@@ -140,6 +140,7 @@
 
 /* 🚀 주황색에서 에메랄드 그린 색상으로 변경 */
 .category-tag.event { background-color: #ecfdf5; color: #059669; }
+.category-tag.ir { background-color: #f3e8ff; color: #9333ea; }
 
 .board-title {
   font-size: 20px; 
@@ -236,6 +237,7 @@
 
 /* 🚀 오늘이면서 행사가 있는 날 (에메랄드 그린) */
 .cal-day.today.has-event.event .day-num { background-color: #059669; box-shadow: 0 0 0 2px #fff, 0 0 0 4px #059669; }
+.cal-day.today.has-event.ir .day-num { background-color: #9333ea; box-shadow: 0 0 0 2px #fff, 0 0 0 4px #9333ea; }
 
 .event-dot {
   width: 6px; height: 6px; border-radius: 50%; 
@@ -247,6 +249,7 @@
 
 /* 🚀 달력 아래 점 색상 (에메랄드 그린) */
 .event-dot.event { background-color: #10b981; } 
+.event-dot.ir { background-color: #a855f7; }
 
 .cal-upcoming {
   border-top: 1px dashed #e2e8f0; padding-top: 25px; margin-top: auto;
@@ -269,6 +272,7 @@
 
 /* 🚀 다가오는 일정 안의 행사 라벨 (에메랄드 그린) */
 .upcoming-item.event .up-date { color: #059669; background-color: #ecfdf5; }
+.upcoming-item.ir .up-date { color: #9333ea; background-color: #f3e8ff; }
 
 .up-desc { 
   font-size: 15px; color: #1e293b; font-weight: 500; 

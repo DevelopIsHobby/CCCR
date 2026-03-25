@@ -13,16 +13,22 @@ const BoardSection = () => {
     { id: 4, category: 'notice', categoryLabel: '공지사항', title: '소프트웨어 산업 발전 유공자 포상 신청 안내', date: '2026-02-28' },
     { id: 5, category: 'event', categoryLabel: '행사소식', title: '2025년 최우수 인증 기업 시상식 성료', date: '2026-03-20' }, 
     { id: 6, category: 'event', categoryLabel: '행사소식', title: '소프트웨어 산업 동향 세미나 개최 결과', date: '2026-03-10' }, 
-    { id: 7, category: 'event', categoryLabel: '행사소식', title: '4월 클라우드 보안 워크숍 개최 안내', date: '2026-04-05' }, 
+    { id: 7, category: 'event', categoryLabel: '행사소식', title: '4월 클라우드 보안 워크숍 개최 안내', date: '2026-04-05' },
+    { id: 8, category: 'ir', categoryLabel: 'TabIR', title: '2026년 CCCR 1분기 결산 및 사업 보고서', date: '2026-04-10' }, 
+    { id: 9, category: 'ir', categoryLabel: 'TabIR', title: 'CCCR 중장기 발전 전략 및 로드맵 안내', date: '2026-03-15' }, 
   ];
 
   const sortByDateDesc = (a, b) => new Date(b.date) - new Date(a.date);
 
   let filteredData = [];
   if (activeTab === 'all') {
-    const noticeList = allBoardData.filter(item => item.category === 'notice').sort(sortByDateDesc).slice(0, 3);
-    const eventList = allBoardData.filter(item => item.category === 'event').sort(sortByDateDesc).slice(0, 3);
-    filteredData = [...noticeList, ...eventList];
+    // 🚀 전체 탭일 때 각 카테고리별로 2개씩 가져옴
+    const noticeList = allBoardData.filter(item => item.category === 'notice').sort(sortByDateDesc).slice(0, 2);
+    const eventList = allBoardData.filter(item => item.category === 'event').sort(sortByDateDesc).slice(0, 2);
+    const irList = allBoardData.filter(item => item.category === 'ir').sort(sortByDateDesc).slice(0, 2);
+    
+    // 🚀 [수정됨] 마지막에 날짜순으로 섞지 않고 배열을 순서대로 나열하여 (공지 -> 행사 -> TabIR) 순서 고정!
+    filteredData = [...noticeList, ...eventList, ...irList];
   } else {
     filteredData = allBoardData.filter(item => item.category === activeTab).sort(sortByDateDesc).slice(0, 6);
   }
@@ -46,13 +52,17 @@ const BoardSection = () => {
   const emptyDays = Array.from({ length: firstDayOfMonth }, (_, i) => i);
   const days = Array.from({ length: daysInMonth }, (_, i) => i + 1);
 
+  // 🚀 달력에 점을 찍기 위한 데이터 추출 로직
   const currentMonthEvents = allBoardData.filter(item => {
+    // 🚀 [수정됨] TabIR 데이터는 달력 일정에서 아예 제외!
+    if (item.category === 'ir') return false; 
+    
     const itemDate = new Date(item.date);
     return itemDate.getFullYear() === currentYear && itemDate.getMonth() === currentMonth;
   });
 
   const handleDataClick = (category, id) => {
-    const pathSegment = category === 'notice' ? 'notice' : 'event';
+    const pathSegment = category === 'notice' ? 'notice' : category === 'event' ? 'event' : 'ir';
     navigate(`/news/${pathSegment}/${id}`);
   };
 
@@ -68,8 +78,9 @@ const BoardSection = () => {
                 <button className={`tab-btn ${activeTab === 'all' ? 'active' : ''}`} onClick={() => setActiveTab('all')}>전체</button>
                 <button className={`tab-btn ${activeTab === 'notice' ? 'active' : ''}`} onClick={() => setActiveTab('notice')}>공지사항</button>
                 <button className={`tab-btn ${activeTab === 'event' ? 'active' : ''}`} onClick={() => setActiveTab('event')}>행사소식</button>
+                <button className={`tab-btn ${activeTab === 'ir' ? 'active' : ''}`} onClick={() => setActiveTab('ir')}>TabIR</button>
               </div>
-              <Link to={activeTab === 'event' ? '/news/event' : '/news/notice'} className="more-btn-modern">
+              <Link to={activeTab === 'event' ? '/news/event' : activeTab === 'ir' ? '/news/ir' : '/news/notice'} className="more-btn-modern">
                 더보기 <span className="more-arrow">+</span>
               </Link>
             </div>
@@ -79,7 +90,7 @@ const BoardSection = () => {
             <ul className="board-list">
               {filteredData.map((item) => (
                 <li key={item.id} className="board-item">
-                  <Link to={`/news/${item.category === 'notice' ? 'notice' : 'event'}/${item.id}`}>
+                  <Link to={`/news/${item.category === 'notice' ? 'notice' : item.category === 'event' ? 'event' : 'ir'}/${item.id}`}>
                     <div className="board-title-group">
                       <span className={`category-tag ${item.category}`}>{item.categoryLabel}</span>
                       <span className="board-title">{item.title}</span>
@@ -142,12 +153,14 @@ const BoardSection = () => {
               })}
             </div>
 
-            {/* 🚀 변경됨: 현재 달(currentMonthEvents)에 국한되지 않고 전체 데이터(allBoardData)에서 미래 일정을 가져옵니다 */}
             <div className="cal-upcoming">
               <h4 className="upcoming-title">다가오는 일정</h4>
               <ul className="upcoming-list">
                 {allBoardData
                   .filter(ev => {
+                    // 🚀 [수정됨] TabIR 데이터는 다가오는 일정에서도 아예 제외!
+                    if (ev.category === 'ir') return false; 
+                    
                     const eventDate = new Date(ev.date);
                     const todayDate = new Date(realToday.getFullYear(), realToday.getMonth(), realToday.getDate());
                     return eventDate >= todayDate;

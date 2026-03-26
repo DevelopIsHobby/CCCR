@@ -1,19 +1,49 @@
 // src/pages/news/Event.jsx
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import SubLayout from '../../layouts/SubLayout';
 import './Board.css';
 
 const Event = () => {
-  // 🚀 스프링부트와 연동할 행사소식 가짜(Dummy) 데이터
-  const eventData = [
-    { id: 99, isNotice: true, status: 'ing', title: '[연례행사] 2026 CCCR 그랜드 클라우드 컨퍼런스', applyPeriod: '2026.03.01 ~ 04.30', eventDate: '2026.05.10' },
-    { id: 6, isNotice: false, status: 'ing', title: '2026 CCCR 클라우드 네트워킹 데이 및 세미나', applyPeriod: '2026.03.01 ~ 04.10', eventDate: '2026.04.15' },
-    { id: 5, isNotice: false, status: 'ing', title: '제5회 대한민국 소프트웨어 기술 컨퍼런스', applyPeriod: '2026.03.05 ~ 05.15', eventDate: '2026.05.20 ~ 05.22' },
-    { id: 4, isNotice: false, status: 'ready', title: '하반기 클라우드 인프라 구축 실무 교육 (사전안내)', applyPeriod: '2026.07.01 ~ 07.31', eventDate: '2026.08.10 ~ 08.14' },
-    { id: 3, isNotice: false, status: 'end', title: '2026년 상반기 클라우드 보안 전문가 세미나', applyPeriod: '2026.01.10 ~ 02.20', eventDate: '2026.02.28' },
-    { id: 2, isNotice: false, status: 'end', title: 'CCCR 신년 하례회 및 우수 회원사 시상식', applyPeriod: '2025.12.01 ~ 12.31', eventDate: '2026.01.20' },
-  ];
+  // 🚀 1. 백엔드에서 받아올 행사 데이터를 담을 바구니
+  const [eventList, setEventList] = useState([]);
+
+  // 🚀 2. 백엔드 연동 및 데이터 가공 로직
+  useEffect(() => {
+    fetch('http://localhost:8080/api/boards?category=EVENT')
+      .then((response) => response.json())
+      .then((data) => {
+        // 백엔드 데이터를 프론트엔드 UI에 맞게 변환 (날짜 계산해서 ing, ready, end 판별)
+        const formattedData = data.map(item => {
+          let currentStatus = 'ing';
+          
+          if (item.startDate && item.endDate) {
+            const today = new Date();
+            today.setHours(0, 0, 0, 0); // 시간 제외 날짜만 비교
+            const start = new Date(item.startDate);
+            const end = new Date(item.endDate);
+
+            if (today < start) currentStatus = 'ready';
+            else if (today > end) currentStatus = 'end';
+            else currentStatus = 'ing';
+          }
+
+          return {
+            ...item,
+            status: currentStatus,
+            // 2026-03-20 형식을 2026.03.20 으로 변경하여 기존 UI와 맞춤
+            applyPeriod: (item.startDate && item.endDate) 
+              ? `${item.startDate.replace(/-/g, '.')} ~ ${item.endDate.replace(/-/g, '.')}` 
+              : '-',
+            eventDate: item.eventDate ? item.eventDate.replace(/-/g, '.') : '-',
+            isNotice: false // (추후 백엔드에 isNotice 칼럼을 추가하면 연동 가능!)
+          };
+        });
+
+        setEventList(formattedData);
+      })
+      .catch((error) => console.error("데이터 가져오기 실패:", error));
+  }, []);
 
   const getStatusInfo = (status) => {
     switch (status) {
@@ -58,49 +88,62 @@ const Event = () => {
               </tr>
             </thead>
             <tbody>
-              {eventData.map((item) => {
-                const statusInfo = getStatusInfo(item.status);
-                
-                // 🚀 isNotice가 true면 'notice-row' 클래스를 부여해서 배경색을 다르게 줍니다
-                return (
-                  <tr key={item.id} className={item.isNotice ? 'notice-row' : ''}>
-                    {/* 1. 상태 배지 (공지여도 행사 상태는 유지하는 게 좋습니다) */}
-                    <td>
-                      <span className={`status-badge ${statusInfo.className}`}>
-                        {statusInfo.text}
-                      </span>
-                    </td>
-                    
-                    {/* 2. 행사명 (제목) */}
-                    <td className="title-col">
-                      <Link to={`/news/event/${item.id}`}>
-                        {item.title}
-                        {/* 🚀 공지 뱃지를 제목 뒤로 옮기고, marginLeft 적용 */}
-                        {item.isNotice && <span className="event-notice-badge" style={{ marginLeft: '8px' }}>공지</span>}
-                      </Link>
-                    </td>
-                    
-                    {/* 3. 신청기간 */}
-                    <td>{item.applyPeriod}</td>
-
-                    {/* 4. 행사일 */}
-                    <td>{item.eventDate}</td>
-                    
-                    {/* 5. 사전등록 버튼 */}
-                    <td>
-                      {item.status === 'ing' ? (
-                        <Link to={`/news/event/apply/${item.id}`} className="apply-btn">
-                          신청하기
+              {eventList.length > 0 ? (
+                eventList.map((item) => {
+                  const statusInfo = getStatusInfo(item.status);
+                  
+                  return (
+                    <tr key={item.id} className={item.isNotice ? 'notice-row' : ''}>
+                      {/* 1. 상태 배지 */}
+                      <td>
+                        <span className={`status-badge ${statusInfo.className}`}>
+                          {statusInfo.text}
+                        </span>
+                      </td>
+                      
+                      {/* 2. 행사명 (제목) */}
+                      <td className="title-col">
+                        <Link to={`/news/event/${item.id}`}>
+                          {item.title}
+                          {item.isNotice && <span className="event-notice-badge" style={{ marginLeft: '8px' }}>공지</span>}
+                          
+                          {/* 🚀 댓글 수 표시 기능 추가 */}
+                          {item.comments && item.comments.length > 0 && (
+                            <span style={{ color: '#ea580c', marginLeft: '6px', fontSize: '14px', fontWeight: 'bold' }}>
+                              [{item.comments.length}]
+                            </span>
+                          )}
                         </Link>
-                      ) : (
-                        <button className="apply-btn disabled" disabled>
-                          {item.status === 'ready' ? '오픈예정' : '신청마감'}
-                        </button>
-                      )}
-                    </td>
-                  </tr>
-                );
-              })}
+                      </td>
+                      
+                      {/* 3. 신청기간 */}
+                      <td>{item.applyPeriod}</td>
+
+                      {/* 4. 행사일 */}
+                      <td>{item.eventDate}</td>
+                      
+                      {/* 5. 사전등록 버튼 */}
+                      <td>
+                        {item.status === 'ing' ? (
+                          <Link to={`/news/event/apply/${item.id}`} className="apply-btn">
+                            신청하기
+                          </Link>
+                        ) : (
+                          <button className="apply-btn disabled" disabled>
+                            {item.status === 'ready' ? '오픈예정' : '신청마감'}
+                          </button>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })
+              ) : (
+                <tr>
+                  <td colSpan="5" style={{ padding: '40px 0', textAlign: 'center', color: '#94a3b8' }}>
+                    등록된 행사소식이 없습니다.
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>

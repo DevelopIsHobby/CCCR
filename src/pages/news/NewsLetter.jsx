@@ -1,15 +1,35 @@
 // src/pages/news/Newsletter.jsx
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import SubLayout from '../../layouts/SubLayout';
+import { Link } from 'react-router-dom'; // 🚀 a 태그 대신 Link 사용
 import './Board.css'; 
 
 const Newsletter = () => {
-  const newsletterData = [
-    // 🚀 가장 최신호에 isNew: true 추가
-    { id: 3, isNew: true, title: '[CCCR 뉴스레터] 2026년 3월호 (Vol.34)', date: '2026-03-01', views: 145 },
-    { id: 2, isNew: false, title: '[CCCR 뉴스레터] 2026년 2월호 (Vol.33)', date: '2026-02-01', views: 210 },
-    { id: 1, isNew: false, title: '[CCCR 뉴스레터] 2026년 1월호 (Vol.32)', date: '2026-01-01', views: 330 },
-  ];
+  // 🚀 1. 백엔드 데이터를 담을 바구니
+  const [newsletterList, setNewsletterList] = useState([]);
+
+  // 🚀 2. 백엔드에서 NEWSLETTER 카테고리 데이터 가져오기
+  useEffect(() => {
+    fetch('http://localhost:8080/api/boards?category=NEWSLETTER')
+      .then((response) => response.json())
+      .then((data) => {
+        // 🚀 등록일 기준으로 7일 이내면 '새 글(isNew)'로 판별하는 똑똑한 로직!
+        const today = new Date();
+        const formattedData = data.map(item => {
+          const createdDate = new Date(item.createdAt);
+          const diffTime = Math.abs(today - createdDate);
+          const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+          
+          return {
+            ...item,
+            isNew: diffDays <= 7 // 7일 이하면 true, 아니면 false
+          };
+        });
+        
+        setNewsletterList(formattedData);
+      })
+      .catch((error) => console.error("데이터 가져오기 실패:", error));
+  }, []);
 
   return (
     <SubLayout mainCategory="알림마당" subCategory="뉴스레터">
@@ -43,20 +63,37 @@ const Newsletter = () => {
               </tr>
             </thead>
             <tbody>
-              {newsletterData.map((item) => (
-                <tr key={item.id}>
-                  <td>{item.id}</td>
-                  <td className="title-col" style={{ textAlign: 'left' }}>
-                    <a href={`/news/newsletter/${item.id}`}>
-                      {item.title}
-                      {/* 🚀 N 뱃지 렌더링 */}
-                      {item.isNew && <span className="new-badge" style={{ marginLeft: '8px' }}>N</span>}
-                    </a>
+              {/* 🚀 3. 백엔드 데이터로 화면 그리기 */}
+              {newsletterList.length > 0 ? (
+                newsletterList.map((item) => (
+                  <tr key={item.id}>
+                    <td>{item.id}</td>
+                    <td className="title-col" style={{ textAlign: 'left' }}>
+                      <Link to={`/news/newsletter/${item.id}`}>
+                        {item.title}
+                        
+                        {/* 다른 게시판들과 일관성을 위해 댓글 수도 추가해 드렸습니다! */}
+                        {item.comments && item.comments.length > 0 && (
+                          <span style={{ color: '#ea580c', marginLeft: '6px', fontSize: '14px', fontWeight: 'bold' }}>
+                            [{item.comments.length}]
+                          </span>
+                        )}
+                        
+                        {/* 🚀 방금 전 계산한 isNew가 true일 때만 N 뱃지 렌더링 */}
+                        {item.isNew && <span className="new-badge" style={{ marginLeft: '8px', color: 'red', fontWeight: 'bold' }}>N</span>}
+                      </Link>
+                    </td>
+                    <td>{item.createdAt.substring(0, 10)}</td>
+                    <td className="hide-on-mobile">{item.views}</td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="4" style={{ padding: '40px 0', textAlign: 'center', color: '#94a3b8' }}>
+                    등록된 뉴스레터가 없습니다.
                   </td>
-                  <td>{item.date}</td>
-                  <td className="hide-on-mobile">{item.views}</td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         </div>

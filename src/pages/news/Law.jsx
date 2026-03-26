@@ -1,34 +1,32 @@
 // src/pages/news/Law.jsx
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import SubLayout from '../../layouts/SubLayout';
-import './Board.css'; 
+import { Link } from 'react-router-dom';
+import './Board.css';
 
 const Law = () => {
-  // 🚀 법령정보 더미 데이터 (색상 뱃지 로직 삭제)
-  const lawList = [
-    { id: 5, category: '가이드라인', title: '국가·공공기관 클라우드컴퓨팅 보안 가이드라인 개정안', date: '2024-03-15', views: 342, hasFile: true, isNew: true },
-    { id: 4, category: '법률', title: '클라우드컴퓨팅 발전 및 이용자 보호에 관한 법률 (약칭: 클라우드컴퓨팅법)', date: '2024-02-10', views: 512, hasFile: true, isNew: false },
-    { id: 3, category: '입법예고', title: '정보통신망 이용촉진 및 정보보호 등에 관한 법률 시행령 일부개정령(안) 입법예고', date: '2024-01-22', views: 210, hasFile: true, isNew: false },
-    { id: 2, category: '고시', title: '클라우드컴퓨팅서비스 정보보호에 관한 기준', date: '2023-11-05', views: 420, hasFile: true, isNew: false },
-    { id: 1, category: '가이드라인', title: '금융분야 클라우드컴퓨팅서비스 이용 가이드', date: '2023-08-17', views: 630, hasFile: true, isNew: false },
-  ];
+  // 🚀 1. 데이터를 담을 바구니 준비
+  const [lawList, setLawList] = useState([]);
+
+  // 🚀 2. 백엔드에서 LAW 카테고리만 쏙 뽑아오기
+  useEffect(() => {
+    fetch('http://localhost:8080/api/boards?category=LAW')
+      .then((response) => response.json())
+      .then((data) => {
+        setLawList(data);
+      })
+      .catch((error) => console.error("데이터 가져오기 실패:", error));
+  }, []);
 
   return (
-    <SubLayout mainCategory="알림마당" subCategory="법령정보">
+    <SubLayout mainCategory="알림마당" subCategory="관련법령">
       <div className="board-container">
         
-        {/* 상단 검색 및 필터 영역 */}
+        {/* 상단 검색 영역 */}
         <div className="board-search-wrap">
           <select className="board-select">
-            <option value="all">전체 분류</option>
-            <option value="law">법률</option>
-            <option value="guide">가이드라인</option>
-            <option value="notice">입법예고</option>
-          </select>
-          <select className="board-select">
             <option value="title">제목</option>
-            <option value="content">내용</option>
+            <option value="author">분류(부처)</option>
           </select>
           <input 
             type="text" 
@@ -40,50 +38,67 @@ const Law = () => {
 
         {/* 게시판 테이블 영역 */}
         <div className="board-table-wrap">
-          <table className="board-table law-table"> {/* 👈 law-table 추가 */}
+          <table className="board-table">
             <colgroup>
-              <col style={{ width: '8%' }} />  {/* NO */}
-              <col style={{ width: '12%' }} /> {/* 분류 */}
-              <col style={{ width: 'auto' }} /> {/* 제목 (남은 공간 모두 차지) */}
-              <col style={{ width: '10%' }} className="hide-on-mobile" /> {/* 첨부 */}
+              <col style={{ width: '8%' }} /> {/* NO */}
+              <col style={{ width: '15%' }} className="hide-on-mobile" /> {/* 분류(소관부처) */}
+              <col style={{ width: 'auto' }} /> {/* 제목 */}
+              <col style={{ width: '8%' }} className="hide-on-mobile" /> {/* 첨부 */}
               <col style={{ width: '15%' }} /> {/* 등록일 */}
-              <col style={{ width: '10%' }} /> {/* 조회수 */}
             </colgroup>
             
             <thead>
               <tr>
                 <th>NO</th>
-                <th>분류</th>
+                <th className="hide-on-mobile">분류(부처)</th>
                 <th>제목</th>
                 <th className="hide-on-mobile">첨부</th>
                 <th>등록일</th>
-                <th>조회수</th>
               </tr>
             </thead>
+            
             <tbody>
-              {lawList.map((item) => (
-                <tr key={item.id}>
-                  <td>{item.id}</td>
-                  
-                  {/* 분류 데이터를 심플하게 텍스트로만 출력 */}
-                  <td style={{ fontWeight: '500', color: '#64748b' }}>
-                    {item.category}
+              {/* 🚀 3. 화면 그리기 */}
+              {lawList.length > 0 ? (
+                lawList.map((item) => (
+                  <tr key={item.id}>
+                    {/* 1. NO */}
+                    <td>{item.id}</td>
+                    
+                    {/* 2. 분류 (author 항목을 활용) */}
+                    <td className="hide-on-mobile" style={{ color: '#475569', fontWeight: '500' }}>
+                      {item.author || '일반'}
+                    </td>
+                    
+                    {/* 3. 제목 (링크 및 댓글 수 포함) */}
+                    <td className="title-col">
+                      <Link to={`/news/law/${item.id}`}>
+                        {item.title}
+                        {/* 댓글 수 표시 */}
+                        {item.comments && item.comments.length > 0 && (
+                          <span style={{ color: '#ea580c', marginLeft: '6px', fontSize: '14px', fontWeight: 'bold' }}>
+                            [{item.comments.length}]
+                          </span>
+                        )}
+                      </Link>
+                    </td>
+                    
+                    {/* 🚀 4. 첨부 (바로 이 부분입니다! 제가 빼먹었던 곳) */}
+                    <td className="hide-on-mobile">
+                      {item.files && item.files.length > 0 && <span className="file-icon">💾</span>}
+                    </td>
+                    
+                    {/* 5. 등록일 */}
+                    <td>{item.createdAt.substring(0, 10)}</td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="5" style={{ padding: '40px 0', color: '#94a3b8', textAlign: 'center' }}>
+                    등록된 관련법령이 없습니다.
                   </td>
-                  
-                  <td className="title-col">
-                    <Link to={`/news/law/${item.id}`}>
-                      {item.title}
-                      {/* 새 글인 경우 N 뱃지 표시 (이전 단계에서 고른 따뜻한 색상 적용됨) */}
-                      {item.isNew && <span className="new-badge" style={{ marginLeft: '8px' }}>N</span>}
-                    </Link>
-                  </td>
-                  <td className="hide-on-mobile">
-                    {item.hasFile && <span className="file-icon">💾</span>}
-                  </td>
-                  <td>{item.date}</td>
-                  <td>{item.views}</td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         </div>
@@ -93,8 +108,6 @@ const Law = () => {
           <button className="page-btn">&lt;&lt;</button>
           <button className="page-btn">&lt;</button>
           <button className="page-btn active">1</button>
-          <button className="page-btn">2</button>
-          <button className="page-btn">3</button>
           <button className="page-btn">&gt;</button>
           <button className="page-btn">&gt;&gt;</button>
         </div>

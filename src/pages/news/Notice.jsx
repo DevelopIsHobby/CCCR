@@ -1,23 +1,22 @@
 // src/pages/news/Notice.jsx
-import React from 'react';
+import React, { useState, useEffect } from 'react'; // 🚀 1. 추가
 import { Link } from 'react-router-dom';
 import SubLayout from '../../layouts/SubLayout';
 import './Board.css';
 
 const Notice = () => {
-  const boardData = [
-    // 🚀 최신 글에 isNew: true 추가
-    { id: 'notice1', isNotice: true, isNew: true, title: '[안내] 2026년 CCCR 클라우드 전문가 양성과정 모집', author: '관리자', date: '2026-03-05', views: 152, hasFile: true },
-    { id: 'notice2', isNotice: true, isNew: false, title: '한국전파진흥협회 회원사 가입 절차 안내', author: '관리자', date: '2026-02-28', views: 340, hasFile: false },
-    { id: 8, isNotice: false, isNew: true, title: '오프라인 클라우드 네트워킹 데이 행사 안내', author: '기획팀', date: '2026-03-07', views: 45, hasFile: false },
-    { id: 7, isNotice: false, isNew: false, title: '3월 서버 점검 및 홈페이지 이용 일시 중단 안내', author: '운영팀', date: '2026-03-06', views: 88, hasFile: false },
-    { id: 6, isNotice: false, isNew: false, title: '신규 가입 회원사 환영의 글 및 혜택 안내', author: '관리자', date: '2026-03-05', views: 67, hasFile: false },
-    { id: 5, isNotice: false, isNew: false, title: '2026 상반기 클라우드 산업 동향 세미나 개최', author: '기획팀', date: '2026-03-02', views: 210, hasFile: true },
-    { id: 4, isNotice: false, isNew: false, title: '개인정보처리방침 개정 사전 안내', author: '관리자', date: '2026-02-20', views: 112, hasFile: false },
-    { id: 3, isNotice: false, isNew: false, title: '설 연휴 고객센터 및 업무 휴무 안내', author: '운영팀', date: '2026-02-10', views: 205, hasFile: false },
-    { id: 2, isNotice: false, isNew: false, title: '2026년 CCCR 주요 사업 계획 발표 자료', author: '기획팀', date: '2026-01-25', views: 310, hasFile: true },
-    { id: 1, isNotice: false, isNew: false, title: 'CCCR 홈페이지 신규 오픈 및 개편 안내', author: '관리자', date: '2026-01-15', views: 560, hasFile: true },
-  ];
+  // 🚀 2. 바구니 준비
+  const [noticeList, setNoticeList] = useState([]);
+
+  // 🚀 3. 백엔드에서 데이터 가져오기 (주소 끝에 ?category=NOTICE 주목!)
+  useEffect(() => {
+    fetch('http://localhost:8080/api/boards?category=NOTICE')
+      .then((response) => response.json())
+      .then((data) => {
+        setNoticeList(data); // 이제 백엔드에서 필터링해서 주니까 바로 담으면 끝!
+      })
+      .catch((error) => console.error("데이터 가져오기 실패:", error));
+  }, []);
 
   return (
     <SubLayout mainCategory="알림마당" subCategory="공지사항">
@@ -56,24 +55,35 @@ const Notice = () => {
               </tr>
             </thead>
             <tbody>
-              {boardData.map((item, index) => (
-                <tr key={index} className={item.isNotice ? 'notice-row' : ''}>
-                  <td>
-                    {item.isNotice ? <span className="notice-badge">공지</span> : item.id}
-                  </td>
-                  <td className="title-col">
-                    <Link to={`/news/notice/${item.id}`}>
-                      {item.title}
-                      {/* 🚀 N 뱃지 렌더링 */}
-                      {item.isNew && <span className="new-badge" style={{ marginLeft: '8px' }}>N</span>}
-                    </Link>
-                  </td>
-                  <td className="hide-on-mobile">{item.hasFile && <span className="file-icon">💾</span>}</td>
-                  <td className="hide-on-mobile">{item.author}</td>
-                  <td>{item.date}</td>
-                  <td className="hide-on-mobile">{item.views}</td>
+              {/* 🚀 4. 화면 그리기 */}
+              {noticeList.length > 0 ? (
+                noticeList.map((item) => (
+                  <tr key={item.id}>
+                    <td>{item.id}</td>
+                    <td className="title-col">
+                      <Link to={`/news/notice/${item.id}`}>
+                        {item.title}
+                        {/* 댓글 수 표시 */}
+                        {item.comments && item.comments.length > 0 && (
+                          <span style={{ color: '#ea580c', marginLeft: '6px', fontSize: '14px', fontWeight: 'bold' }}>
+                            [{item.comments.length}]
+                          </span>
+                        )}
+                      </Link>
+                    </td>
+                    <td className="hide-on-mobile">
+                      {item.files && item.files.length > 0 && <span className="file-icon">💾</span>}
+                    </td>
+                    <td>{item.author}</td>
+                    <td>{item.createdAt.substring(0, 10)}</td>
+                    <td>{item.views}</td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="6" style={{ padding: '40px 0', color: '#94a3b8' }}>등록된 공지사항이 없습니다.</td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         </div>

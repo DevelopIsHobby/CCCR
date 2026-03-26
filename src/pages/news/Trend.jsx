@@ -1,50 +1,47 @@
 // src/pages/news/Trend.jsx
-import React from 'react';
+import React, { useState, useEffect } from 'react'; // 🚀 useState, useEffect 추가
 import SubLayout from '../../layouts/SubLayout';
 import { Link } from 'react-router-dom';
 import './Board.css'; 
 
 const Trend = () => {
-  const trendList = [
-    { id: 5, title: "[IITP] 주간기술동향 2135호", date: "2024-03-20", views: 142, hasFile: true },
-    { id: 4, title: "[IITP] 주간기술동향 2134호", date: "2024-03-13", views: 205, hasFile: true },
-    { id: 3, title: "[IITP] 주간기술동향 2133호", date: "2024-03-06", views: 98, hasFile: true },
-    { id: 2, title: "[IITP] 주간기술동향 2132호", date: "2024-02-28", views: 310, hasFile: true },
-    { id: 1, title: "[IITP] 주간기술동향 2131호", date: "2024-02-21", views: 187, hasFile: true },
-  ];
+  // 🚀 1. 백엔드에서 받아올 데이터를 담을 빈 바구니 준비
+  const [trendList, setTrendList] = useState([]);
+
+  // 🚀 2. 화면이 켜질 때 딱 한 번, 스프링 부트(8080)에 데이터 요청하기
+  useEffect(() => {
+    fetch('http://localhost:8080/api/boards')
+      .then((response) => response.json()) // "데이터 온 거 JSON으로 예쁘게 까봐!"
+      .then((data) => {
+        console.log("백엔드에서 온 데이터:", data);
+        // 받아온 데이터를 바구니에 담기 (단, TREND 카테고리만 필터링하면 더 좋습니다)
+        const trendData = data.filter(item => item.category === 'TREND');
+        setTrendList(trendData);
+      })
+      .catch((error) => console.error("데이터 가져오기 실패:", error));
+  }, []);
 
   return (
     <SubLayout mainCategory="알림마당" subCategory="기술동향">
-      {/* 🚀 불필요한 타이틀과 news-content를 지우고 board-container로 통일했습니다 */}
       <div className="board-container">
         
-        {/* 상단 검색 및 필터 영역 */}
+        {/* 상단 검색 영역 (생략, 기존과 동일) */}
         <div className="board-search-wrap">
-          <select className="board-select">
-            <option value="title">제목</option>
-            <option value="content">내용</option>
-          </select>
-          <input 
-            type="text" 
-            className="board-search-input" 
-            placeholder="검색어를 입력하세요" 
-          />
+          <select className="board-select"><option>제목</option></select>
+          <input type="text" className="board-search-input" placeholder="검색어를 입력하세요" />
           <button className="board-search-btn">검색</button>
         </div>
 
         {/* 게시판 테이블 영역 */}
         <div className="board-table-wrap">
           <table className="board-table">
-            
-            {/* 🚀 colgroup 추가: 제목 칸(auto)이 남은 너비를 다 가져가도록 설정 */}
             <colgroup>
-              <col style={{ width: '10%' }} /> {/* NO */}
-              <col style={{ width: 'auto' }} /> {/* 제목 */}
-              <col style={{ width: '10%' }} className="hide-on-mobile" /> {/* 첨부 */}
-              <col style={{ width: '15%' }} /> {/* 등록일 */}
-              <col style={{ width: '10%' }} /> {/* 조회수 */}
+              <col style={{ width: '10%' }} />
+              <col style={{ width: 'auto' }} />
+              <col style={{ width: '10%' }} className="hide-on-mobile" />
+              <col style={{ width: '15%' }} />
+              <col style={{ width: '10%' }} />
             </colgroup>
-
             <thead>
               <tr>
                 <th>NO</th>
@@ -55,38 +52,51 @@ const Trend = () => {
               </tr>
             </thead>
             <tbody>
-              {trendList.map((item) => (
-                <tr key={item.id}>
-                  <td>{item.id}</td>
-                  <td className="title-col">
-                    <Link to={`/news/trend/${item.id}`}>
-                      {item.title}
-                      {/* N 뱃지 (앞서 고르신 따뜻한 색상이 적용됩니다) */}
-                      {item.id === 5 && <span className="new-badge" style={{ marginLeft: '8px' }}>N</span>}
-                    </Link>
+              {/* 🚀 3. 바구니에 담긴 백엔드 데이터로 화면 그리기 */}
+              {trendList.length > 0 ? (
+                trendList.map((item) => (
+                  <tr key={item.id}>
+                    
+                    {/* 1번 칸: NO */}
+                    <td>{item.id}</td>
+                    
+                    {/* 2번 칸: 제목 (댓글 수 포함) */}
+                    <td className="title-col">
+                      <Link to={`/news/trend/${item.id}`}>
+                        {item.title}
+                        {item.comments && item.comments.length > 0 && (
+                          <span style={{ color: '#ea580c', marginLeft: '6px', fontSize: '14px', fontWeight: 'bold' }}>
+                            [{item.comments.length}]
+                          </span>
+                        )}
+                      </Link>
+                    </td>
+
+                    {/* 🚀 3번 칸: 첨부 (제가 빼먹었던 바로 그 부분입니다!) */}
+                    <td className="hide-on-mobile">
+                      {item.files && item.files.length > 0 && <span className="file-icon">💾</span>}
+                    </td>
+
+                    {/* 4번 칸: 등록일 */}
+                    <td>{item.createdAt.substring(0, 10)}</td>
+                    
+                    {/* 5번 칸: 조회수 */}
+                    <td>{item.views}</td>
+
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="5" style={{ padding: '40px 0', color: '#94a3b8', textAlign: 'center' }}>
+                    게시글이 없습니다.
                   </td>
-                  <td className="hide-on-mobile">
-                    {item.hasFile && <span className="file-icon">💾</span>}
-                  </td>
-                  <td>{item.date}</td>
-                  <td>{item.views}</td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         </div>
 
-        {/* 하단 페이지네이션 */}
-        <div className="pagination">
-          <button className="page-btn">&lt;&lt;</button>
-          <button className="page-btn">&lt;</button>
-          <button className="page-btn active">1</button>
-          <button className="page-btn">2</button>
-          <button className="page-btn">3</button>
-          <button className="page-btn">&gt;</button>
-          <button className="page-btn">&gt;&gt;</button>
-        </div>
-
+        {/* 하단 페이지네이션 (생략) */}
       </div>
     </SubLayout>
   );

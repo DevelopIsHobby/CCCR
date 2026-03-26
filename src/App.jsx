@@ -36,6 +36,8 @@ import Policy from './pages/news/Policy';
 import TabIR from './pages/news/TabIR';
 import TabIRDetail from './pages/news/TabIRDetail';
 import PolicyDetail from './pages/news/PolicyDetail';
+import NewsletterDetail from './pages/news/NewsletterDetail';
+import LawDetail from './pages/news/LawDetail';
 
 // Members
 import Join from './pages/members/Join';
@@ -115,7 +117,9 @@ function App() {
           <Route path="/news/ir" element={<TabIR />} />
           <Route path="/news/policy/:id" element={<PolicyDetail />} />
           <Route path="/news/ir/:id" element={<TabIRDetail />} />
-        
+          <Route path="/news/newsletter/:id" element={<NewsletterDetail />} />
+          <Route path="/news/law/:id" element={<LawDetail />} />
+       
           {/* 👇 회원공간 카테고리 라우트 추가 */}
           <Route path="/members/join" element={<Join />} />
           <Route path="/members/info" element={<Info />} />
